@@ -86,3 +86,65 @@ test('no analytics, trackers, remote fonts or private source links in HTML', asy
     );
   }
 });
+
+test('only reviewed local images are published without identifying metadata', async () => {
+  const allowed = new Set([
+    'idleoyun/menu.webp',
+    'idleoyun/login.webp',
+    'idleoyun/gameplay.webp',
+    'idleoyun/market.webp',
+    'idleoyun/upgrade.webp',
+    'calculator/calculation.webp',
+    'hcjeditor/live-preview.webp',
+    'dinocore/gameplay.webp',
+    'lina/dark-chat.webp',
+    'lina/light-chat.webp',
+    'lina/appearance.webp',
+    'lina/welcome.webp',
+    'rubikrl/solved-state.webp',
+    'rubikrl/scrambled-state.webp',
+    'rubikrl/interface.webp',
+    'personal/portrait.webp',
+    'racker/overview.webp',
+    'racker/android-planning.webp',
+    'racker/android-tracking.webp',
+    'racker/wear-os.webp',
+    'racker/logo.webp',
+    'kutlumi/home.webp',
+    'kutlumi/create.webp',
+    'kutlumi/themes.webp',
+    'kutlumi/envelopes.webp',
+    'secureface/upload.webp',
+    'secureface/anonymization.webp',
+  ]);
+  const actual = await files('src/assets/images');
+  assert.deepEqual(
+    actual
+      .map((path) => path.replace(/\\/g, '/').replace('src/assets/images/', ''))
+      .sort(),
+    [...allowed].sort(),
+  );
+  for (const path of [
+    ...actual,
+    ...(await files('dist')).filter((path) => path.endsWith('.webp')),
+  ]) {
+    const data = await readFile(path);
+    assert.equal(data.toString('ascii', 0, 4), 'RIFF', path);
+    assert.equal(data.toString('ascii', 8, 12), 'WEBP', path);
+    for (let offset = 12; offset + 8 <= data.length;) {
+      const chunk = data.toString('ascii', offset, offset + 4);
+      assert.equal(
+        ['EXIF', 'XMP ', 'ICCP'].includes(chunk),
+        false,
+        `${path}: ${chunk}`,
+      );
+      const size = data.readUInt32LE(offset + 4);
+      offset += 8 + size + (size % 2);
+    }
+  }
+  assert.equal(
+    (await files('public')).some((path) => /\.pdf$/i.test(path)),
+    false,
+    'Unapproved CV must stay outside public assets',
+  );
+});

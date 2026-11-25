@@ -24,6 +24,8 @@ test('every public page has localized metadata, matching language routes and val
   page,
   request,
 }) => {
+  test.setTimeout(120_000);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   const internalLinks = new Set<string>();
   for (const prefix of ['/', '/tr/']) {
     for (const path of paths) {
@@ -51,6 +53,19 @@ test('every public page has localized metadata, matching language routes and val
           elements.map((element) => element.getAttribute('href')!),
         );
       links.forEach((link) => internalLinks.add(link));
+      for (const img of await page.locator('img').all()) {
+        await img.scrollIntoViewIfNeeded();
+        await expect
+          .poll(() =>
+            img.evaluate(
+              (element) =>
+                element instanceof HTMLImageElement &&
+                element.complete &&
+                element.naturalWidth > 0,
+            ),
+          )
+          .toBe(true);
+      }
       expect(
         await page
           .locator('img')
@@ -68,6 +83,138 @@ test('every public page has localized metadata, matching language routes and val
   }
   for (const href of internalLinks)
     expect((await request.get(href)).status(), href).toBe(200);
+});
+
+test('project images have intrinsic dimensions, preserve their ratio and open at full size', async ({
+  page,
+  request,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const path of [
+    '/work/racker/',
+    '/tr/work/idleoyun/',
+    '/work/calculator/',
+    '/journey/',
+    '/about/',
+  ]) {
+    await page.goto(path);
+    for (const image of await page.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          image.evaluate(
+            (element) =>
+              element instanceof HTMLImageElement &&
+              element.complete &&
+              element.naturalWidth > 0,
+          ),
+        )
+        .toBe(true);
+      const result = await image.evaluate((element) => {
+        if (!(element instanceof HTMLImageElement))
+          throw new Error('Expected image');
+        const rect = element.getBoundingClientRect();
+        return {
+          intrinsic:
+            element.width > 0 &&
+            element.height > 0 &&
+            element.hasAttribute('width') &&
+            element.hasAttribute('height'),
+          distortion: Math.abs(
+            rect.width /
+              rect.height /
+              (element.naturalWidth / element.naturalHeight) -
+              1,
+          ),
+          objectFit: getComputedStyle(element).objectFit,
+        };
+      });
+      expect(result.intrinsic).toBe(true);
+      expect(result.distortion).toBeLessThan(0.02);
+      expect(result.objectFit).not.toBe('cover');
+    }
+    for (const href of await page
+      .locator('.gallery-image-link')
+      .evaluateAll((links) =>
+        links.map((link) => link.getAttribute('href')!),
+      )) {
+      const response = await request.get(href);
+      expect(response.status()).toBe(200);
+      expect(response.headers()['content-type']).toMatch(/^image\//);
+    }
+  }
+});
+
+test('Racker uses the official icon and verified Google Play link in both languages', async ({
+  page,
+}) => {
+  for (const path of ['/', '/tr/', '/work/racker/', '/tr/work/racker/']) {
+    await page.goto(path);
+    await expect(
+      page.locator(
+        'a[href="https://play.google.com/store/apps/details?id=com.ilhanki.titanlog"]',
+      ),
+    ).toHaveCount(1);
+    await expect(
+      page.locator('.project-logo img, .detail-logo img'),
+    ).toHaveCount(1);
+  }
+});
+
+test('journey shows original game images and keeps smaller projects compact', async ({
+  page,
+}) => {
+  await page.goto('/tr/journey/');
+  await expect(page.locator('.game-comparison img')).toHaveCount(2);
+  await expect(page.locator('.game-comparison')).toContainText(
+    'yapay zekâ desteğiyle',
+  );
+  await expect(page.locator('.timeline-image-small')).toHaveCount(2);
+  await expect(page.locator('.about-portrait')).toHaveCount(0);
+});
+
+test('loading images stays within the layout shift budget', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(
+    browserName !== 'chromium',
+    'The Layout Instability API is measured in Chromium; WebKit image dimensions and ratios are covered separately.',
+  );
+  await page.addInitScript(() => {
+    const shifts: number[] = [];
+    Object.defineProperty(window, '__portfolioShifts', { value: shifts });
+    if (PerformanceObserver.supportedEntryTypes.includes('layout-shift')) {
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          const shift = entry as PerformanceEntry & {
+            hadRecentInput: boolean;
+            value: number;
+          };
+          if (!shift.hadRecentInput) shifts.push(shift.value);
+        }
+      }).observe({ type: 'layout-shift', buffered: true });
+    }
+  });
+  for (const path of ['/', '/journey/', '/work/racker/']) {
+    await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
+    for (const image of await page.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate((element) =>
+        element instanceof HTMLImageElement
+          ? element.decode()
+          : Promise.resolve(),
+      );
+    }
+    const cls = await page.evaluate(() => {
+      const shifts =
+        (window as Window & { __portfolioShifts?: number[] })
+          .__portfolioShifts ?? [];
+      return shifts.reduce((sum, value) => sum + value, 0);
+    });
+    expect(cls, path).toBeLessThan(0.1);
+  }
 });
 
 test('theme follows system preference and keeps an explicit choice through navigation and reload', async ({
@@ -211,7 +358,7 @@ for (const theme of ['light', 'dark'] as const) {
     ]) {
       await page.goto(path);
       const results = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze();
       expect(results.violations, `${path} ${theme}`).toEqual([]);
     }
