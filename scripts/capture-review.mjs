@@ -28,9 +28,10 @@ const captures = [
   ['about-en-desktop', '/en/about/', 1440, 1000, 'light'],
   ['racker-en-detail', '/en/work/racker/', 1440, 1000, 'light'],
 ];
-// Complete localized page inventory supplements the theme/device review set.
+// Every content/error page is reviewed in both languages, themes and viewports.
 for (const prefix of ['', '/en']) {
   for (const path of [
+    '',
     'work/',
     'journey/',
     'about/',
@@ -46,21 +47,31 @@ for (const prefix of ['', '/en']) {
       'secureface',
       'rubikrl',
     ].map((slug) => `work/${slug}/`),
+    prefix ? '404/' : '404.html',
   ]) {
     const url = `${prefix}/${path}`;
-    if (
-      !captures.some(
-        (capture) =>
-          capture[1] === url && capture[2] === 1440 && capture[4] === 'light',
-      )
-    ) {
-      captures.push([
-        `page-${prefix ? 'en' : 'tr'}-${path.replaceAll('/', '-').replace(/-$/, '')}`,
-        url,
-        1440,
-        1000,
-        'light',
-      ]);
+    for (const [device, width, height] of [
+      ['desktop', 1440, 1000],
+      ['mobile', 390, 844],
+    ]) {
+      for (const theme of ['light', 'dark']) {
+        if (
+          !captures.some(
+            (capture) =>
+              capture[1] === url &&
+              capture[2] === width &&
+              capture[4] === theme,
+          )
+        ) {
+          captures.push([
+            `page-${prefix ? 'en' : 'tr'}-${path.replaceAll('/', '-').replace(/-$/, '') || 'home'}-${device}-${theme}`,
+            url,
+            width,
+            height,
+            theme,
+          ]);
+        }
+      }
     }
   }
 }

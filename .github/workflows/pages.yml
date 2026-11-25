@@ -31,6 +31,26 @@ jobs:
       - run: npm run test:content
       - run: npx playwright install --with-deps chromium webkit
       - run: npm test
+      - name: Audit release pages with default GPU
+        run: |
+          mkdir -p .tools/lighthouse
+          node node_modules/astro/bin/astro.mjs preview --host 127.0.0.1 --port 4321 --force > .tools/lighthouse/preview.log 2>&1 &
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4321/ > /dev/null; then break; fi
+            sleep 1
+          done
+          export CHROME_PATH="$(node --input-type=module -e "import { chromium } from '@playwright/test'; process.stdout.write(chromium.executablePath())")"
+          for page in home work editor about en; do
+            case "$page" in
+              home) path="/" ;;
+              work) path="/work/" ;;
+              editor) path="/work/hcjeditor/" ;;
+              about) path="/about/" ;;
+              en) path="/en/" ;;
+            esac
+            npm exec --yes --package=lighthouse@13.6.0 -- lighthouse "http://127.0.0.1:4321$path" --chrome-flags="--headless --no-sandbox" --output=json --output-path=".tools/lighthouse/$page.json" --quiet
+          done
+          node scripts/check-lighthouse.mjs .tools/lighthouse/{home,work,editor,about,en}.json
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -38,6 +58,7 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            .tools/lighthouse/
           retention-days: 7
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
