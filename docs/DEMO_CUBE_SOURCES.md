@@ -1,0 +1,11 @@
+# RubikRL browser cube provenance
+
+The standalone preview at `public/demos/cube.html` is an independently authored, simplified cube simulation. It does not include the private project implementation, research code, checkpoints, training data, solver API, or a model. Its disclosure states this in Turkish/English. It makes no AI-solving claim.
+
+Read-only inspection of the original project's interface established the manual face-turn, scramble/reset and camera controls, and their separation from model-dependent solving. No original file was changed. Detailed private-source fingerprints remain in the owner's local review folder, outside this public repository. The approved RubikRL images already in the portfolio are the visual reference; the browser preview is explicitly a separate implementation.
+
+Only ordinary Rubik's Cube behavior is reproduced: six faces, clockwise/inverse quarter turns, a 20-turn scramble, reset and view rotation. The implementation uses independently written integer coordinate rotations and 54 CSS stickers, without dependencies, background loops, remote requests, storage or private-source copying. Original project colors are used for recognizable face orientation; neither those standard colors nor general face notation is a private research algorithm.
+
+Controls support buttons, drag view rotation and keyboard face letters with Shift for inverses. `?lang=en` selects English, `?theme=dark` selects the dark surface. Embedded loading is controlled by the portfolio's explicit demo-open control. No resource is fetched by this demo other than its own local JavaScript. CSP denies external connections, fonts, forms and images. The production wrapper must keep the iframe sandboxed.
+
+Functional checks cover standard F-layer color movement, each face plus inverse, four quarter turns, center positions, nine stickers of each color after shuffle, reset, view changes that leave the puzzle unchanged, keyboard turns, 54 rendered stickers, and a 320px layout. These browser checks do not establish physical device acceptance or trained-model performance. No timer, replay, solver, research results, or service-backed behavior is presented as part of this simplified preview.
