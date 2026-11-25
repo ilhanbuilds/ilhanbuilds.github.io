@@ -61,7 +61,7 @@ docs/                 Assets, design and development notes
 
 ## Assets
 
-Project images are intentionally typographic until actual approved screenshots are supplied. Import real assets from `src/assets/images/` when available; the existing image components use Astro optimization, responsive widths, intrinsic dimensions and lazy loading. A cover should be a landscape crop; portrait screenshots fit the gallery. Add localized alt text and remove sensitive data before committing. Manrope is served locally from its npm package with its bundled OFL license.
+Approved real project imagery lives in `src/assets/images/` and is mapped in `src/data/project-images.ts`. It includes the supplied Racker compositions, original historical screenshots, interface galleries and an About portrait. Missing approved imagery falls back to text. The shared screenshot component uses Astro optimization, responsive widths, intrinsic dimensions and lazy loading. Portrait screenshots preserve their native aspect ratio; covers are never forced into a landscape crop. Gallery links expose only sanitized full-size images. Add localized alt text and remove sensitive data and metadata before committing. Manrope is served locally with its OFL license in `public/fonts/Manrope-OFL.txt`.
 
 Profile links and optional résumé information are centralized in `src/data/profile.ts`. See [the asset checklist](docs/ASSETS.md) before adding files. A technical writing section can be added as a separate content collection later; no empty blog is published.
 
@@ -72,3 +72,5 @@ Target: [ilhanbuilds.github.io](https://ilhanbuilds.github.io).
 In repository **Settings → Pages → Build and deployment**, choose **GitHub Actions**. The workflow checks pull requests and foundation-branch pushes. Only a successful main-branch validation may deploy. The Astro configuration uses the user-site URL with no subdirectory base. Merge the feature PR only after review; creating the PR does not publish the portfolio.
 
 Further details: [design](docs/DESIGN.md), [development](docs/DEVELOPMENT.md), [assets](docs/ASSETS.md).
+
+For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves ten real full-page Chromium screenshots and a local review index outside the public site. The current second-phase delivery is documented in [the Turkish phase 2 report](docs/PHASE_2_TR.md).

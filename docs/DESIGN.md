@@ -1,12 +1,14 @@
 # Design
 
-The portfolio uses editorial typography, a consistent left edge and a restrained two-column grid. It is a personal record of projects rather than a product sales page. Racker has the larger showcase column; SecureFace follows with a deliberate offset. Earlier work is presented as compact rows. The journey groups projects by supplied year and preserves the approved sequence within 2026.
+The portfolio uses editorial typography, a consistent left edge and a restrained grid. It is a personal record of projects rather than a product sales page. Racker has the full-width primary showcase with its supplied artwork, official icon and verified Google Play link. SecureFace follows in an image-and-text row. Earlier work is presented as compact rows. The journey groups projects by supplied year and preserves the approved sequence within 2026.
 
 ## Tokens
 
 All theme colors are defined in `src/styles/global.css` using semantic CSS variables. Light mode uses a warm `#F5F4F0` ground, `#171717` text and fine neutral rules. Dark mode uses `#111111`, `#F0F0F0`, and `#303030` rules. The original light accent was deepened to `#405CC9` to support text contrast; the dark accent is `#8297F5`.
 
-Manrope is served locally from `@fontsource-variable/manrope` with Latin and Turkish character support. The npm package includes its OFL license. Headers use tight tracking and modest weight. Body text starts at 16px; secondary metadata is intentionally smaller. No decorative images, fake screenshots, terminal interfaces or generated illustrations are used.
+Manrope is served locally from `@fontsource-variable/manrope` with Latin and Turkish character support. The npm package includes its OFL license. Headers use tight tracking and modest weight. Body text starts at 16px; secondary metadata is intentionally smaller. No new decorative imagery, fake screenshots, terminal interfaces or generated illustrations are added. The owner-supplied Racker promotional compositions retain their original device frames and visual treatment.
+
+Real images preserve their complete frame and aspect ratio. Historical interfaces are not redesigned. The Journey comparison connects the original Python game with the later Unity experiment and explicitly preserves AI-assisted attribution. Calculator and HCJEditor retain compact timeline thumbnails; later application previews have more room. Galleries link to sanitized full-size assets so detailed mobile compositions can be examined without building a client-side lightbox.
 
 ## Interaction and accessibility
 

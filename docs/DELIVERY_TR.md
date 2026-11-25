@@ -1,5 +1,7 @@
 # İlk sürüm teslimat notları — 25 Kasım 2026
 
+Bu dosya ilk aşamanın tarihsel kaydıdır. Güncel görsel envanteri, PR ve main durumu için [ikinci aşama raporuna](PHASE_2_TR.md) bakın.
+
 İlk portfolyo sürümü geliştirildi ve `feat/portfolio-foundation` dalına gönderildi. Ana sayfa, projeler, 10 proje detayı, gelişim çizelgesi ve hakkımda sayfalarının İngilizce/Türkçe karşılıkları hazır. İki hata sayfasıyla birlikte 30 statik HTML sayfası üretiliyor; 28 içerik sayfası sitemap’e dahil ediliyor.
 
 ## Mimari ve tasarım
