@@ -41,6 +41,8 @@ Bilgisayarın sistem Node sürümü 22.16.0 olduğu için güncel Astro’ya uyg
 - Onaylı public repository bağlantılarının mevcut ve public olduğu GitHub üzerinden doğrulandı.
 - Ana sayfanın yerel Lighthouse 13.6.0 mobil ve masaüstü ölçümlerinde performans, erişilebilirlik, best practices ve SEO kategorileri 100 çıktı. Mobil LCP 0,8 saniye / CLS 0; masaüstü LCP 0,2 saniye / CLS 0,012. Bunlar tek makinede yerel ölçümler; yayın ortamı garantisi değil.
 
+`183321a` commit’inin [GitHub Actions Linux doğrulaması](https://github.com/ilhanbuilds/ilhanbuilds.github.io/actions/runs/45632136480) da npm ci, typecheck, lint, formatter, build, içerik ve iki motorlu tarayıcı testlerini başarıyla tamamladı. Feature dalı için deploy adımı beklendiği gibi atlandı.
+
 Test ekran görüntüleri `test-results/portfolio-custom-error-pages-and-screenshot-evidence-chromium/` ve karşılık gelen `-webkit/` klasöründe bulunur. HTML test raporu `playwright-report/` altındadır; bu çıktılar Git dışında tutulur. GitHub Actions aynı raporları artifact olarak saklar.
 
 Fiziksel Samsung/iPhone testi ve manuel ekran okuyucu incelemesi yapılmadı. Windows WebKit’te varsayılan Tab davranışı bağlantıları atladığı için skip-link etkinleştirme testi odak verilerek çalışır; ilk Tab sırası Chromium’da doğrulanır.
@@ -60,7 +62,7 @@ Sonraki doğrulama ve teslimat notları ayrı commit ile eklenir. Force push vey
 
 Remote başlangıçta tamamen boştu. İlk feature push’undan sonra GitHub bu dalı otomatik olarak varsayılan dal seçti. `main` henüz bulunmuyor. PR için gereken başlangıç main push’u otomatik onay denetimince reddedildi; bu nedenle PR açılmadı. Main başlangıcı için ayrı açık izin gerekiyor. Önerilen taban, uygulama sayfalarını içermeyen `19f5147` altyapı commit’idir; ardından feature → main PR açılabilir. Portfolyo uygulamasının main’e merge edilmesi ayrı incelemeye tabidir.
 
-GitHub Pages yayını yapılmadı. Pages API sorgusu 404 döndürdü; yayın henüz yapılandırılmamış görünüyor. Repository Settings → Pages bölümünde GitHub Actions seçilmeli. Feature dalı yayın yapamaz; deployment yalnızca uygun main güncellemesinden sonra çalışır.
+GitHub Pages yayını yapılmadı. İlk Pages API sorgusu 404 döndürdü; ilk push sonrasında GitHub ayrıca feature dalından legacy/Jekyll yayını başlattı. Bu ayrı otomatik iş, Astro front matter’ını YAML olarak yorumlayıp başarısız oldu. Pages ayarı `build_type: workflow` olarak düzeltildi ve API üzerinden doğrulandı. Böylece kaynak dalından Jekyll yayını yerine hazırlanmış GitHub Actions iş akışı kullanılacak. Feature dalı bu workflow üzerinden yayın yapamaz; deployment yalnızca uygun main güncellemesinden sonra çalışır.
 
 ## Yerel geliştirme ve sonraki adımlar
 
