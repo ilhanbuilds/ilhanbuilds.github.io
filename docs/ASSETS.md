@@ -38,13 +38,20 @@ The Racker files are supplied promotional compositions containing application sc
 | `personal/profile.jpeg`       | Safe alternative portrait; `profile2.jpeg` was selected to avoid duplicating personal photos.                                                                                                                                       |
 | `personal/ilhan_kilic_CV.pdf` | SecureFace is missing, the file includes a phone number, and this older CV was not approved for automatic publication. It was inspected without modification. The Google Play listing was verified independently.                   |
 
-Neither the withheld image nor the CV is copied into the repository, public assets, or build output. Contact details from the older CV were not transferred to the profile automatically.
+Neither the withheld image nor that older CV is copied into the repository, public assets, or build output. Phase 3 separately supplied and explicitly approved the two replacement PDFs below and the personal contact links.
+
+## Phase 3 approved CVs and contact details
+
+- `personal/Ilhan_Kilic_CV_Portfolyo.pdf` → `public/documents/Ilhan_Kilic_CV_Portfolyo.pdf` on Turkish pages.
+- `personal/Ilhan_Kilic_CV_EN_Portfolyo.pdf` → `public/documents/Ilhan_Kilic_CV_EN_Portfolyo.pdf` on English pages.
+
+Both files are one page, include SecureFace, contain no phone number in extracted text, and have the expected email, LinkedIn, GitHub, portfolio and Google Play URI annotations. They were visually rendered and inspected. The source PDFs were not recreated or modified; their exact bytes are guarded by SHA-256 tests. The old CV exclusion remains in force.
+
+LinkedIn `https://www.linkedin.com/in/ilhan-kilic`, email `kilicilhan.75@gmail.com`, and GitHub `https://github.com/ilhanbuilds` are now explicitly approved and centralized in the profile. GitHub and Google Play responded HTTP 200 during review; LinkedIn blocks automated access with HTTP 999. The portfolio URLs in the PDFs are the intended post-deployment destinations and currently return 404 because production deployment has not been authorized.
 
 ## Remaining information
 
-- A clearly permitted, sanitized Deepfake Detection image and any approved individual contribution description for the team projects.
-- An updated public CV with the desired project coverage and contact information, explicitly approved for publication.
-- Confirmation of the LinkedIn URL and contact email to expose on the website.
+- A clearly permitted, sanitized Deepfake Detection image. Team work is described collectively; no separate individual contribution section is requested.
 - Optional raw Racker screens for a future presentation; the supplied compositions are used in this version as requested.
 
 ## Adding or changing images

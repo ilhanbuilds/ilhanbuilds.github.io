@@ -34,13 +34,15 @@ npm run preview
 
 `src/data/projects.ts` is the single public content source. To add a project, add one typed `Project` entry with a unique ID, slug, year, timeline order, technologies, category, visibility, and both translations. Lists, detail pages, journey entries and both language routes are generated from it. Set `featured` to an ordering number or `currentlyBuilding` to `true` as appropriate.
 
-Optional detail fields include overview, personal contribution, process, technical details, lessons, cover image, gallery, repository and demo URLs. Missing sections are omitted. A team project’s personal contribution is separate from the overall description. Status is optional when it has not been established; absence does not mean completion.
+Optional detail fields include overview, process, technical details, lessons, cover image, gallery, repository and demo URLs. Missing sections are omitted. SecureFace and Deepfake Detection are described as shared team work, without separate individual contribution sections. Status is optional when it has not been established; absence does not mean completion.
 
 Only publish approved information. `visibility: 'private'` describes the source repository, **not access control**. All text and imported assets in this repository must be safe for a public build. Never add private code, confidential notes, personal messages, or unapproved screenshots.
 
 ## Localization
 
-English is at `/`; Turkish is under `/tr/`. Shared UI translations and route helpers live in `src/i18n/index.ts`; project text lives in each project’s `translations` field. The language switch links to the corresponding page. There is no automatic language redirect. Error pages are at `/404.html` and `/tr/404/`; GitHub Pages serves the root error page for unknown addresses.
+Turkish is the default at `/`; English is under `/en/`. Shared UI translations and route helpers live in `src/i18n/index.ts`; project text lives in each project’s `translations` field. The language switch links to the corresponding page and remembers the choice in localStorage. Visiting `/` with an English preference opens `/en/`; explicit localized deep links take priority and update the preference. Storage-blocked and JavaScript-disabled visitors can use normal language links.
+
+Old `/tr/…` addresses are static noindex redirects to their root Turkish counterparts, preserving query parameters and fragments with JavaScript and providing a no-JavaScript refresh/link fallback. Previous unprefixed addresses remain valid as Turkish pages; their English counterparts now live under `/en/`. Error pages are at `/404.html` and `/en/404/`; GitHub Pages serves the root Turkish error page for unknown addresses. The sitemap lists only the 28 canonical content pages and includes language alternatives.
 
 ## Structure
 
@@ -63,7 +65,7 @@ docs/                 Assets, design and development notes
 
 Approved real project imagery lives in `src/assets/images/` and is mapped in `src/data/project-images.ts`. It includes the supplied Racker compositions, original historical screenshots, interface galleries and an About portrait. Missing approved imagery falls back to text. The shared screenshot component uses Astro optimization, responsive widths, intrinsic dimensions and lazy loading. Portrait screenshots preserve their native aspect ratio; covers are never forced into a landscape crop. Gallery links expose only sanitized full-size images. Add localized alt text and remove sensitive data and metadata before committing. Manrope is served locally with its OFL license in `public/fonts/Manrope-OFL.txt`.
 
-Profile links and optional résumé information are centralized in `src/data/profile.ts`. See [the asset checklist](docs/ASSETS.md) before adding files. A technical writing section can be added as a separate content collection later; no empty blog is published.
+Confirmed profile links and locale-specific résumé paths are centralized in `src/data/profile.ts`. The two approved one-page PDFs are copied unchanged to `public/documents/`; Turkish pages download the Turkish PDF and English pages the English PDF. Hash tests guard their original bytes. See [the asset checklist](docs/ASSETS.md) before adding files. A technical writing section can be added as a separate content collection later; no empty blog is published.
 
 ## GitHub Pages
 
@@ -73,4 +75,4 @@ In repository **Settings → Pages → Build and deployment**, choose **GitHub A
 
 Further details: [design](docs/DESIGN.md), [development](docs/DEVELOPMENT.md), [assets](docs/ASSETS.md).
 
-For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves ten real full-page Chromium screenshots and a local review index outside the public site. The current second-phase delivery is documented in [the Turkish phase 2 report](docs/PHASE_2_TR.md).
+For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves fourteen real full-page Chromium screenshots, including Turkish and English views, and a local review index outside the public site. Current delivery notes are in [the Turkish phase 3 report](docs/PHASE_3_TR.md); [phase 2](docs/PHASE_2_TR.md) remains a historical record.

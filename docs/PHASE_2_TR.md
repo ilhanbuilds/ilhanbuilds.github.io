@@ -1,5 +1,7 @@
 # İkinci aşama — Gerçek görseller ve tasarım iyileştirmesi
 
+Bu dosya ikinci aşamanın tarihsel kaydıdır. Güncel dil yapısı, CV ve iletişim bilgileri için [üçüncü aşama raporuna](PHASE_3_TR.md) bakın.
+
 25 Kasım 2026. Çalışma `feat/portfolio-foundation` dalında tamamlandı. [Taslak PR #1](https://github.com/ilhanbuilds/ilhanbuilds.github.io/pull/1), `main` tabanına yöneliktir; merge ve production deployment yapılmadı.
 
 ## Görsel envanteri ve güvenlik
