@@ -217,3 +217,34 @@ test('brand browser assets have exact dimensions and approved slash geometry', a
     ['192x192', '512x512'],
   );
 });
+
+test('interactive demos publish only reviewed static files and no accounts or model artifacts', async () => {
+  const approved = [
+    'calculator.css',
+    'calculator.html',
+    'calculator.js',
+    'cube.html',
+    'cube.js',
+    'hcjeditor.html',
+    'idleoyun.css',
+    'idleoyun.engine.js',
+    'idleoyun.html',
+    'idleoyun.js',
+  ];
+  assert.deepEqual((await readdir('public/demos')).sort(), approved.sort());
+  for (const name of approved) {
+    assert.deepEqual(
+      await readFile(`public/demos/${name}`),
+      await readFile(`dist/demos/${name}`),
+    );
+    if (name.endsWith('.html'))
+      assert.match(
+        await readFile(`public/demos/${name}`, 'utf8'),
+        /name="robots" content="noindex"/,
+      );
+  }
+  for (const path of await files('dist')) {
+    assert.doesNotMatch(path, /\.(?:pt|pth|onnx|sqlite|db|zip|enc)$/i);
+    assert.doesNotMatch(path, /Oyuncular\.txt|\.env/i);
+  }
+});

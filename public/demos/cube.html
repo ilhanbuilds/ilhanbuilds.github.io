@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>RubikRL — Etkileşimli küp simülasyonu</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f4f0;
+        --surface: #fff;
+        --ink: #171717;
+        --muted: #555;
+        --line: #d4d3cd;
+        --accent: #0064ce;
+      }
+      :root[data-theme='dark'] {
+        color-scheme: dark;
+        --bg: #111;
+        --surface: #1c1c1c;
+        --ink: #f0f0f0;
+        --muted: #b8b8b8;
+        --line: #414141;
+        --accent: #50adff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 8px;
+        font-weight: 650;
+        letter-spacing: -0.025em;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(230px, 1fr) minmax(260px, 1fr);
+        gap: 24px;
+        align-items: center;
+        max-width: 900px;
+        margin: auto;
+      }
+      header {
+        grid-column: 1/-1;
+      }
+      .stage {
+        position: relative;
+        height: 310px;
+        perspective: 700px;
+        display: grid;
+        place-items: center;
+        touch-action: pan-y;
+        cursor: grab;
+        user-select: none;
+      }
+      .stage:active {
+        cursor: grabbing;
+      }
+      .cube {
+        width: 0;
+        height: 0;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateX(-24deg) rotateY(-32deg);
+      }
+      .sticker {
+        position: absolute;
+        left: -26px;
+        top: -26px;
+        width: 52px;
+        height: 52px;
+        border: 3px solid #1b1b1b;
+        border-radius: 7px;
+        background: var(--color);
+        backface-visibility: hidden;
+      }
+      fieldset {
+        margin: 0 0 16px;
+        padding: 0;
+        border: 0;
+        min-width: 0;
+      }
+      legend {
+        font-size: 14px;
+        font-weight: 650;
+        margin-bottom: 10px;
+      }
+      .turns {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 7px;
+      }
+      button {
+        min-width: 44px;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 8px;
+        font:
+          600 14px/1.3 system-ui,
+          sans-serif;
+        cursor: pointer;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .actions,
+      .camera {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .actions button {
+        flex: 1;
+      }
+      .camera button {
+        flex: 1;
+      }
+      .help {
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+      output {
+        display: block;
+        font-size: 14px;
+        min-height: 42px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        overflow-wrap: anywhere;
+      }
+      .notation {
+        color: var(--muted);
+        font:
+          13px/1.6 ui-monospace,
+          monospace;
+        margin-top: 6px;
+        min-height: 21px;
+      }
+      @media (max-width: 620px) {
+        body {
+          padding: 18px;
+        }
+        .layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+        }
+        .stage {
+          height: 255px;
+        }
+        .turns {
+          gap: 5px;
+        }
+        button {
+          padding: 8px 3px;
+        }
+        header {
+          grid-column: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="layout">
+      <header>
+        <h1 data-copy="title">Etkileşimli küp simülasyonu</h1>
+        <p data-copy="disclaimer">
+          Bağımsız tarayıcı ön izlemesi. Yapay zekâ modeli veya otomatik çözücü
+          çalıştırılmaz.
+        </p>
+      </header>
+      <div class="stage" aria-label="Döndürülebilir 3B küp" role="img">
+        <div class="cube" aria-hidden="true"></div>
+      </div>
+      <section aria-label="Küp kontrolleri">
+        <fieldset>
+          <legend data-copy="turns">Yüzü çevir</legend>
+          <div class="turns" id="turn-buttons"></div>
+        </fieldset>
+        <p class="help" data-copy="help">
+          U: üst · D: alt · L: sol · R: sağ · F: ön · B: arka. ′ ters yönü
+          belirtir. Klavyede yüz harfi; Shift ile ters yön.
+        </p>
+        <div class="actions">
+          <button type="button" id="shuffle" data-copy="shuffle">
+            Karıştır
+          </button>
+          <button type="button" id="reset" data-copy="reset">Sıfırla</button>
+        </div>
+        <fieldset>
+          <legend data-copy="camera">Bakış açısı</legend>
+          <div class="camera">
+            <button type="button" data-camera="left" data-copy="left">
+              Sola
+            </button>
+            <button type="button" data-camera="right" data-copy="right">
+              Sağa
+            </button>
+            <button type="button" data-camera="up" data-copy="up">
+              Yukarı
+            </button>
+            <button type="button" data-camera="down" data-copy="down">
+              Aşağı
+            </button>
+          </div>
+        </fieldset>
+        <output id="state" aria-live="polite"></output>
+        <p class="notation" id="notation" aria-label="Son hamleler"></p>
+      </section>
+    </main>
+    <script src="/demos/cube.js"></script>
+  </body>
+</html>

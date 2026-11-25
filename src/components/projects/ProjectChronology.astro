@@ -1,0 +1,29 @@
+---
+import { timeline } from '../../data/projects';
+import type { Locale } from '../../types/content';
+import ProjectCard from './ProjectCard.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const years = [...new Set(timeline.map((project) => project.year))];
+---
+
+<div class="project-chronology">
+  {years.map((year) => (
+    <section class="chronology-year" aria-labelledby={`projects-${year}`}>
+      <h2 id={`projects-${year}`}>{year}</h2>
+      <div class="chronology-cards">
+        {timeline
+          .filter((project) => project.year === year)
+          .map((project) => (
+            <ProjectCard
+              project={project}
+              locale={locale}
+              loading={project.id === timeline[0]?.id ? 'eager' : 'lazy'}
+            />
+          ))}
+      </div>
+    </section>
+  ))}
+</div>

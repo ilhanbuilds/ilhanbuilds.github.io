@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; form-action 'none'; base-uri 'none'"
+    />
+    <title>IdleOyun — Python tarayıcı uyarlaması</title>
+    <link rel="stylesheet" href="idleoyun.css" />
+    <script src="idleoyun.engine.js" defer></script>
+    <script src="idleoyun.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div id="window" class="window" aria-label="IdleOyun">
+        <section id="menu" class="panel menu" aria-label="Ana menü">
+          <h1>Efsanevi Oyun!</h1>
+          <button type="button" data-screen="login">Kullanici girisi</button
+          ><button type="button" data-screen="register">Kayıt Ol</button
+          ><button type="button" id="exit">Çıkış</button>
+        </section>
+        <section
+          id="login"
+          class="panel account"
+          hidden
+          aria-label="Kullanıcı girişi"
+        >
+          <p id="login-message" role="status">
+            Giriş yapmak için adınızı ve şifrenizi giriniz.
+          </p>
+          <label
+            >Kullanıcı Adı:<input
+              id="login-name"
+              value="Portfolyo"
+              autocomplete="off"
+              maxlength="30" /></label
+          ><label
+            >Sifre:<input
+              id="login-password"
+              value="demo"
+              type="password"
+              autocomplete="off"
+              maxlength="64"
+          /></label>
+          <button type="button" id="login-button">Giriş</button
+          ><button type="button" class="back" data-screen="menu">Geri</button>
+        </section>
+        <section
+          id="register"
+          class="panel account"
+          hidden
+          aria-label="Kayıt ol"
+        >
+          <p id="register-message" role="status">
+            Kayıt olmak için adınızı ve şifrenizi giriniz.
+          </p>
+          <label
+            >Kullanıcı Adı:<input
+              id="register-name"
+              autocomplete="off"
+              maxlength="30" /></label
+          ><label
+            >Sifre:<input
+              id="register-password"
+              type="password"
+              autocomplete="off"
+              maxlength="64"
+          /></label>
+          <button type="button" id="register-button">KAYIT OL</button
+          ><button type="button" class="back" data-screen="menu">Geri</button>
+        </section>
+        <section id="game" class="panel game" hidden aria-label="Oyun">
+          <div class="stats">
+            <div>
+              <p data-stat="money">Para = 0</p>
+              <p data-stat="rebirth">Rebirth = 0</p>
+              <p data-stat="prestige">Prestige = 0</p>
+            </div>
+            <div>
+              <p data-stat="name">/Portfolyo</p>
+              <p data-stat="multiplier">1.0x Carpan</p>
+            </div>
+          </div>
+          <button type="button" id="click">TIKLA</button
+          ><button type="button" id="market-button">MARKET</button
+          ><button type="button" id="game-exit">Çıkış</button>
+        </section>
+        <section id="market" class="panel market" hidden aria-label="Market">
+          <div class="stats">
+            <p data-stat="money">Para = 0</p>
+            <div>
+              <p data-stat="name">/Portfolyo</p>
+              <p data-stat="multiplier">1.0x Carpan</p>
+            </div>
+          </div>
+          <p id="market-message" role="status"></p>
+          <button type="button" id="power">0/10 - Güc</button
+          ><button type="button" id="rebirth">0/25 - Rebirth</button
+          ><button type="button" id="prestige">0/Sonsuz - Prestige</button
+          ><button type="button" id="market-back">geri</button>
+        </section>
+        <section
+          id="closed"
+          class="panel closed"
+          hidden
+          aria-label="Oyun kapalı"
+        >
+          <p>Oyun kapatıldı.</p>
+          <button type="button" data-screen="menu">Ana menü</button>
+        </section>
+      </div>
+      <p class="note">
+        Orijinal Python uygulamasının tarayıcı uyarlaması. Örnek giriş:
+        <strong>Portfolyo / demo</strong>. Kayıtlar yalnızca bu açık demo
+        oturumunda tutulur; gerçek hesap bilgisi kullanmayın.
+      </p>
+    </main>
+  </body>
+</html>

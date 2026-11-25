@@ -206,7 +206,13 @@ test('loading images stays within the layout shift budget', async ({
       }).observe({ type: 'layout-shift', buffered: true });
     }
   });
-  for (const path of ['/', '/journey/', '/work/racker/']) {
+  for (const path of [
+    '/',
+    '/work/',
+    '/journey/',
+    '/work/racker/',
+    '/work/hcjeditor/',
+  ]) {
     await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
     for (const image of await page.locator('img').all()) {
@@ -309,16 +315,16 @@ test('journey preserves approved chronology and team attribution', async ({
   await page.goto('/en/journey/');
   const headings = await page.locator('.timeline-entry h3').allTextContents();
   expect(headings).toEqual([
-    'IdleOyun',
-    'Calculator',
-    'HCJEditor',
-    'DinoCore: Evolution Idle',
-    'Kutlumi',
-    'Lina',
-    'Racker',
-    'Deepfake Detection',
-    'SecureFace',
     'RubikRL',
+    'SecureFace',
+    'Deepfake Detection',
+    'Racker',
+    'Lina',
+    'Kutlumi',
+    'DinoCore: Evolution Idle',
+    'HCJEditor',
+    'Calculator',
+    'IdleOyun',
   ]);
   for (const name of ['Deepfake Detection', 'SecureFace']) {
     await expect(

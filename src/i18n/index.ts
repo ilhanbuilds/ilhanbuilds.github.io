@@ -14,21 +14,14 @@ export const copy = {
     intro:
       'I study Computer Engineering at İzmir Bakırçay University. I’m interested in software development and software testing, and work on mobile, web and machine learning projects.',
     eyebrow: 'A personal record of making things',
-    heroLine: 'Learning through',
-    heroEnd: 'what I build.',
     selected: 'Selected work',
     allWork: 'Explore all projects',
     viewProject: 'View project',
     featuredNote:
       'Mobile applications and research, from first ideas to ongoing work.',
-    rackerLabel: 'My first real application',
-    rackerCaption: 'Training. Nutrition. Progress.',
-    secureLabel: 'Research, together',
-    secureCaption: 'Exploring face privacy.',
     currently: 'Currently building',
-    currentlyNote: 'Two projects I’m continuing to explore.',
-    journeyTitle: 'Small beginnings,',
-    journeyEnd: 'a growing practice.',
+    currentlyNote:
+      'An experiment in reinforcement learning and cube interfaces.',
     journeyIntro:
       'From a small Python game in 2024 to mobile applications and research projects. A record of what I’ve worked on, including the projects I’ve paused.',
     journeyLink: 'Follow the journey',
@@ -98,21 +91,13 @@ export const copy = {
     intro:
       'İzmir Bakırçay Üniversitesi’nde Bilgisayar Mühendisliği okuyorum. Yazılım geliştirme ve yazılım test mühendisliğiyle ilgileniyorum. Mobil, web ve makine öğrenmesi projeleri üzerinde çalışıyorum.',
     eyebrow: 'Ürettiklerimin kişisel kaydı',
-    heroLine: 'Yaptıkça',
-    heroEnd: 'öğreniyorum.',
     selected: 'Öne çıkan projeler',
     allWork: 'Tüm projeleri incele',
     viewProject: 'Projeyi incele',
     featuredNote:
       'İlk fikirlerden devam eden çalışmalara, mobil uygulamalar ve araştırma.',
-    rackerLabel: 'İlk gerçek uygulamam',
-    rackerCaption: 'Antrenman. Beslenme. Gelişim.',
-    secureLabel: 'Birlikte araştırıyoruz',
-    secureCaption: 'Yüz gizliliği üzerine.',
     currently: 'Üzerinde çalışıyorum',
-    currentlyNote: 'Araştırmaya ve geliştirmeye devam ettiğim iki proje.',
-    journeyTitle: 'Küçük başlangıçlar,',
-    journeyEnd: 'gelişen bir yolculuk.',
+    currentlyNote: 'Pekiştirmeli öğrenme ve küp arayüzleri üzerine bir deneme.',
     journeyIntro:
       '2024’te küçük bir Python oyunundan mobil uygulamalara ve araştırma projelerine. Ara verdiklerim de dahil, üzerinde çalıştığım projelerin kaydı.',
     journeyLink: 'Yolculuğu incele',

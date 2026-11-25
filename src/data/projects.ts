@@ -17,12 +17,16 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/idleOyun',
     translations: {
       en: {
+        technicalDetails:
+          'The original Python/PyQt5 application separates panels from game rules. Click power, rebirth and prestige affect earnings and upgrade prices.',
         summary:
           'My first small click-based idle game, written by hand in Python.',
         overview:
           'A Python game built around clicking, earning in-game currency and buying upgrades.',
       },
       tr: {
+        technicalDetails:
+          'Özgün Python/PyQt5 uygulamasında paneller ve oyun kuralları ayrıdır. Tıklama gücü, rebirth ve prestige, kazancı ve yükseltme fiyatlarını etkiler.',
         summary:
           'Python ile kendi ellerimle yazdığım ilk küçük tıklama tabanlı idle oyunu.',
         overview:
@@ -43,10 +47,18 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/Hesap-Makinesi-Form',
     translations: {
       en: {
+        overview:
+          'A Windows Forms calculator with a numeric keypad, editable display and the four basic operations.',
+        technicalDetails:
+          'The original C# implementation uses 32-bit integers and evaluates operations from left to right. The browser adaptation retains this behavior.',
         summary:
           'A simple calculator exploring desktop interfaces and basic arithmetic operations.',
       },
       tr: {
+        overview:
+          'Sayısal tuş takımı, düzenlenebilir ekranı ve dört temel işlemi olan bir Windows Forms hesap makinesi.',
+        technicalDetails:
+          'Özgün C# uygulaması 32 bit tam sayılar kullanır ve işlemleri soldan sağa değerlendirir. Tarayıcı uyarlaması bu davranışı korur.',
         summary:
           'Masaüstü arayüzleri ve temel hesaplama işlemleri üzerine geliştirdiğim basit bir hesap makinesi.',
       },
@@ -65,10 +77,18 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/HCJEditor',
     translations: {
       en: {
+        overview:
+          'A compact workspace for trying HTML, CSS and JavaScript together and seeing the result immediately.',
+        technicalDetails:
+          'Separate code panes, file import and a combined HTML download form the original workflow. The portfolio adds an opaque sandbox around the editor and its preview.',
         summary:
           'A browser editor for writing or loading HTML, CSS and JavaScript, previewing the result live, and downloading it as one file.',
       },
       tr: {
+        overview:
+          'HTML, CSS ve JavaScript’i birlikte deneyip sonucu anlık görebilmek için küçük bir çalışma alanı.',
+        technicalDetails:
+          'Ayrı kod alanları, dosya yükleme ve birleştirilmiş HTML indirme özgün akışı oluşturur. Portfolyoda editör ve ön izleme ayrıca yalıtılmış çerçevelerde çalışır.',
         summary:
           'HTML, CSS ve JavaScript yazıp yükleyebildiğiniz, sonucu anlık görebildiğiniz ve tek dosya olarak indirebildiğiniz bir tarayıcı editörü.',
       },
@@ -84,15 +104,24 @@ export const projects: Project[] = [
     category: { en: 'Game development', tr: 'Oyun geliştirme' },
     technologies: ['Unity', 'C#'],
     visibility: 'public',
+    demoUrl: 'https://ilhanbuilds.github.io/DinoCore-Evolution-Idle/',
     repositoryUrl: 'https://github.com/ilhanbuilds/DinoCore-Evolution-Idle',
     translations: {
       en: {
+        overview:
+          'A Unity idle game built around rooms, resource production, dinosaurs and upgrades.',
+        technicalDetails:
+          'Rebirth and planet progression extend the resource loop. The existing WebGL build stays in its own project rather than adding large game files to this portfolio.',
         summary:
           'My first Unity idle game, built in a short time using AI-assisted development tools.',
         process:
           'I used Unity and AI-assisted development tools to build the resource production and upgrade systems.',
       },
       tr: {
+        overview:
+          'Odalar, kaynak üretimi, dinozorlar ve yükseltmeler üzerine kurulu bir Unity idle oyunu.',
+        technicalDetails:
+          'Rebirth ve gezegen ilerlemesi kaynak döngüsünü genişletir. Mevcut WebGL build kendi projesinde kalır; büyük oyun dosyaları portfolyoya eklenmez.',
         summary:
           'Yapay zekâ destekli geliştirme araçlarından yararlanarak kısa sürede oluşturduğum ilk Unity idle oyunu.',
         process:
@@ -113,10 +142,18 @@ export const projects: Project[] = [
     status: 'unreleased',
     translations: {
       en: {
+        overview:
+          'A shared celebration experience where messages are presented through themes and envelopes.',
+        technicalDetails:
+          'The original platform includes creation, contribution and presentation flows. This portfolio uses only the approved demo screenshots; personal celebrations and private source are not included.',
         summary:
           'A website for creating personal celebrations with messages, themes and envelopes.',
       },
       tr: {
+        overview:
+          'Mesajları temalar ve zarflar üzerinden sunan ortak bir kutlama deneyimi.',
+        technicalDetails:
+          'Özgün platformda oluşturma, katkı ve sunum akışları bulunur. Portfolyoda yalnızca onaylı demo ekranları kullanılır; kişisel kutlamalar ve özel kaynaklar yer almaz.',
         summary:
           'Mesajlar, temalar ve zarflarla kişisel kutlamalar hazırlamak için geliştirdiğim web sitesi.',
       },
@@ -136,12 +173,16 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/Lina',
     translations: {
       en: {
+        technicalDetails:
+          'The desktop interface depends on locally running models. Its theme and settings views are shown here as recorded screenshots, without pretending to run a live assistant.',
         summary:
           'A modular desktop assistant running local AI models. One of my first larger personal projects, currently on hold.',
         overview:
           'The assistant uses local models and a modular structure for conversations and settings. Development is currently paused.',
       },
       tr: {
+        technicalDetails:
+          'Masaüstü arayüzü yerelde çalışan modellere ihtiyaç duyar. Tema ve ayar görünümleri burada kayıtlı ekran görüntüleridir; canlı asistan çalıştırılmaz.',
         summary:
           'Yerel yapay zekâ modelleriyle çalışan modüler bir masaüstü asistanı. İlk kapsamlı kişisel projelerimden biri; geliştirmeye ara verdim.',
         overview:
@@ -195,12 +236,16 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/deepfake-image-detection',
     translations: {
       en: {
+        technicalDetails:
+          'The local application supports image/video analysis and Grad-CAM explanations. We evaluate recorded model outputs in their dataset context; a score alone does not establish authenticity.',
         summary:
           'An academic team project using deep learning to classify real and manipulated face images.',
         overview:
           'We worked together on an academic deep learning project to classify real and manipulated face images using PyTorch and EfficientNet.',
       },
       tr: {
+        technicalDetails:
+          'Yerel uygulama fotoğraf/video analizi ve Grad-CAM açıklamalarını destekler. Kayıtlı model çıktılarını veri kümesi bağlamında değerlendiriyoruz; tek başına skor bir görüntünün gerçekliğini kanıtlamaz.',
         summary:
           'Gerçek ve sahte yüz görüntülerini derin öğrenme yöntemleriyle sınıflandırmaya yönelik akademik ekip çalışması.',
         overview:
@@ -224,14 +269,18 @@ export const projects: Project[] = [
     currentlyBuilding: true,
     translations: {
       en: {
+        technicalDetails:
+          'The application combines video review, face-region controls and protected image data. The comparison below uses a recorded approved result; no processing or encryption runs in the browser.',
         summary:
-          'An ongoing team research project on real-time face anonymization and cryptographic protection of image data.',
+          'An ongoing team project on video face anonymization and cryptographic protection of image data.',
         overview:
           'We are developing SecureFace together as a team, combining computer vision for face anonymization with cryptographic protection of image data.',
       },
       tr: {
+        technicalDetails:
+          'Uygulama video inceleme, yüz bölgesi kontrolleri ve görüntü verilerinin korunmasını bir araya getirir. Aşağıdaki karşılaştırma onaylı kayıtlı sonuçtur; tarayıcıda işleme veya şifreleme çalışmaz.',
         summary:
-          'Gerçek zamanlı yüz anonimleştirme ve görüntü verilerinin kriptografik yöntemlerle korunması üzerine devam eden ekip araştırması.',
+          'Videolarda yüz anonimleştirme ve görüntü verilerinin kriptografik yöntemlerle korunması üzerine devam eden ekip çalışması.',
         overview:
           'SecureFace’i ekip olarak geliştiriyoruz. Yüz anonimleştirme için bilgisayarlı görü, görüntü verilerinin korunması için kriptografik yöntemler üzerine çalışıyoruz.',
       },
@@ -251,12 +300,16 @@ export const projects: Project[] = [
     currentlyBuilding: true,
     translations: {
       en: {
+        technicalDetails:
+          'Manual turns and cube-state inspection are separate from model experiments. The lightweight preview below is an independent simulation; general model solving success is not claimed.',
         summary:
           'An experimental project exploring how reinforcement learning can be used to solve the Rubik’s Cube.',
         overview:
           'I’m experimenting with reinforcement learning to train an agent for the Rubik’s Cube, alongside an interface for inspecting cube states and moves.',
       },
       tr: {
+        technicalDetails:
+          'Elle hamleler ve küp durumu incelemesi model deneylerinden ayrıdır. Aşağıdaki hafif ön izleme bağımsız bir simülasyondur; modelin genel çözüm başarısı iddia edilmez.',
         summary:
           'Rubik küpünü çözmek için pekiştirmeli öğrenme yöntemlerini araştırdığım deneysel proje.',
         overview:
@@ -267,9 +320,11 @@ export const projects: Project[] = [
 ];
 
 export const timeline = [...projects].sort(
-  (a, b) => a.timelineOrder - b.timelineOrder,
+  (a, b) => b.timelineOrder - a.timelineOrder,
 );
 export const featured = projects
   .filter((p) => p.featured)
   .sort((a, b) => a.featured! - b.featured!);
-export const building = projects.filter((p) => p.currentlyBuilding);
+export const building = projects.filter(
+  (p) => p.currentlyBuilding && !p.featured,
+);

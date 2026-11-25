@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import Featured from './projects/Featured.astro';
-import ProjectRow from './projects/ProjectRow.astro';
+import ProjectCard from './projects/ProjectCard.astro';
+import ProjectChronology from './projects/ProjectChronology.astro';
 import Timeline from './journey/Timeline.astro';
 import GameComparison from './journey/GameComparison.astro';
 import { Image } from 'astro:assets';
-import { building, timeline, projects } from '../data/projects';
+import { building } from '../data/projects';
 import { profile } from '../data/profile';
 import { copy, route } from '../i18n';
 import type { Locale } from '../types/content';
@@ -59,38 +60,62 @@ const interests =
 >
   {page === 'home' && (
     <>
-      <section class="hero">
-        <div class="hero-kicker">
-          <span>{profile.name}</span>
-          <span>{profile.location[locale]}</span>
-        </div>
-        <h1>
-          {t.heroLine}
-          <br />
-          <span>{t.heroEnd}</span>
-        </h1>
-        <div class="hero-bottom">
-          <p class="hero-role">{profile.title[locale]}</p>
-          <div>
-            <p class="hero-intro">{t.intro}</p>
-            <div class="hero-links">
-              <a
-                class="text-link"
-                href={`mailto:${profile.developerEmail}`}
-                aria-label={`${t.developerContact}: ${profile.developerEmail}`}
-              >
-                {profile.developerEmail}
-              </a>
-              <a
-                class="text-link"
-                href={profile.github}
-                rel="noopener noreferrer"
-              >
-                GitHub / ilhanbuilds
-              </a>
-            </div>
+      <section class="hero personal-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">{profile.location[locale]}</p>
+          <h1>{profile.name}</h1>
+          <p class="hero-role">
+            {locale === 'tr'
+              ? 'Bilgisayar Mühendisliği öğrencisi'
+              : 'Computer Engineering student'}
+          </p>
+          <p class="hero-intro">{t.intro}</p>
+          <div class="hero-actions">
+            <a class="button-link" href={profile.resume[locale]} download>
+              {t.resume}
+            </a>
+            <a class="button-link secondary" href={route(locale, 'work')}>
+              {locale === 'tr' ? 'Projelerim' : 'My projects'}
+            </a>
+          </div>
+          <div class="hero-links">
+            <a
+              class="text-link"
+              href={profile.github}
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              class="text-link"
+              href={profile.linkedin}
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a
+              class="text-link"
+              href={`mailto:${profile.developerEmail}`}
+              aria-label={`${t.developerContact}: ${profile.developerEmail}`}
+            >
+              {profile.developerEmail}
+            </a>
           </div>
         </div>
+        <figure class="home-portrait about-portrait">
+          <Image
+            src={profile.portrait}
+            widths={[160, 240, 400, 600]}
+            sizes="(max-width: 767px) 160px, 240px"
+            alt={
+              locale === 'tr'
+                ? 'İlhan Kılıç’ın portresi.'
+                : 'Portrait of İlhan Kılıç.'
+            }
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
       </section>
       <section class="section" aria-labelledby="selected-work">
         <div class="section-heading">
@@ -111,7 +136,7 @@ const interests =
         </div>
         <div>
           {building.map((p) => (
-            <ProjectRow project={p} locale={locale} compact />
+            <ProjectCard project={p} locale={locale} />
           ))}
         </div>
       </section>
@@ -120,12 +145,8 @@ const interests =
         aria-labelledby="journey-preview"
       >
         <div>
-          <p class="eyebrow">2024 — {timeline.at(-1)?.year}</p>
-          <h2 id="journey-preview">
-            {t.journeyTitle}
-            <br />
-            <span>{t.journeyEnd}</span>
-          </h2>
+          <p class="eyebrow">2024 — 2026</p>
+          <h2 id="journey-preview">{t.journey}</h2>
           <a class="text-link" href={route(locale, 'journey')}>
             {t.journeyLink}
           </a>
@@ -155,32 +176,21 @@ const interests =
         </h1>
         <p>{t.workIntro}</p>
       </div>
-      <section aria-label={t.selected}>
-        <Featured locale={locale} />
-      </section>
-      <section class="section archive">
-        <h2>{t.archive}</h2>
-        {[...projects]
-          .filter((p) => !p.featured)
-          .sort((a, b) => b.timelineOrder - a.timelineOrder)
-          .map((p) => (
-            <ProjectRow project={p} locale={locale} />
-          ))}
-      </section>
+      <ProjectChronology locale={locale} />
     </>
   )}
   {page === 'journey' && (
     <>
       <div class="page-intro">
-        <p class="eyebrow">2024 — {timeline.at(-1)?.year}</p>
+        <p class="eyebrow">2024 — 2026</p>
         <h1>
           {t.journey}
           <span class="accent">.</span>
         </h1>
         <p>{t.journeyIntro}</p>
       </div>
-      <GameComparison locale={locale} />
       <Timeline locale={locale} />
+      <GameComparison locale={locale} />
     </>
   )}
   {page === 'about' && (

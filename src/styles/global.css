@@ -7,7 +7,7 @@
 :root {
   --background: #f5f4f0;
   --text: #171717;
-  --muted: #626262;
+  --muted: #53565c;
   --surface: #fff;
   --border: #deddd7;
   --accent: #0064ce;
@@ -19,7 +19,7 @@
 :root[data-theme='dark'] {
   --background: #111;
   --text: #f0f0f0;
-  --muted: #a0a0a0;
+  --muted: #b2b6bf;
   --surface: #1a1a1a;
   --border: #303030;
   --accent: #50adff;
@@ -373,7 +373,6 @@ img {
 }
 .about-portrait {
   position: relative;
-  isolation: isolate;
   margin: 0 12px 12px 0;
   align-self: start;
 }
@@ -382,7 +381,6 @@ img {
   position: absolute;
   inset: 12px -12px -12px 12px;
   border: 1px solid var(--brand-blue);
-  z-index: -1;
 }
 .about-portrait img {
   width: 100%;
@@ -1088,26 +1086,6 @@ img {
   }
 }
 
-/* Brand details stay local to the introduction and contact blocks. */
-.hero {
-  position: relative;
-  isolation: isolate;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: 2rem 0 auto auto;
-  width: 42%;
-  height: 15rem;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 32px 32px;
-  opacity: 0.3;
-  mask-image: linear-gradient(to bottom, black, transparent);
-  pointer-events: none;
-}
 .hero-links {
   display: flex;
   flex-wrap: wrap;
@@ -1157,4 +1135,419 @@ img {
   .about-portrait {
     max-width: 32rem;
   }
+}
+
+/* Personal introduction: no mask, compositing layer or decorative render loop. */
+.personal-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 252px;
+  gap: 4rem;
+  align-items: center;
+  padding-block: 3.5rem;
+}
+.personal-hero h1 {
+  font-size: clamp(3rem, 6vw, 5.4rem);
+  margin: 0 0 1rem;
+  line-height: 1.1;
+}
+.personal-hero .hero-role {
+  max-width: none;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+.personal-hero .hero-intro {
+  max-width: 40rem;
+}
+.home-portrait {
+  width: 240px;
+}
+.about-portrait img {
+  position: relative;
+}
+.hero-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-block: 1.5rem 0.8rem;
+}
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0.65rem 1.2rem;
+  background: var(--accent);
+  color: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.button-link:hover {
+  background: var(--text);
+  color: var(--background);
+  border-color: var(--text);
+}
+.button-link.secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+.button-link.secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+[data-theme='dark'] .button-link:not(.secondary) {
+  color: #111;
+}
+[data-theme='dark'] .button-link:not(.secondary):hover {
+  color: #111;
+}
+.project-image-frame,
+.gallery img,
+.game-comparison img,
+.timeline-image img {
+  border-radius: 8px;
+}
+.project-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.project-card:hover,
+.project-card:focus-within {
+  border-color: var(--accent);
+}
+.card-cover .project-image-frame {
+  border: 0;
+  border-radius: 0;
+  padding: 1rem;
+}
+.card-cover .screenshot {
+  max-height: 28rem;
+  width: auto;
+  margin-inline: auto;
+}
+.card-content {
+  padding: 1.5rem 1.75rem;
+}
+.card-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+.project-card h3 {
+  font-size: 1.75rem;
+}
+.card-main-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.project-card .project-summary {
+  margin-top: 0.9rem;
+  max-width: 48rem;
+}
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.card-actions {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.card-actions a {
+  position: relative;
+  z-index: 1;
+}
+.project-tags {
+  font-size: 0.875rem;
+}
+.project-chronology {
+  padding-bottom: 3rem;
+}
+.chronology-year {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 2.5rem;
+}
+.chronology-year > h2 {
+  font-size: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.chronology-cards {
+  padding: 0 0 3rem 2.5rem;
+  border-left: 1px solid var(--border);
+  display: grid;
+  gap: 2rem;
+}
+.chronology-year:last-child .chronology-cards {
+  padding-bottom: 0;
+}
+.currently .project-card {
+  max-width: 46rem;
+}
+.currently .card-cover .screenshot {
+  max-height: 19rem;
+}
+.detail-idleoyun + .portrait-frame,
+.detail-calculator + .portrait-frame,
+.detail-dinocore + .portrait-frame {
+  max-width: 100%;
+}
+.detail-hcjeditor + .project-image-frame {
+  background: #1d2028;
+}
+.detail-rubikrl + .project-image-frame {
+  background: #202329;
+}
+.detail-lina + .project-image-frame {
+  background: #191f2c;
+}
+.detail-grid {
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+.detail-links a {
+  width: fit-content;
+}
+.demo-description {
+  color: var(--muted);
+  max-width: 48rem;
+  margin-block: 1rem 1.5rem;
+}
+.demo-close {
+  background: none;
+  border: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+.demo-frame {
+  display: block;
+  width: 100%;
+  height: 760px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  margin-top: 1.25rem;
+  background: var(--surface);
+}
+.demo-frame-hcjeditor {
+  height: 820px;
+}
+.demo-frame-rubikrl {
+  height: 740px;
+}
+[hidden] {
+  display: none !important;
+}
+summary {
+  cursor: pointer;
+  width: fit-content;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+summary:hover,
+summary:focus-visible {
+  border-color: var(--accent);
+}
+.compare-stage {
+  position: relative;
+  width: min(100%, 36rem);
+  aspect-ratio: 1;
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--art-bg);
+}
+.compare-layer {
+  position: absolute;
+  inset: 0;
+  background-image: var(--compare-source);
+  background-size: 271.43% 152.76%;
+}
+.compare-after {
+  background-position: 60.7% 40.307%;
+}
+.compare-before {
+  background-position: 2.367% 40.307%;
+  clip-path: inset(0 calc(100% - var(--reveal)) 0 0);
+}
+.compare-divider {
+  position: absolute;
+  left: var(--reveal);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: white;
+}
+.compare-label {
+  position: absolute;
+  bottom: 1rem;
+  background: #111;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+.compare-label.before {
+  left: 1rem;
+}
+.compare-label.after {
+  right: 1rem;
+}
+.compare-control {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 36rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.compare-control input {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+.product-preview-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.product-preview-controls button {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.product-preview figure {
+  margin: 0;
+}
+.product-preview img {
+  max-height: 44rem;
+  width: auto;
+  margin-inline: auto;
+}
+.site-footer {
+  border-top: 2px solid var(--brand-blue);
+}
+@media (max-width: 47.99rem) {
+  .personal-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-block: 2.5rem;
+  }
+  .home-portrait {
+    width: 160px;
+    grid-row: 1;
+  }
+  .personal-hero h1 {
+    font-size: clamp(2.8rem, 11vw, 4rem);
+  }
+  .chronology-year {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .chronology-year > h2 {
+    padding-top: 1rem;
+  }
+  .chronology-cards {
+    padding-left: 1rem;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  .card-content {
+    padding: 1.25rem;
+  }
+  .card-topline {
+    font-size: 0.8rem;
+  }
+  .project-card h3 {
+    font-size: 1.5rem;
+  }
+  .demo-frame-hcjeditor {
+    height: 1150px;
+  }
+  .demo-frame-idleoyun {
+    height: 720px;
+  }
+  .demo-frame-rubikrl {
+    height: 800px;
+  }
+}
+
+.featured-project {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  background: var(--surface);
+}
+.featured-project:hover,
+.featured-project:focus-within {
+  border-color: var(--accent);
+}
+.project-image-frame {
+  overflow: hidden;
+}
+.project-image-frame > .screenshot {
+  border-radius: 6px;
+}
+.primary-project .project-info {
+  padding: 1rem 0.5rem 0;
+}
+@media (max-width: 47.99rem) {
+  .card-topline {
+    font-size: 0.875rem;
+  }
+}
+
+/* Reserve the native card-image geometry before responsive source decoding. */
+.card-cover .screenshot {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  max-width: calc(28rem * var(--image-ratio));
+  aspect-ratio: var(--image-ratio);
+}
+.currently .card-cover .screenshot {
+  max-height: none;
+  max-width: calc(19rem * var(--image-ratio));
+}
+
+/* The same reservation applies to portrait covers in detail pages. */
+.project-image-frame {
+  --image-height: 999rem;
+}
+.project-image-frame.portrait-frame {
+  --image-height: 38rem;
+}
+.card-cover .project-image-frame {
+  --image-height: 28rem;
+}
+.currently .card-cover .project-image-frame {
+  --image-height: 19rem;
+}
+.project-image-frame .screenshot {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  max-width: calc(var(--image-height) * var(--image-ratio));
+  aspect-ratio: var(--image-ratio);
 }

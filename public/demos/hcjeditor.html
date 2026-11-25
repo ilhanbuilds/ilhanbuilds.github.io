@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HCJEditor — Canlı Kod Editör</title>
+    <meta name="robots" content="noindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data: blob:; font-src data:; frame-src 'self' about: blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #eee;
+      }
+
+      /* Html - Css - Js textarea larımızın bulunduğu kısım */
+      #editor-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background-color: #1e1e1e;
+        height: 200px;
+      }
+
+      .editor {
+        flex: 1 1 30%;
+        margin: 0 6px;
+        display: flex;
+        flex-direction: column;
+        background-color: #222;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .editor h3 {
+        margin: 0;
+        padding: 6px;
+        background-color: #333;
+        color: #ccc;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid #444;
+      }
+
+      textarea {
+        width: 100%;
+        height: 140px;
+        resize: none;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 14px;
+        padding: 8px;
+        border: none;
+        background-color: #111;
+        color: #eee;
+        box-sizing: border-box;
+      }
+
+      /* Önizleme Kısmı*/
+      #preview-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: calc(100vh - 200px);
+        background-color: #fff;
+        border-top: 2px solid #444;
+      }
+
+      #preview {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* Buton */
+      button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        background-color: gray;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease;
+        z-index: 1001;
+      }
+
+      /* Footer stili */
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #333;
+        color: #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        z-index: 1000;
+      }
+
+      #load-btn {
+        margin-left: 0;
+      }
+
+      #save-btn {
+        margin-right: 0;
+      }
+
+      button:hover {
+        transform: scale(1.2);
+      }
+
+      /* Modal stil */
+      #load-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+      }
+      #load-modal.hidden {
+        display: none;
+      }
+      #modal-content {
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        color: #eee;
+      }
+      #modal-content h3 {
+        margin-top: 0;
+      }
+      #modal-content label {
+        display: block;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      #modal-content input[type='file'] {
+        margin-top: 4px;
+        width: 100%;
+      }
+      #modal-content button {
+        margin-top: 10px;
+        padding: 6px 12px;
+        background-color: #333;
+        color: #eee;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+      /* Fit the unchanged three-pane interface inside a bounded portfolio iframe. */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: grid;
+        grid-template-rows: 216px minmax(220px, 1fr) 70px;
+      }
+      #editor-container {
+        height: auto;
+        min-width: 0;
+      }
+      .editor {
+        min-width: 0;
+      }
+      #preview-container {
+        position: static;
+        height: auto;
+        min-height: 0;
+      }
+      footer {
+        position: static;
+      }
+      button:focus-visible,
+      textarea:focus-visible,
+      input:focus-visible {
+        outline: 2px solid #66b5ff;
+        outline-offset: 2px;
+      }
+      #modal-content {
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+      }
+      #close-modal {
+        min-width: 70px;
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        body {
+          grid-template-rows: 374px minmax(220px, 1fr) 70px;
+        }
+        #editor-container {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 8px;
+          padding: 8px 12px;
+        }
+        .editor {
+          margin: 0;
+        }
+        textarea {
+          height: 82px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        button {
+          transition: none;
+        }
+        button:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p id="keyboard-help" class="sr-only">
+      Tab kodu tamamlar. Alandan çıkmak için Escape ardından Tab veya Shift+Tab
+      kullanın.
+    </p>
+    <div id="editor-container">
+      <div class="editor">
+        <h3 id="html-label">HTML</h3>
+        <textarea
+          id="html-code"
+          aria-labelledby="html-label"
+          spellcheck="false"
+          aria-describedby="keyboard-help"
+          placeholder="HTML Kodu"
+        ></textarea>
+      </div>
+      <div class="editor">
+        <h3 id="css-label">CSS</h3>
+        <textarea
+          id="css-code"
+          aria-labelledby="css-label"
+          spellcheck="false"
+          aria-describedby="keyboard-help"
+          placeholder="CSS Kodu"
+        ></textarea>
+      </div>
+      <div class="editor">
+        <h3 id="js-label">JavaScript</h3>
+        <textarea
+          id="js-code"
+          aria-labelledby="js-label"
+          spellcheck="false"
+          aria-describedby="keyboard-help"
+          placeholder="JS Kodu"
+        ></textarea>
+      </div>
+    </div>
+
+    <div id="preview-container">
+      <iframe
+        id="preview"
+        title="Canlı kod ön izlemesi"
+        sandbox="allow-scripts"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <button id="load-btn" title="Dosya Yükle" aria-label="Dosya Yükle">
+        📂
+      </button>
+      &copy; İlhan Kılıç
+      <button id="save-btn" title="Dosyayı indir" aria-label="Dosyayı indir">
+        💾
+      </button>
+    </footer>
+
+    <!-- MODAL PANEL -->
+    <div
+      id="load-modal"
+      class="hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="load-title"
+    >
+      <div id="modal-content">
+        <h3 id="load-title">Dosya Yükle</h3>
+        <label
+          >Tek HTML Dosyası:
+          <input type="file" id="full-html-file" accept=".html,.htm" />
+        </label>
+        <hr />
+        <label
+          >HTML Dosyası:
+          <input type="file" id="html-file" accept=".html,.htm,.txt" />
+        </label>
+        <label
+          >CSS Dosyası:
+          <input type="file" id="css-file" accept=".css,.txt" />
+        </label>
+        <label
+          >JS Dosyası:
+          <input type="file" id="js-file" accept=".js,.txt" />
+        </label>
+        <button id="close-modal">Kapat</button>
+      </div>
+    </div>
+
+    <script>
+      const htmlInput = document.getElementById('html-code');
+      const cssInput = document.getElementById('css-code');
+      const jsInput = document.getElementById('js-code');
+      const previewFrame = document.getElementById('preview');
+      const saveBtn = document.getElementById('save-btn');
+
+      // The original editor's controls are retained; user code runs in an opaque child.
+      const previewPolicy =
+        "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
+      function updatePreview() {
+        // Assemble only a string here: parsing untrusted HTML with DOMParser can
+        // fetch image URLs before its preview CSP is installed.
+        const css = cssInput.value.replace(/<\/style/gi, '<\\/style');
+        const js = jsInput.value.replace(/<\/script/gi, '<\\/script');
+        previewFrame.srcdoc = `<!doctype html><html lang="tr"><head>
+          <meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${previewPolicy}">
+          <style>${css}</style></head><body>${htmlInput.value}<script>${js}<\/script></body></html>`;
+      }
+
+      // Edits live in memory only: no access to the portfolio's persistent storage.
+      for (const input of [htmlInput, cssInput, jsInput])
+        input.addEventListener('input', updatePreview);
+      updatePreview();
+
+      function beautifyCode(code) {
+        if (!code) return '';
+        const lines = code.replace(/\r\n/g, '\n').split('\n');
+        let indentLevel = 0;
+        const indentSize = 2;
+        const result = [];
+
+        lines.forEach((line) => {
+          let trimmed = line.trim();
+
+          if (/^(\}|\<\/)/.test(trimmed))
+            indentLevel = Math.max(indentLevel - 1, 0);
+
+          const indent = ' '.repeat(indentLevel * indentSize);
+          result.push(indent + trimmed);
+
+          if (
+            /\{$/.test(trimmed) ||
+            /^<(?!\/)(?!br|img|input|link|meta|hr)([^>]+)>/.test(trimmed)
+          )
+            indentLevel++;
+        });
+
+        return result.join('\n');
+      }
+
+      // Dosyayı kaydet
+      saveBtn.addEventListener('click', () => {
+        const htmlContent = beautifyCode(htmlInput.value);
+        const cssContent = beautifyCode(cssInput.value);
+        const jsContent = beautifyCode(jsInput.value);
+
+        const fullHtml = `
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kaydedilen Sayfa</title>
+<style>
+${cssContent}
+</style>
+</head>
+<body>
+${htmlContent}
+
+<script>
+${jsContent}
+<\/script>
+</body>
+</html>`.trim();
+
+        const blob = new Blob([fullHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+
+      // ENTER & TAB tuşlarına basınca olacak event
+      function handleKeyDown(event) {
+        const textarea = event.target;
+        if (event.key === 'Escape') {
+          textarea.dataset.releaseTab = 'true';
+          return;
+        }
+        if (
+          event.key === 'Tab' &&
+          (event.shiftKey || textarea.dataset.releaseTab === 'true')
+        ) {
+          delete textarea.dataset.releaseTab;
+          return;
+        }
+
+        if (event.key === 'Tab') {
+          event.preventDefault();
+          handleTabShortcut(event);
+        } else if (event.key === 'Enter') {
+          event.preventDefault();
+          handleEnterKey(textarea);
+        }
+      }
+
+      htmlInput.addEventListener('keydown', handleKeyDown);
+      cssInput.addEventListener('keydown', handleKeyDown);
+      jsInput.addEventListener('keydown', handleKeyDown);
+
+      // Enter tuşuna basınca oluşacak event
+      function handleEnterKey(textarea) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const value = textarea.value;
+
+        const lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        const currentLine = value.substring(lineStart, start);
+
+        const indentationMatch = currentLine.match(/^\s*/);
+        const indentation = indentationMatch ? indentationMatch[0] : '';
+        let newIndentation = indentation;
+
+        const trimmed = currentLine.trim();
+
+        // Self-closing tag listesi
+        const selfClosingTags = ['br', 'img', 'input', 'link', 'meta', 'hr'];
+
+        // Eğer satır self-closing tag içeriyorsa, sadece yeni satır aç (girinti yok)
+        // Örneğin: <input type="text" />
+        for (const tag of selfClosingTags) {
+          const regexSelfClosing = new RegExp(`^<${tag}[^>]*\\/?>$`, 'i');
+          if (regexSelfClosing.test(trimmed)) {
+            insertPlainNewline(textarea, indentation);
+            return;
+          }
+        }
+
+        // Eğer satır tamamen boş çift tag ise (ör: <div></div>)
+        const emptyInlinePairMatch = trimmed.match(
+          /^<([a-zA-Z][\w-]*)[^>]*>\s*<\/\1>$/,
+        );
+        if (emptyInlinePairMatch) {
+          const tagName = emptyInlinePairMatch[1];
+          const before = value.substring(0, start);
+          const after = value.substring(end);
+
+          const indentInside = indentation + '  ';
+          const insertText =
+            '\n' + indentInside + '\n' + indentation + `</${tagName}>`;
+
+          textarea.value = before + insertText + after;
+          textarea.selectionStart = textarea.selectionEnd =
+            before.length + 1 + indentInside.length;
+
+          updatePreview();
+          return;
+        }
+
+        // Eğer satırda sadece kapanış etiketi varsa
+        if (/^<\/[a-zA-Z][\w-]*>$/.test(trimmed)) {
+          insertPlainNewline(textarea, indentation);
+          return;
+        }
+
+        // Eğer satırda sadece açılış etiketi varsa (HTML için)
+        if (textarea.id === 'html-code') {
+          const openTagMatch = trimmed.match(/^<([a-zA-Z][\w-]*)[^>]*>$/);
+          if (openTagMatch) {
+            const tagName = openTagMatch[1];
+            const before = value.substring(0, start);
+            const after = value.substring(end);
+
+            const indentInside = indentation + '  ';
+            const insertText = '\n' + indentInside + '\n';
+
+            textarea.value = before + insertText + after;
+            textarea.selectionStart = textarea.selectionEnd =
+              before.length + 1 + indentInside.length;
+
+            updatePreview();
+            return;
+          }
+        }
+
+        // CSS için: { varsa içeri gir
+        if (textarea.id === 'css-code' && trimmed.endsWith('{')) {
+          newIndentation += '  ';
+          const before = value.substring(0, start);
+          const after = value.substring(end);
+
+          const closingLine = indentation + '}';
+          const insertText = '\n' + newIndentation + '\n' + closingLine;
+
+          textarea.value = before + insertText + after;
+          textarea.selectionStart = textarea.selectionEnd =
+            before.length + 1 + newIndentation.length;
+
+          updatePreview();
+          return;
+        }
+
+        // Diğer her şeyde → sadece düz yeni satır
+        insertPlainNewline(textarea, indentation);
+      }
+
+      //Yeni satır yardımcısı
+      function insertPlainNewline(textarea, indentation) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const value = textarea.value;
+        const before = value.substring(0, start);
+        const after = value.substring(end);
+        const insertText = '\n' + indentation;
+        textarea.value = before + insertText + after;
+        const cursorPos = before.length + insertText.length;
+        textarea.selectionStart = textarea.selectionEnd = cursorPos;
+        updatePreview();
+      }
+
+      // Tab tuşuna basınca oto düzenlenen özellikler
+      function handleTabShortcut(event) {
+        const textarea = event.target;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const value = textarea.value;
+
+        const before = value.substring(0, start);
+        const after = value.substring(end);
+
+        const lineStart = before.lastIndexOf('\n') + 1;
+        const currentLine = before.substring(lineStart);
+
+        const indentationMatch = currentLine.match(/^\s*/);
+        const indentation = indentationMatch ? indentationMatch[0] : '';
+
+        const wordMatch = currentLine.match(/(\S+)$/);
+
+        if (wordMatch) {
+          const token = wordMatch[1];
+
+          const specialAttributes = {
+            a: ' href="" target="_blank"',
+            img: ' src="" alt=""',
+            input: ' type="text" id="" name=""',
+            form: ' action="" method=""',
+            link: ' rel="" href=""',
+            script: ' src=""',
+            meta: ' charset=""',
+            button: ' type=""',
+            textarea: '',
+            select: '',
+            label: ' for=""',
+          };
+
+          let tag = 'div';
+          let className = '';
+          let idName = '';
+
+          const tagMatch = token.match(/^([a-zA-Z][\w-]*)/);
+          if (tagMatch) tag = tagMatch[1];
+
+          const classMatch = token.match(/\.([\w-]+)/);
+          if (classMatch) className = classMatch[1];
+
+          const idMatch = token.match(/#([\w-]+)/);
+          if (idMatch) idName = idMatch[1];
+
+          let attributes = '';
+          if (className) attributes += ` class="${className}"`;
+          if (idName) attributes += ` id="${idName}"`;
+          if (specialAttributes[tag]) attributes += specialAttributes[tag];
+
+          const selfClosingTags = ['img', 'input', 'link', 'meta'];
+          let replacement = '';
+
+          if (selfClosingTags.includes(tag.toLowerCase())) {
+            replacement = `<${tag}${attributes} />`;
+          } else {
+            replacement = `<${tag}${attributes}></${tag}>`;
+          }
+
+          const newBefore =
+            before.substring(0, before.length - token.length) + replacement;
+          let newCursor = newBefore.length;
+
+          if (!selfClosingTags.includes(tag.toLowerCase())) {
+            newCursor -= `</${tag}>`.length;
+          }
+
+          textarea.value = newBefore + after;
+          textarea.selectionStart = textarea.selectionEnd = newCursor;
+        } else {
+          const tabSize = 2;
+          const spaces = ' '.repeat(tabSize);
+          textarea.value = before + spaces + after;
+          textarea.selectionStart = textarea.selectionEnd = start + tabSize;
+        }
+
+        updatePreview();
+      }
+
+      // Modal ve dosya elemanları
+      const loadBtn = document.getElementById('load-btn');
+      const loadModal = document.getElementById('load-modal');
+      const closeModal = document.getElementById('close-modal');
+
+      const fullHtmlFile = document.getElementById('full-html-file');
+      const htmlFile = document.getElementById('html-file');
+      const cssFile = document.getElementById('css-file');
+      const jsFile = document.getElementById('js-file');
+
+      // Modal aç/kapat
+      loadBtn.addEventListener('click', () =>
+        loadModal.classList.remove('hidden'),
+      );
+      closeModal.addEventListener('click', () =>
+        loadModal.classList.add('hidden'),
+      );
+
+      // Yardımcı: Dosya okuma
+      function readFileInput(input, callback) {
+        if (input.files.length > 0) {
+          const reader = new FileReader();
+          reader.onload = (e) => callback(e.target.result);
+          reader.readAsText(input.files[0]);
+        }
+      }
+
+      // Tam HTML dosyasını ayrıştır ve yükle
+      function parseAndLoadFullHtml(content) {
+        // Style
+        let css = '';
+        content = content.replace(
+          /<style[^>]*>([\s\S]*?)<\/style>/gi,
+          (match, p1) => {
+            css = p1.trim();
+            return '';
+          },
+        );
+
+        // Script
+        let js = '';
+        content = content.replace(
+          /<script[^>]*>([\s\S]*?)<\/script>/gi,
+          (match, p1) => {
+            js = p1.trim();
+            return '';
+          },
+        );
+
+        // Kalan HTML
+        const html = content
+          .replace(/<!DOCTYPE[^>]*>/i, '')
+          .replace(/<html[^>]*>/i, '')
+          .replace(/<\/html>/i, '')
+          .replace(/<head[^>]*>[\s\S]*?<\/head>/i, '')
+          .replace(/<body[^>]*>/i, '')
+          .replace(/<\/body>/i, '')
+          .trim();
+
+        htmlInput.value = html;
+        cssInput.value = css;
+        jsInput.value = js;
+        updatePreview();
+      }
+
+      // Full HTML dosyasını yükle
+      fullHtmlFile.addEventListener('change', () => {
+        readFileInput(fullHtmlFile, (content) => {
+          parseAndLoadFullHtml(content);
+          loadModal.classList.add('hidden');
+        });
+      });
+
+      // Ayrı ayrı dosyalar
+      htmlFile.addEventListener('change', () => {
+        readFileInput(htmlFile, (content) => {
+          parseAndLoadFullHtml(content);
+          loadModal.classList.add('hidden');
+        });
+      });
+      cssFile.addEventListener('change', () => {
+        readFileInput(cssFile, (content) => {
+          cssInput.value = content.trim();
+          updatePreview();
+          loadModal.classList.add('hidden');
+        });
+      });
+      jsFile.addEventListener('change', () => {
+        readFileInput(jsFile, (content) => {
+          jsInput.value = content.trim();
+          updatePreview();
+          loadModal.classList.add('hidden');
+        });
+      });
+
+      loadBtn.addEventListener('click', () => {
+        fullHtmlFile.focus();
+      });
+      closeModal.addEventListener('click', () => {
+        loadBtn.focus();
+      });
+      loadModal.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          loadModal.classList.add('hidden');
+          loadBtn.focus();
+        }
+        if (event.key === 'Tab') {
+          const controls = [...loadModal.querySelectorAll('input, button')];
+          const first = controls[0];
+          const last = controls.at(-1);
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,17 +1,17 @@
 ---
 import Screenshot from './Screenshot.astro';
 import type { Locale, Project } from '../../types/content';
-import { copy } from '../../i18n';
 interface Props {
   project: Project;
   locale: Locale;
+  loading?: 'eager' | 'lazy';
 }
-const { project, locale } = Astro.props;
-const t = copy[locale];
+const { project, locale, loading = 'lazy' } = Astro.props;
 ---
 
-{project.coverImage ? (
+{project.coverImage && (
   <div
+    style={`--image-ratio: ${project.coverImage.src.width / project.coverImage.src.height}`}
     class:list={[
       'project-image-frame',
       {
@@ -20,21 +20,6 @@ const t = copy[locale];
       },
     ]}
   >
-    <Screenshot image={project.coverImage} locale={locale} />
-  </div>
-) : (
-  <div class:list={['project-art', project.id]} aria-hidden="true">
-    <div class="art-top">
-      <span>{project.id === 'racker' ? t.rackerLabel : t.secureLabel}</span>
-      <span>{project.year}</span>
-    </div>
-    <div class="art-title">
-      {project.title}
-      <span class="art-period">.</span>
-    </div>
-    <div class="art-bottom">
-      <span>{project.id === 'racker' ? t.rackerCaption : t.secureCaption}</span>
-      <span>{project.id === 'racker' ? 'R' : 'SF'}</span>
-    </div>
+    <Screenshot image={project.coverImage} locale={locale} loading={loading} />
   </div>
 )}
