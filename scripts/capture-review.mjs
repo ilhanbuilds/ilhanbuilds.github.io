@@ -14,6 +14,11 @@ const captures = [
   ['home-mobile-dark', '/', 390, 844, 'dark'],
   ['journey-desktop', '/journey/', 1440, 1000, 'light'],
   ['journey-mobile', '/journey/', 390, 844, 'light'],
+  ['journey-desktop-dark', '/journey/', 1440, 1000, 'dark'],
+  ['journey-mobile-dark', '/journey/', 390, 844, 'dark'],
+  ['about-desktop-dark', '/about/', 1440, 1000, 'dark'],
+  ['about-mobile-light', '/about/', 390, 844, 'light'],
+  ['about-mobile-dark', '/about/', 390, 844, 'dark'],
   ['projects-desktop', '/work/', 1440, 1000, 'light'],
   ['racker-detail', '/work/racker/', 1440, 1000, 'light'],
   ['secureface-detail', '/work/secureface/', 1440, 1000, 'light'],
@@ -23,6 +28,42 @@ const captures = [
   ['about-en-desktop', '/en/about/', 1440, 1000, 'light'],
   ['racker-en-detail', '/en/work/racker/', 1440, 1000, 'light'],
 ];
+// Complete localized page inventory supplements the theme/device review set.
+for (const prefix of ['', '/en']) {
+  for (const path of [
+    'work/',
+    'journey/',
+    'about/',
+    ...[
+      'idleoyun',
+      'calculator',
+      'hcjeditor',
+      'dinocore',
+      'kutlumi',
+      'lina',
+      'racker',
+      'deepfake-detection',
+      'secureface',
+      'rubikrl',
+    ].map((slug) => `work/${slug}/`),
+  ]) {
+    const url = `${prefix}/${path}`;
+    if (
+      !captures.some(
+        (capture) =>
+          capture[1] === url && capture[2] === 1440 && capture[4] === 'light',
+      )
+    ) {
+      captures.push([
+        `page-${prefix ? 'en' : 'tr'}-${path.replaceAll('/', '-').replace(/-$/, '')}`,
+        url,
+        1440,
+        1000,
+        'light',
+      ]);
+    }
+  }
+}
 const manifest = [];
 try {
   for (const [name, path, width, height, colorScheme] of captures) {

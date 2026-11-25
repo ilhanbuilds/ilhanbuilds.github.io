@@ -56,14 +56,14 @@ src/
   styles/             Design tokens and responsive styles
   types/              Strict content contracts
 tests/                Browser and built-output checks
-public/               Favicon and robots.txt
+public/               Brand/browser assets, CVs and robots.txt
 docs/                 Assets, design and development notes
 .github/workflows/    Validation and main-only Pages deployment
 ```
 
 ## Assets
 
-Approved real project imagery lives in `src/assets/images/` and is mapped in `src/data/project-images.ts`. It includes the supplied Racker compositions, original historical screenshots, interface galleries and an About portrait. Missing approved imagery falls back to text. The shared screenshot component uses Astro optimization, responsive widths, intrinsic dimensions and lazy loading. Portrait screenshots preserve their native aspect ratio; covers are never forced into a landscape crop. Gallery links expose only sanitized full-size images. Add localized alt text and remove sensitive data and metadata before committing. Manrope is served locally with its OFL license in `public/fonts/Manrope-OFL.txt`.
+Approved real project imagery lives in `src/assets/images/` and is mapped in `src/data/project-images.ts`. It includes the supplied Racker compositions, original historical screenshots, interface galleries and an About portrait. Missing approved imagery falls back to text. The shared screenshot component uses Astro optimization, responsive widths, intrinsic dimensions and lazy loading. Project screenshots preserve their native aspect ratio; covers are never forced into a landscape crop. The unchanged personal portrait is displayed as an intentional square CSS crop with a face-preserving object position. Gallery links expose only sanitized full-size images. Add localized alt text and remove sensitive data and metadata before committing. Manrope is served locally with its OFL license in `public/fonts/Manrope-OFL.txt`.
 
 Confirmed profile links and locale-specific résumé paths are centralized in `src/data/profile.ts`. The two approved one-page PDFs are copied unchanged to `public/documents/`; Turkish pages download the Turkish PDF and English pages the English PDF. Hash tests guard their original bytes. See [the asset checklist](docs/ASSETS.md) before adding files. A technical writing section can be added as a separate content collection later; no empty blog is published.
 
@@ -75,4 +75,4 @@ In repository **Settings → Pages → Build and deployment**, choose **GitHub A
 
 Further details: [design](docs/DESIGN.md), [development](docs/DEVELOPMENT.md), [assets](docs/ASSETS.md).
 
-For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves fourteen real full-page Chromium screenshots, including Turkish and English views, and a local review index outside the public site. Current delivery notes are in [the Turkish phase 3 report](docs/PHASE_3_TR.md); [phase 2](docs/PHASE_2_TR.md) remains a historical record.
+For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves 38 real full-page Chromium screenshots covering all Turkish and English pages and the main theme/device combinations, and a local review index outside the public site. Current delivery notes are in [the Turkish phase 4 report](docs/PHASE_4_TR.md); [phase 3](docs/PHASE_3_TR.md) and [phase 2](docs/PHASE_2_TR.md) remain historical records.

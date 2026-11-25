@@ -17,7 +17,7 @@ All paths below are relative to the supplied asset directory. Public copies live
 | Racker      | `a.png`, `Android1.png`, `Android2.png`, `Saat.png`                                                              | Primary showcase cover, detail cover and Android/Wear OS gallery                 |
 | SecureFace  | `anaekran.png`, `içerik.png`                                                                                     | Anonymization cover, timeline and upload gallery                                 |
 | RubikRL     | `1.jpg`, `2.jpg`, `Arayüz.png`                                                                                   | Simulator cover, timeline, ordered and scrambled state gallery                   |
-| Personal    | `personal/profile2.jpeg`                                                                                         | About portrait, preserving the complete frame                                    |
+| Personal    | `personal/profile2.jpeg`                                                                                         | Original About portrait source; square CSS display in phase 4                    |
 | Racker icon | Official Google Play icon                                                                                        | Showcase and detail identity                                                     |
 
 The Racker files are supplied promotional compositions containing application screens and device frames. They are presented intact, without adding new mockups, generating imagery, or extracting a new interface. Gallery images link to the sanitized full-size asset for closer inspection. The orange mark inside the supplied artwork was preserved; the separate app icon is the current monochrome icon from Google Play.
@@ -59,3 +59,9 @@ LinkedIn `https://www.linkedin.com/in/ilhan-kilic`, email `kilicilhan.75@gmail.c
 Import approved files into `src/data/project-images.ts` and attach the relevant media object in `src/data/projects.ts`. Use localized `alt` text. Supported fields are `coverImage`, `gallery`, `logo`, and an optional `timelineImage` override. The shared screenshot component supplies intrinsic dimensions, responsive WebP variants, lazy loading, and native aspect ratios. Personal imagery is centralized in `src/data/profile.ts`.
 
 Do not add confidential notes, private code, personal messages, identifiable records, tokens, API keys, or unapproved faces to this public repository. Source visibility is not access control. Review the complete visible content before importing any future asset.
+
+## Phase 4 brand derivatives
+
+The supplied `logo-dark.png`, `logo-light.png` and `brand-guide.png` were inspected as references only; none is copied into the public site. The theme-aware `/ilhanbuilds` wordmark is CSS with the existing local Manrope font. `public/icons/favicon.svg` contains a flat blue slash. The derived PNGs are `favicon-32.png` (32px), `apple-touch-icon.png` (180px), `icon-192.png` (192px) and `icon-512.png` (512px). `public/site.webmanifest` lists the browser icons. `public/branding/og-image.png` is a purpose-built 1200 × 630 social card, not a guide collage.
+
+These files are reproduced by `scripts/generate-brand-assets.mjs` using existing Playwright Chromium and bundled fonts. The original portrait and all 27 approved source images remain byte-unchanged in this phase. Only its CSS presentation changes: square crop, `object-position: 50% 45%`, and an offset outline. The guide’s representative portrait is never used. The existing two approved CV files are unchanged.
