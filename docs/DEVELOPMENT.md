@@ -24,11 +24,11 @@ The content contract supports additional screenshots and detail sections without
 
 `npm run check` checks Astro and strict TypeScript. ESLint uses the current Astro plugin and TypeScript rules. Prettier handles Astro, TypeScript, CSS, JSON, Markdown and workflow formatting.
 
-Build first, then run `npm run test:content`. This inspects generated output for approved route coverage, sitemap counts, unapproved project names, common secret patterns, tracking services and private source URLs. It is a regression guard; manual review of any new public content remains necessary.
+Build first, then run `npm run test:content`. This inspects generated output for the exact approved project route inventory, sitemap counts, common secret patterns, tracking services and private source URLs. It is a regression guard; manual review of any new public content remains necessary. Keep excluded project names out of public content and test fixtures as well.
 
 `npm test` uses Playwright Chromium and WebKit. It checks all public English/Turkish content routes, internal links, metadata, language pairing, images, theme persistence, blocked storage, mobile menu, keyboard skip navigation, chronology, seven responsive widths and automated WCAG checks in both themes. Tests also save home and Turkish journey screenshots into ignored `test-results/`. Reports are available with `npx playwright show-report`. CI uploads test reports and screenshots for seven days.
 
-These are browser emulations, not acceptance tests on physical Samsung or iPhone devices. Automated accessibility checks do not replace manual screen-reader review. Lighthouse results are only reported if actually measured.
+These are browser emulations, not acceptance tests on physical Samsung or iPhone devices. Chromium verifies that the skip link is first in the tab order. Windows WebKit defaults to tabbing to form controls, so its skip-link test explicitly focuses the link before checking keyboard activation and the resulting main-content focus. Automated accessibility checks do not replace manual screen-reader review. Lighthouse results are only reported if actually measured.
 
 ## Git and deployment
 

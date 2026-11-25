@@ -37,11 +37,8 @@ test('build contains only the approved project routes in both languages', async 
   }
 });
 
-test('published text and metadata exclude unapproved projects and secrets', async () => {
+test('published text and metadata exclude secrets', async () => {
   const forbidden = [
-    /pedisim/i,
-    /kuduzllm/i,
-    /bilekten/i,
     /github_pat_\w+/,
     /ghp_[a-zA-Z0-9]{30,}/,
     /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
