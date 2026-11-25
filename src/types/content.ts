@@ -6,7 +6,6 @@ export type Status = 'in-development' | 'unreleased' | 'on-hold';
 export interface ProjectCopy {
   summary: string;
   overview?: string;
-  contribution?: string;
   process?: string;
   technicalDetails?: string;
   lessons?: string;

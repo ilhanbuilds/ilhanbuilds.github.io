@@ -12,7 +12,7 @@ export const copy = {
     theme: 'Use dark theme',
     lightTheme: 'Use light theme',
     intro:
-      'I’m a Computer Engineering student at İzmir Bakırçay University. I work on mobile applications, software development and machine learning projects.',
+      'I study Computer Engineering at İzmir Bakırçay University. I’m interested in software development and software testing, and work on mobile, web and machine learning projects.',
     eyebrow: 'A personal record of making things',
     heroLine: 'Learning through',
     heroEnd: 'what I build.',
@@ -40,13 +40,13 @@ export const copy = {
     aboutTitle: 'A little about me.',
     aboutIntro: 'I’m İlhan, a Computer Engineering student in İzmir, Türkiye.',
     aboutBody:
-      'I study at İzmir Bakırçay University and work on software projects across mobile, web and machine learning. This site brings those projects together, from my first Python game to the applications and research I’m working on today.',
+      'I study Computer Engineering at İzmir Bakırçay University. I’m interested in developing software and understanding how to test it: designing test cases, investigating bugs and checking how applications behave in use.',
     aboutBody2:
-      'Some are individual projects, others are team efforts. Some are still in development or on hold. I keep them here because each one is part of how I’m learning.',
+      'My projects span mobile applications, web development and machine learning. SecureFace and Deepfake Detection are shared team efforts; the other work includes personal applications and experiments.',
     interests: 'Areas I explore',
     education: 'Education',
     contact: 'Find me online',
-    contactText: 'My public projects and code are on GitHub.',
+    contactText: 'You can reach me by email or find me on LinkedIn and GitHub.',
     year: 'Year',
     status: 'Status',
     category: 'Category',
@@ -55,7 +55,6 @@ export const copy = {
     solo: 'Individual project',
     technologies: 'Technologies',
     overview: 'Project overview',
-    contribution: 'My contribution',
     process: 'Development process',
     technicalDetails: 'Technical details',
     lessons: 'What I learned',
@@ -76,13 +75,13 @@ export const copy = {
     notFoundBody: 'The address may have changed, or the page may not exist.',
     home: 'Back to home',
     homeDescription:
-      'İlhan Kılıç — Computer Engineering student in İzmir. Mobile applications, software projects and an ongoing development journey.',
+      'İlhan Kılıç — Computer Engineering student interested in software development and software testing. Projects, research and a development journey.',
     projectDescription:
       'Projects by İlhan Kılıç, including Racker, SecureFace and experiments in software and machine learning.',
     journeyDescription:
       'İlhan Kılıç’s development journey, from a first Python game in 2024 to mobile applications and research.',
     aboutDescription:
-      'About İlhan Kılıç, a Computer Engineering student at İzmir Bakırçay University in Türkiye.',
+      'About İlhan Kılıç, a Computer Engineering student at İzmir Bakırçay University interested in software development and software testing.',
   },
   tr: {
     work: 'Projeler',
@@ -95,7 +94,7 @@ export const copy = {
     theme: 'Koyu temayı kullan',
     lightTheme: 'Açık temayı kullan',
     intro:
-      'İzmir Bakırçay Üniversitesi’nde Bilgisayar Mühendisliği öğrencisiyim. Mobil uygulamalar, yazılım geliştirme ve makine öğrenmesi projeleri üzerinde çalışıyorum.',
+      'İzmir Bakırçay Üniversitesi’nde Bilgisayar Mühendisliği okuyorum. Yazılım geliştirme ve yazılım test mühendisliğiyle ilgileniyorum. Mobil, web ve makine öğrenmesi projeleri üzerinde çalışıyorum.',
     eyebrow: 'Ürettiklerimin kişisel kaydı',
     heroLine: 'Yaptıkça',
     heroEnd: 'öğreniyorum.',
@@ -122,13 +121,14 @@ export const copy = {
     aboutTitle: 'Biraz kendimden.',
     aboutIntro: 'Ben İlhan. İzmir’de Bilgisayar Mühendisliği öğrencisiyim.',
     aboutBody:
-      'İzmir Bakırçay Üniversitesi’nde okuyorum; mobil, web ve makine öğrenmesi alanlarında yazılım projeleri geliştiriyorum. Bu site, ilk Python oyunumdan bugün üzerinde çalıştığım uygulama ve araştırmalara kadar bu projeleri bir araya getiriyor.',
+      'İzmir Bakırçay Üniversitesi’nde Bilgisayar Mühendisliği okuyorum. Yazılım geliştirmek ve yazılımın nasıl test edildiğini anlamakla ilgileniyorum: test senaryoları hazırlamak, hataları araştırmak ve uygulamaların kullanım sırasındaki davranışlarını incelemek.',
     aboutBody2:
-      'Bazıları bireysel, bazıları ekip çalışması. Geliştirmeye devam ettiğim ve ara verdiğim projeler de var. Her biri öğrenme sürecimin bir parçası olduğu için burada yer alıyor.',
+      'Mobil uygulamalar, web geliştirme ve makine öğrenmesi üzerine projeler yapıyorum. SecureFace ve Deepfake Detection’da bütün çalışmaları ekip olarak yürütüyoruz; diğer çalışmalarım arasında kişisel uygulamalar ve denemeler var.',
     interests: 'İlgilendiğim alanlar',
     education: 'Eğitim',
     contact: 'Çevrimiçi',
-    contactText: 'Herkese açık projelerim ve kodlarım GitHub’da.',
+    contactText:
+      'E-posta ile ulaşabilir, LinkedIn ve GitHub üzerinden çalışmalarımı takip edebilirsiniz.',
     year: 'Yıl',
     status: 'Durum',
     category: 'Kategori',
@@ -137,7 +137,6 @@ export const copy = {
     solo: 'Bireysel proje',
     technologies: 'Teknolojiler',
     overview: 'Proje hakkında',
-    contribution: 'Benim katkım',
     process: 'Geliştirme süreci',
     technicalDetails: 'Teknik detaylar',
     lessons: 'Öğrendiklerim',
@@ -158,13 +157,13 @@ export const copy = {
     notFoundBody: 'Adres değişmiş olabilir veya böyle bir sayfa bulunmuyor.',
     home: 'Ana sayfaya dön',
     homeDescription:
-      'İlhan Kılıç — İzmir’de Bilgisayar Mühendisliği öğrencisi. Mobil uygulamalar, yazılım projeleri ve devam eden gelişim yolculuğu.',
+      'İlhan Kılıç — Yazılım geliştirme ve yazılım test mühendisliğiyle ilgilenen Bilgisayar Mühendisliği öğrencisi. Projeler, araştırma ve gelişim yolculuğu.',
     projectDescription:
       'İlhan Kılıç’ın Racker, SecureFace, yazılım ve makine öğrenmesi alanlarındaki projeleri.',
     journeyDescription:
       'İlhan Kılıç’ın 2024’te ilk Python oyunundan mobil uygulamalara ve araştırmaya uzanan gelişim yolculuğu.',
     aboutDescription:
-      'İzmir Bakırçay Üniversitesi Bilgisayar Mühendisliği öğrencisi İlhan Kılıç hakkında.',
+      'Yazılım geliştirme ve yazılım test mühendisliğiyle ilgilenen İzmir Bakırçay Üniversitesi Bilgisayar Mühendisliği öğrencisi İlhan Kılıç hakkında.',
   },
 } as const;
 
@@ -181,11 +180,11 @@ export const statuses: Record<Locale, Record<Status, string>> = {
   },
 };
 export function route(locale: Locale, path = ''): string {
-  return `${locale === 'tr' ? '/tr' : ''}/${path ? `${path}/` : ''}`;
+  return `${locale === 'en' ? '/en' : ''}/${path ? `${path}/` : ''}`;
 }
 export function alternate(pathname: string, locale: Locale): string {
   return route(
     locale,
-    pathname.replace(/^\/tr(?=\/|$)/, '').replace(/^\/|\/$/g, ''),
+    pathname.replace(/^\/(?:tr|en)(?=\/|$)/, '').replace(/^\/|\/$/g, ''),
   );
 }

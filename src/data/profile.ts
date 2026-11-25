@@ -12,8 +12,11 @@ export const profile = {
     tr: 'Bilgisayar Mühendisliği Öğrencisi & Yazılım Geliştirici',
   },
   github: 'https://github.com/ilhanbuilds',
-  linkedin: undefined as string | undefined,
-  email: undefined as string | undefined,
-  resume: undefined as string | undefined,
+  linkedin: 'https://www.linkedin.com/in/ilhan-kilic',
+  email: 'kilicilhan.75@gmail.com',
+  resume: {
+    tr: '/documents/Ilhan_Kilic_CV_Portfolyo.pdf',
+    en: '/documents/Ilhan_Kilic_CV_EN_Portfolyo.pdf',
+  },
   portrait,
 };

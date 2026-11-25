@@ -46,6 +46,31 @@ const person = {
             : matchMedia('(prefers-color-scheme: dark)').matches
               ? 'dark'
               : 'light';
+        try {
+          const currentLocale = document.documentElement.lang;
+          const savedLocale = localStorage.getItem('locale');
+          if (location.pathname === '/' && savedLocale === 'en') {
+            location.replace('/en/' + location.search + location.hash);
+          } else {
+            localStorage.setItem('locale', currentLocale);
+          }
+        } catch {
+          /* Explicit localized URLs remain usable without storage. */
+        }
+        document.addEventListener('click', (event) => {
+          const link =
+            event.target instanceof Element
+              ? event.target.closest('a[data-locale]')
+              : null;
+          const selectedLocale = link?.getAttribute('data-locale');
+          if (selectedLocale === 'tr' || selectedLocale === 'en') {
+            try {
+              localStorage.setItem('locale', selectedLocale);
+            } catch {
+              /* Follow the ordinary language link. */
+            }
+          }
+        });
       })();
     </script>
     <title>{title === profile.name ? title : `${title} · ${profile.name}`}</title>
@@ -79,7 +104,7 @@ const person = {
         <link
           rel="alternate"
           hreflang="x-default"
-          href={new URL(alternate(Astro.url.pathname, 'en'), Astro.site)}
+          href={new URL(alternate(Astro.url.pathname, 'tr'), Astro.site)}
         />
       </>
     )}

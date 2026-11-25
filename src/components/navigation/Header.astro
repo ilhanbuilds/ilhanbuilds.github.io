@@ -40,11 +40,14 @@ const links = [
         {label}
       </a>
     ))}
-    {profile.resume && <a href={profile.resume}>{t.resume}</a>}
+    <a href={profile.resume[locale]} download>
+      {t.resume}
+    </a>
   </nav>
   <div class="header-controls">
     <a
       class="language"
+      data-locale={other}
       href={alternate(Astro.url.pathname, other)}
       lang={other}
       hreflang={other}
