@@ -1,0 +1,67 @@
+---
+import { projectImages } from '../../data/project-images';
+import type { Locale } from '../../types/content';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const english = locale === 'en';
+const source = projectImages.secureface.coverImage.src.src;
+---
+
+<section class="section secure-comparison">
+  <h2>
+    {english
+      ? 'Before / after anonymization'
+      : 'Anonimleştirme öncesi / sonrası'}
+  </h2>
+  <p class="demo-description">
+    {english
+      ? 'Interactive comparison from the approved recorded screenshot. This does not run live face detection or encryption.'
+      : 'Onaylı kayıtlı ekran görüntüsünden etkileşimli karşılaştırma. Canlı yüz tespiti veya şifreleme çalıştırmaz.'}
+  </p>
+  <details data-compare data-source={source}>
+    <summary>
+      {english ? 'Open image comparison' : 'Görsel karşılaştırmayı aç'}
+    </summary>
+    <div class="compare-stage" style="--reveal:50%">
+      <div
+        class="compare-layer compare-after"
+        role="img"
+        aria-label={
+          english ? 'Recorded anonymized face' : 'Kayıtlı anonimleştirilmiş yüz'
+        }
+      ></div>
+      <div
+        class="compare-layer compare-before"
+        role="img"
+        aria-label={english ? 'Original face' : 'Özgün yüz'}
+      ></div>
+      <span class="compare-divider" aria-hidden="true"></span>
+      <span class="compare-label before">{english ? 'Before' : 'Önce'}</span>
+      <span class="compare-label after">{english ? 'After' : 'Sonra'}</span>
+    </div>
+    <label class="compare-control">
+      {english ? 'Original image visibility' : 'Özgün görüntünün görünürlüğü'}
+      <input type="range" min="0" max="100" value="50" />
+    </label>
+  </details>
+</section>
+<script>
+  document
+    .querySelectorAll<HTMLDetailsElement>('[data-compare]')
+    .forEach((details) => {
+      const stage = details.querySelector<HTMLElement>('.compare-stage')!;
+      const range = details.querySelector<HTMLInputElement>('input')!;
+      details.addEventListener('toggle', () => {
+        if (details.open)
+          stage.style.setProperty(
+            '--compare-source',
+            `url("${details.dataset.source}")`,
+          );
+      });
+      range.addEventListener('input', () =>
+        stage.style.setProperty('--reveal', `${range.value}%`),
+      );
+    });
+</script>

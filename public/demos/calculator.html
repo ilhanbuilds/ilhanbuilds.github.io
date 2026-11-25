@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; form-action 'none'; base-uri 'none'"
+    />
+    <title>Calculator — Windows Forms tarayıcı uyarlaması</title>
+    <link rel="stylesheet" href="calculator.css" />
+    <script src="calculator.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div class="form-title">Form1</div>
+      <div class="calculator" aria-label="Hesap makinesi">
+        <textarea
+          id="display"
+          aria-label="İşlem"
+          spellcheck="false"
+          inputmode="text"
+        ></textarea>
+        <button class="delete" type="button" data-key="delete">delete</button>
+        <button class="number seven" type="button" data-key="7">7</button
+        ><button class="number eight" type="button" data-key="8">8</button
+        ><button class="number nine" type="button" data-key="9">9</button>
+        <button class="number four" type="button" data-key="4">4</button
+        ><button class="number five" type="button" data-key="5">5</button
+        ><button class="number six" type="button" data-key="6">6</button>
+        <button class="number one" type="button" data-key="1">1</button
+        ><button class="number two" type="button" data-key="2">2</button
+        ><button class="number three" type="button" data-key="3">3</button>
+        <button class="number zero" type="button" data-key="0">0</button>
+        <button class="divide" type="button" data-key="/">/</button
+        ><button class="multiply" type="button" data-key="×">×</button
+        ><button class="subtract" type="button" data-key="–">–</button
+        ><button class="add" type="button" data-key="+">+</button
+        ><button class="equals" type="button" data-key="=">=</button>
+      </div>
+      <p id="feedback" role="status" aria-live="polite"></p>
+      <p class="note">
+        Orijinal C# Windows Forms uygulamasının tarayıcı uyarlaması. Tam sayı
+        işlemleri soldan sağa hesaplanır.
+      </p>
+    </main>
+  </body>
+</html>

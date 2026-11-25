@@ -1,0 +1,149 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  color-scheme: light;
+  background: #efefef;
+  color: #111;
+  font-family: Arial, sans-serif;
+}
+body {
+  margin: 0;
+  padding: 8px;
+}
+main {
+  max-width: 504px;
+  margin: auto;
+}
+.form-title {
+  padding: 4px 8px 10px;
+  font:
+    14px 'Segoe UI',
+    sans-serif;
+}
+.calculator {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 504 / 642;
+}
+button,
+textarea {
+  position: absolute;
+  font-family: Arial, sans-serif;
+  color: #111;
+}
+button {
+  width: 22.222%;
+  height: 18.224%;
+  padding: 0;
+  border: 1px solid #bcbcbc;
+  border-radius: 2px;
+  background: #fff;
+  font-size: clamp(16px, 4.2vw, 21.33px);
+  box-shadow: inset 1px 1px #fff;
+  cursor: pointer;
+}
+button:hover {
+  border-color: #0078d7;
+  background: #e4f1fb;
+}
+button:active {
+  background: #cce4f7;
+}
+button:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #0078d7;
+  outline-offset: 2px;
+}
+.number {
+  background: #a0a0a0;
+}
+textarea {
+  left: 2.381%;
+  top: 1.402%;
+  width: 70.436%;
+  height: 18.224%;
+  resize: none;
+  border: 2px inset #ccc;
+  background: #fff;
+  font-size: clamp(23px, 6.4vw, 32px);
+  padding: 2px;
+  line-height: 1.3;
+}
+.seven,
+.four,
+.one {
+  left: 2.381%;
+}
+.eight,
+.five,
+.two,
+.zero {
+  left: 26.587%;
+}
+.nine,
+.six,
+.three {
+  left: 50.595%;
+}
+.seven,
+.eight,
+.nine {
+  top: 21.184%;
+}
+.four,
+.five,
+.six {
+  top: 40.966%;
+}
+.one,
+.two,
+.three {
+  top: 60.592%;
+}
+.zero,
+.equals {
+  top: 80.218%;
+}
+.delete,
+.divide,
+.multiply,
+.subtract,
+.add,
+.equals {
+  left: 74.405%;
+}
+.delete,
+.divide,
+.multiply,
+.subtract,
+.add {
+  height: 14.33%;
+}
+.delete {
+  top: 1.402%;
+}
+.divide {
+  top: 17.29%;
+}
+.multiply {
+  top: 33.178%;
+}
+.subtract {
+  top: 49.065%;
+}
+.add {
+  top: 64.33%;
+}
+#feedback {
+  min-height: 1.5em;
+  margin: 8px 0;
+  font-size: 14px;
+  color: #9b1b1b;
+}
+.note {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 8px 0 0;
+  color: #444;
+}

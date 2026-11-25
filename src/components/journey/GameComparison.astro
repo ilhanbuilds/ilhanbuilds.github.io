@@ -1,0 +1,50 @@
+---
+import { projects } from '../../data/projects';
+import { copy, route } from '../../i18n';
+import type { Locale } from '../../types/content';
+import Screenshot from '../projects/Screenshot.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+const games = ['idleoyun', 'dinocore'].map((id) =>
+  projects.find((project) => project.id === id)!,
+);
+---
+
+<section class="game-comparison" aria-labelledby="comparison-title">
+  <div class="comparison-heading">
+    <h2 id="comparison-title">{t.comparisonTitle}</h2>
+    <p>{t.comparisonIntro}</p>
+  </div>
+  <div class="comparison-images">
+    {games.map((project) => (
+      <figure>
+        <a
+          href={route(locale, `work/${project.slug}`)}
+          aria-label={`${t.viewProject}: ${project.title}`}
+        >
+          <Screenshot
+            image={project.coverImage!}
+            locale={locale}
+            sizes="(max-width: 767px) 40vw, 300px"
+          />
+        </a>
+        <figcaption>
+          <span>
+            {project.year} / {project.technologies.join(' · ')}
+          </span>
+          <strong>{project.title}</strong>
+          {project.id === 'dinocore' && (
+            <span>
+              {locale === 'tr'
+                ? 'Yapay zekâ destekli geliştirme'
+                : 'AI-assisted development'}
+            </span>
+          )}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

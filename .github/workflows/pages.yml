@@ -1,0 +1,81 @@
+name: Validate and deploy portfolio
+
+on:
+  push:
+    branches: [main, feat/portfolio-foundation]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run build
+      - run: npm run test:content
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm test
+      - name: Audit release pages with default GPU
+        run: |
+          mkdir -p .tools/lighthouse
+          node node_modules/astro/bin/astro.mjs preview --host 127.0.0.1 --port 4321 --force > .tools/lighthouse/preview.log 2>&1 &
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4321/ > /dev/null; then break; fi
+            sleep 1
+          done
+          export CHROME_PATH="$(node --input-type=module -e "import { chromium } from '@playwright/test'; process.stdout.write(chromium.executablePath())")"
+          for page in home work editor about en; do
+            case "$page" in
+              home) path="/" ;;
+              work) path="/work/" ;;
+              editor) path="/work/hcjeditor/" ;;
+              about) path="/about/" ;;
+              en) path="/en/" ;;
+            esac
+            npm exec --yes --package=lighthouse@13.6.0 -- lighthouse "http://127.0.0.1:4321$path" --chrome-flags="--headless --no-sandbox" --output=json --output-path=".tools/lighthouse/$page.json" --quiet
+          done
+          node scripts/check-lighthouse.mjs .tools/lighthouse/{home,work,editor,about,en}.json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: browser-test-results
+          path: |
+            playwright-report/
+            test-results/
+            .tools/lighthouse/
+          retention-days: 7
+          include-hidden-files: true
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: dist
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

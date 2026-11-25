@@ -1,0 +1,34 @@
+---
+import { profile } from '../../data/profile';
+import { copy } from '../../i18n';
+import type { Locale } from '../../types/content';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<footer class="site-footer wrap">
+  <div>
+    <a href={profile.github} rel="noopener noreferrer">
+      GitHub
+    </a>
+    {profile.linkedin && (
+      <a href={profile.linkedin} rel="noopener noreferrer">
+        LinkedIn
+      </a>
+    )}
+    {profile.developerEmail && (
+      <a
+        href={`mailto:${profile.developerEmail}`}
+        aria-label={`${copy[locale].developerContact}: ${profile.developerEmail}`}
+      >
+        {profile.developerEmail}
+      </a>
+    )}
+  </div>
+  <p>
+    © {new Date().getFullYear()} ilhanbuilds
+    <span class="footer-label"> · {copy[locale].footer}</span>
+  </p>
+</footer>

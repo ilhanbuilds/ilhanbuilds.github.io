@@ -1,0 +1,166 @@
+---
+import { profile } from '../../data/profile';
+import { copy, route, alternate } from '../../i18n';
+import type { Locale } from '../../types/content';
+import Icon from '../common/Icon.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+const other = locale === 'en' ? 'tr' : 'en';
+const links = [
+  ['work', t.work],
+  ['journey', t.journey],
+  ['about', t.about],
+];
+---
+
+<header class="site-header wrap">
+  <a
+    class="wordmark"
+    href={route(locale)}
+    aria-label={`/ilhanbuilds · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
+  >
+    <span class="wordmark-slash" aria-hidden="true">
+      /
+    </span>
+    <span>
+      ilhan<span class="wordmark-builds">builds</span>
+    </span>
+  </a>
+  <nav
+    aria-label={locale === 'en' ? 'Main navigation' : 'Ana navigasyon'}
+    id="main-nav"
+  >
+    {links.map(([path, label]) => (
+      <a
+        href={route(locale, path)}
+        aria-current={
+          Astro.url.pathname.startsWith(route(locale, path))
+            ? 'page'
+            : undefined
+        }
+      >
+        {label}
+      </a>
+    ))}
+    <a href={profile.resume[locale]} download>
+      {t.resume}
+    </a>
+  </nav>
+  <div class="header-controls">
+    <a
+      class="language"
+      data-locale={other}
+      href={alternate(Astro.url.pathname, other)}
+      lang={other}
+      hreflang={other}
+      aria-label={other === 'tr' ? 'TR · Türkçe' : 'EN · English'}
+    >
+      {other.toUpperCase()}
+    </a>
+    <button
+      class="icon-button theme-toggle"
+      type="button"
+      aria-label={t.theme}
+      data-dark-label={t.theme}
+      data-light-label={t.lightTheme}
+      aria-pressed="false"
+    >
+      <span class="moon">
+        <Icon name="moon" />
+      </span>
+      <span class="sun">
+        <Icon name="sun" />
+      </span>
+    </button>
+    <button
+      class="icon-button menu-toggle"
+      type="button"
+      aria-label={t.menu}
+      data-open-label={t.menu}
+      data-close-label={t.closeMenu}
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      <span class="menu-icon">
+        <Icon name="menu" />
+      </span>
+      <span class="close-icon">
+        <Icon name="close" />
+      </span>
+    </button>
+  </div>
+</header>
+<script>
+  const menu = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  function closeMenu() {
+    menu?.setAttribute('aria-expanded', 'false');
+    menu?.setAttribute('aria-label', menu.dataset.openLabel ?? 'Menu');
+    document.querySelector('.site-header')?.classList.remove('menu-open');
+  }
+  menu?.addEventListener('click', () => {
+    const open = menu.getAttribute('aria-expanded') !== 'true';
+    menu.setAttribute('aria-expanded', String(open));
+    menu.setAttribute(
+      'aria-label',
+      (open ? menu.dataset.closeLabel : menu.dataset.openLabel) ?? 'Menu',
+    );
+    document.querySelector('.site-header')?.classList.toggle('menu-open', open);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (
+      event.key === 'Escape' &&
+      menu?.getAttribute('aria-expanded') === 'true'
+    ) {
+      closeMenu();
+      menu.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (
+      event.target instanceof Node &&
+      !document.querySelector('.site-header')?.contains(event.target)
+    )
+      closeMenu();
+  });
+  window.matchMedia('(min-width: 48rem)').addEventListener('change', closeMenu);
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  function syncTheme() {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    toggle?.setAttribute('aria-pressed', String(dark));
+    toggle?.setAttribute(
+      'aria-label',
+      (dark ? toggle.dataset.lightLabel : toggle.dataset.darkLabel) ?? 'Theme',
+    );
+  }
+  syncTheme();
+  toggle?.addEventListener('click', () => {
+    const theme =
+      document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      /* Browsing with storage disabled remains supported. */
+    }
+    syncTheme();
+  });
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', (event) => {
+      let stored = null;
+      try {
+        stored = localStorage.getItem('theme');
+      } catch {
+        /* Use the system theme when storage is disabled. */
+      }
+      if (stored !== 'light' && stored !== 'dark') {
+        document.documentElement.dataset.theme = event.matches
+          ? 'dark'
+          : 'light';
+        syncTheme();
+      }
+    });
+</script>

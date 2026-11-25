@@ -1,0 +1,111 @@
+---
+import type { Locale } from '../../types/content';
+interface Props {
+  id: string;
+  locale: Locale;
+}
+const { id, locale } = Astro.props;
+const english = locale === 'en';
+const demos: Record<
+  string,
+  { path: string; title: string; description: string }
+> = {
+  idleoyun: {
+    path: 'idleoyun',
+    title: english
+      ? 'Python game · browser adaptation'
+      : 'Python oyunu · tarayıcı uyarlaması',
+    description: english
+      ? 'The original menus, clicker and market adapted for the browser. Demo accounts exist only in this frame’s memory; progress is cleared when closed.'
+      : 'Özgün menüler, tıklama oyunu ve marketin tarayıcı uyarlaması. Demo hesaplar yalnızca bu çerçevenin belleğinde tutulur; kapatıldığında ilerleme silinir.',
+  },
+  calculator: {
+    path: 'calculator',
+    title: english
+      ? 'Windows Forms · browser adaptation'
+      : 'Windows Forms · tarayıcı uyarlaması',
+    description: english
+      ? 'The original layout and integer arithmetic behavior, adapted from C# for the browser.'
+      : 'Özgün C# arayüzü ve tam sayı hesaplama davranışının tarayıcı uyarlaması.',
+  },
+  hcjeditor: {
+    path: 'hcjeditor',
+    title: english
+      ? 'HCJEditor · isolated browser editor'
+      : 'HCJEditor · yalıtılmış tarayıcı editörü',
+    description: english
+      ? 'The original editor with local file import, download and isolated live preview. No code is sent to a service. Download your work before closing; edits are not saved.'
+      : 'Özgün editör: yerel dosya yükleme, indirme ve yalıtılmış canlı ön izleme. Kod bir servise gönderilmez. Kapatmadan önce çalışmanızı indirin; düzenlemeler kaydedilmez.',
+  },
+  rubikrl: {
+    path: 'cube',
+    title: english
+      ? 'Interactive cube simulation'
+      : 'Etkileşimli küp simülasyonu',
+    description: english
+      ? 'An independently written cube preview: turn faces, rotate the view, shuffle and reset. No model or AI solver runs here.'
+      : 'Bağımsız yazılmış küp ön izlemesi: yüzleri çevirin, görünümü döndürün, karıştırın ve sıfırlayın. Burada model veya AI çözücü çalışmaz.',
+  },
+};
+const demo = demos[id];
+---
+
+{demo && (
+  <section
+    class="section demo-section"
+    data-demo
+    data-path={`/demos/${demo.path}.html?lang=${locale}`}
+    data-kind={id}
+  >
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">
+          {english ? 'Try it in your browser' : 'Tarayıcıda deneyin'}
+        </p>
+        <h2>{demo.title}</h2>
+      </div>
+    </div>
+    <p class="demo-description">{demo.description}</p>
+    <button class="button-link" type="button" data-demo-start>
+      {english ? 'Open demo' : 'Demoyu aç'}
+    </button>
+    <button class="text-link demo-close" type="button" data-demo-close hidden>
+      {english ? 'Close demo' : 'Demoyu kapat'}
+    </button>
+    <div class="demo-host" data-demo-host></div>
+  </section>
+)}
+<script>
+  document.querySelectorAll<HTMLElement>('[data-demo]').forEach((section) => {
+    const start =
+      section.querySelector<HTMLButtonElement>('[data-demo-start]')!;
+    const close =
+      section.querySelector<HTMLButtonElement>('[data-demo-close]')!;
+    const host = section.querySelector<HTMLElement>('[data-demo-host]')!;
+    start.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      const url = new URL(section.dataset.path!, location.origin);
+      url.searchParams.set(
+        'theme',
+        document.documentElement.dataset.theme ?? 'light',
+      );
+      frame.src = url.href;
+      frame.title = section.querySelector('h2')!.textContent!;
+      frame.sandbox.add('allow-scripts');
+      if (section.dataset.kind === 'hcjeditor')
+        frame.sandbox.add('allow-downloads');
+      frame.referrerPolicy = 'no-referrer';
+      frame.className = `demo-frame demo-frame-${section.dataset.kind}`;
+      host.replaceChildren(frame);
+      start.hidden = true;
+      close.hidden = false;
+      frame.addEventListener('load', () => frame.focus(), { once: true });
+    });
+    close.addEventListener('click', () => {
+      host.replaceChildren();
+      start.hidden = false;
+      close.hidden = true;
+      start.focus();
+    });
+  });
+</script>

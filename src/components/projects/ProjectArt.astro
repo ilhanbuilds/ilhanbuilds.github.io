@@ -1,0 +1,25 @@
+---
+import Screenshot from './Screenshot.astro';
+import type { Locale, Project } from '../../types/content';
+interface Props {
+  project: Project;
+  locale: Locale;
+  loading?: 'eager' | 'lazy';
+}
+const { project, locale, loading = 'lazy' } = Astro.props;
+---
+
+{project.coverImage && (
+  <div
+    style={`--image-ratio: ${project.coverImage.src.width / project.coverImage.src.height}`}
+    class:list={[
+      'project-image-frame',
+      {
+        'portrait-frame':
+          project.coverImage.src.height > project.coverImage.src.width,
+      },
+    ]}
+  >
+    <Screenshot image={project.coverImage} locale={locale} loading={loading} />
+  </div>
+)}

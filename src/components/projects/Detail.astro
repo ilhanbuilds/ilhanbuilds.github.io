@@ -1,0 +1,150 @@
+---
+import Screenshot from './Screenshot.astro';
+import DemoShell from '../demos/DemoShell.astro';
+import SecureCompare from '../demos/SecureCompare.astro';
+import ProductPreview from '../demos/ProductPreview.astro';
+import Base from '../../layouts/Base.astro';
+import ProjectArt from './ProjectArt.astro';
+import { copy, route, statuses } from '../../i18n';
+import { timeline } from '../../data/projects';
+import type { Locale, Project } from '../../types/content';
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+const { locale, project: p } = Astro.props;
+const t = copy[locale];
+const content = p.translations[locale];
+const sections = [
+  [t.overview, content.overview],
+  [t.process, content.process],
+  [t.technicalDetails, content.technicalDetails],
+  [t.lessons, content.lessons],
+];
+const next =
+  timeline[
+    (timeline.findIndex((item) => item.id === p.id) + 1) % timeline.length
+  ]!;
+---
+
+<Base locale={locale} title={p.title} description={content.summary}>
+  <div class:list={['detail-intro', `detail-${p.id}`]}>
+    <a class="text-link" href={route(locale, 'work')}>
+      {t.back}
+    </a>
+    <div class="project-tags">
+      <span>{p.category[locale]}</span>
+      {p.status && <span class="status">{statuses[locale][p.status]}</span>}
+    </div>
+    <h1>
+      {p.logo && (
+        <span class="detail-logo">
+          <Screenshot image={p.logo} locale={locale} sizes="72px" />
+        </span>
+      )}
+      {p.title}
+      <span class="accent">.</span>
+    </h1>
+    <p>{content.summary}</p>
+  </div>
+  {(p.featured || p.coverImage) && (
+    <ProjectArt project={p} locale={locale} loading="eager" />
+  )}
+  <div class="detail-grid">
+    <aside>
+      <dl class="project-facts">
+        <div>
+          <dt>{t.year}</dt>
+          <dd>{p.year}</dd>
+        </div>
+        <div>
+          <dt>{t.category}</dt>
+          <dd>{p.category[locale]}</dd>
+        </div>
+        {p.status && (
+          <div>
+            <dt>{t.status}</dt>
+            <dd>{statuses[locale][p.status]}</dd>
+          </div>
+        )}
+        {p.collaboration && (
+          <div>
+            <dt>{t.collaboration}</dt>
+            <dd>{p.collaboration === 'team' ? t.team : t.solo}</dd>
+          </div>
+        )}
+        <div>
+          <dt>{t.technologies}</dt>
+          <dd>{p.technologies.join(' / ')}</dd>
+        </div>
+      </dl>
+      <div class="detail-links">
+        {p.storeUrl && (
+          <a class="text-link" href={p.storeUrl} rel="noopener noreferrer">
+            {t.store}
+          </a>
+        )}
+        {p.repositoryUrl && (
+          <a class="text-link" href={p.repositoryUrl} rel="noopener noreferrer">
+            {t.repository}
+          </a>
+        )}
+        {p.documentationUrl && (
+          <a
+            class="text-link"
+            href={p.documentationUrl}
+            rel="noopener noreferrer"
+          >
+            {t.documentation}
+          </a>
+        )}
+        {p.demoUrl && (
+          <a class="text-link" href={p.demoUrl} rel="noopener noreferrer">
+            {t.demo}
+          </a>
+        )}
+        {p.visibility === 'private' && <span class="meta">{t.private}</span>}
+      </div>
+    </aside>
+    <div class="prose">
+      {sections
+        .filter(([, text]) => text)
+        .map(([heading, text]) => (
+          <section>
+            <h2>{heading}</h2>
+            <p>{text}</p>
+          </section>
+        ))}
+    </div>
+  </div>
+  <DemoShell id={p.id} locale={locale} />
+  {p.id === 'secureface' && <SecureCompare locale={locale} />}
+  {p.id === 'racker' && <ProductPreview locale={locale} project={p} />}
+  {p.gallery && p.gallery.length > 0 && (
+    <section class="section">
+      <h2>{t.screenshots}</h2>
+      <div class:list={['gallery', { 'racker-gallery': p.id === 'racker' }]}>
+        {p.gallery.map((img) => (
+          <figure>
+            <a
+              class="gallery-image-link"
+              href={img.src.src}
+              aria-label={`${t.openImage}: ${img.alt[locale]}`}
+            >
+              <Screenshot
+                image={img}
+                locale={locale}
+                sizes="(max-width: 767px) 100vw, 50vw"
+              />
+            </a>
+            <figcaption>{img.alt[locale]}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )}
+  <nav class="next-project" aria-label={t.next}>
+    <span class="meta">{t.next}</span>
+    <a href={route(locale, `work/${next.slug}`)}>{next.title}</a>
+  </nav>
+</Base>

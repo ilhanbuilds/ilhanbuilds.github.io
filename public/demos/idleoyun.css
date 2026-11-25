@@ -1,0 +1,221 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  background: #efefef;
+  color: #111;
+  color-scheme: light;
+  font-family: Arial, sans-serif;
+}
+body {
+  margin: 0;
+  padding: 10px;
+}
+main {
+  max-width: 541px;
+  margin: auto;
+}
+.window {
+  min-height: 535px;
+  display: grid;
+  place-items: start center;
+}
+.panel[hidden] {
+  display: none;
+}
+.panel {
+  position: relative;
+  background: #efefef;
+  font-size: 13px;
+}
+p,
+h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: normal;
+}
+button,
+input {
+  color: #111;
+  font: inherit;
+}
+button {
+  border: 1px solid #bcbcbc;
+  border-radius: 2px;
+  background: #fff;
+  cursor: pointer;
+  white-space: pre-line;
+}
+button:hover {
+  border-color: #0078d7;
+  background: #e4f1fb;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #0078d7;
+  outline-offset: 2px;
+}
+button:active {
+  background: #cce4f7;
+}
+.menu {
+  width: 100%;
+  max-width: 541px;
+  height: 535px;
+}
+.menu h1 {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.menu button {
+  position: absolute;
+  width: 35.3%;
+  height: 101px;
+  left: 29.6%;
+}
+.menu button:nth-of-type(1) {
+  top: 60px;
+}
+.menu button:nth-of-type(2) {
+  top: 170px;
+}
+.menu button:nth-of-type(3) {
+  top: 280px;
+}
+.account {
+  width: min(100%, 350px);
+  min-height: 283px;
+  padding: 25px 16px;
+}
+.account > p {
+  margin-bottom: 24px;
+  min-height: 2.5em;
+  font-size: 12px;
+}
+.account label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.account input {
+  width: 113px;
+  height: 24px;
+  border: 1px inset #aaa;
+  background: #fff;
+  padding: 2px 4px;
+}
+.account > button:not(.back) {
+  display: block;
+  width: 93px;
+  height: 28px;
+  margin: 10px auto;
+}
+.account .back {
+  display: block;
+  width: 93px;
+  height: 28px;
+  margin: 40px 0 0 auto;
+}
+.game {
+  width: min(100%, 355px);
+  height: 333px;
+  padding: 10px 20px;
+}
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  line-height: 20px;
+}
+.stats > div:last-child {
+  max-width: 42%;
+  overflow-wrap: anywhere;
+}
+.game button {
+  position: absolute;
+}
+#click {
+  left: 2.817%;
+  top: 120px;
+  width: 56.62%;
+  height: 121px;
+}
+#market-button {
+  left: 64.789%;
+  top: 120px;
+  width: 31.268%;
+  height: 41px;
+}
+#game-exit {
+  left: 67.606%;
+  top: 230px;
+  width: 26.197%;
+  height: 28px;
+}
+.market {
+  width: min(100%, 332px);
+  height: 391px;
+  padding: 20px 10px;
+}
+#market-message {
+  min-height: 24px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+.market > button {
+  position: absolute;
+  left: 3%;
+  width: 94%;
+  height: 61px;
+}
+#power {
+  top: 90px;
+}
+#rebirth {
+  top: 160px;
+}
+#prestige {
+  top: 230px;
+}
+#market-back {
+  left: auto;
+  right: 6%;
+  top: 310px;
+  width: 93px;
+  height: 28px;
+}
+.closed {
+  text-align: center;
+  padding: 50px 20px;
+}
+.closed button {
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+.note {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 12px 0 0;
+  color: #444;
+}
+@media (max-width: 400px) {
+  .account input {
+    height: 36px;
+  }
+  .account > button,
+  #game-exit,
+  #market-back,
+  #market-button {
+    min-height: 44px;
+  }
+  .menu button {
+    width: 50%;
+    left: 25%;
+  }
+}
