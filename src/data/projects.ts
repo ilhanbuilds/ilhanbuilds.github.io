@@ -20,13 +20,13 @@ export const projects: Project[] = [
         summary:
           'My first small click-based idle game, written by hand in Python.',
         overview:
-          'The starting point of my development journey: a small game built around clicking and progression. It stays here as a record of where I began.',
+          'A Python game built around clicking, earning in-game currency and buying upgrades.',
       },
       tr: {
         summary:
           'Python ile kendi ellerimle yazdığım ilk küçük tıklama tabanlı idle oyunu.',
         overview:
-          'Yazılım yolculuğumun başlangıcı: tıklama ve ilerleme üzerine kurulu küçük bir oyun. Burada, başladığım noktayı gösteren bir kayıt olarak yer alıyor.',
+          'Tıklama, oyun içi para kazanma ve yükseltme satın alma üzerine kurulu küçük bir Python oyunu.',
       },
     },
   },
@@ -90,13 +90,13 @@ export const projects: Project[] = [
         summary:
           'My first Unity idle game, built in a short time using AI-assisted development tools.',
         process:
-          'AI-assisted development was part of the process. Alongside IdleOyun, this project shows a different set of tools and a different way of approaching a game.',
+          'I used Unity and AI-assisted development tools to build the resource production and upgrade systems.',
       },
       tr: {
         summary:
           'Yapay zekâ destekli geliştirme araçlarından yararlanarak kısa sürede oluşturduğum ilk Unity idle oyunu.',
         process:
-          'Geliştirme sürecinde yapay zekâ desteğinden yararlandım. IdleOyun ile birlikte bu proje, oyun geliştirmeye farklı araçlarla ve farklı bir yaklaşımla bakışımı gösteriyor.',
+          'Kaynak üretimi ve yükseltme sistemlerini oluştururken Unity ve yapay zekâ destekli geliştirme araçlarından yararlandım.',
       },
     },
   },
@@ -114,11 +114,11 @@ export const projects: Project[] = [
     translations: {
       en: {
         summary:
-          'A website for celebrating special occasions. Built as a personal project and not yet released.',
+          'A website for creating personal celebrations with messages, themes and envelopes.',
       },
       tr: {
         summary:
-          'Özel günleri kutlamak için geliştirdiğim, henüz yayınlanmamış bir web sitesi.',
+          'Mesajlar, temalar ve zarflarla kişisel kutlamalar hazırlamak için geliştirdiğim web sitesi.',
       },
     },
   },
@@ -139,13 +139,13 @@ export const projects: Project[] = [
         summary:
           'A modular desktop assistant running local AI models. One of my first larger personal projects, currently on hold.',
         overview:
-          'Started as a long-term project with a modular architecture and local models. Development is paused; the project remains part of my learning process.',
+          'The assistant uses local models and a modular structure for conversations and settings. Development is currently paused.',
       },
       tr: {
         summary:
           'Yerel yapay zekâ modelleriyle çalışan modüler bir masaüstü asistanı. İlk kapsamlı kişisel projelerimden biri; geliştirmeye ara verdim.',
         overview:
-          'Modüler mimari ve yerel modellerle uzun vadeli bir proje olarak başladım. Geliştirmeye ara vermiş olsam da öğrenme sürecimin bir parçası.',
+          'Sohbet ve ayarlar için modüler bir yapı ve yerel modeller kullanıyor. Geliştirmeye şu an ara verdim.',
       },
     },
   },
@@ -168,17 +168,17 @@ export const projects: Project[] = [
         summary:
           'An offline-first mobile app for tracking training, nutrition and physical progress. My first real application.',
         overview:
-          'Racker brings training, nutrition and physical progress tracking into one mobile application. It is my first real application, and the main focus of this portfolio.',
+          'My first real application brings workout programs, set tracking and physical progress records together on Android, with Wear OS support.',
         technicalDetails:
-          'Built with React Native, Expo and TypeScript, with an offline-first approach. The public documentation is maintained separately from the application source.',
+          'Built with React Native, Expo and TypeScript using an offline-first approach. I tested functionality on physical Android and Wear OS devices.',
       },
       tr: {
         summary:
           'Antrenman, beslenme ve fiziksel gelişim takibi için geliştirdiğim offline-first mobil uygulama. İlk gerçek uygulamam.',
         overview:
-          'Racker, antrenman, beslenme ve fiziksel gelişim takibini tek bir mobil uygulamada bir araya getiriyor. İlk gerçek uygulamam ve bu portfolyonun ana odağı.',
+          'İlk gerçek uygulamam. Antrenman programlarını, set takibini ve fiziksel gelişim kayıtlarını Android’de bir araya getiriyor; Wear OS desteği de bulunuyor.',
         technicalDetails:
-          'React Native, Expo ve TypeScript ile offline-first yaklaşımıyla geliştirildi. Herkese açık dokümantasyonu, uygulamanın kaynak kodundan ayrı tutuluyor.',
+          'React Native, Expo ve TypeScript ile offline-first yaklaşımıyla geliştirdim. İşlevselliğini fiziksel Android ve Wear OS cihazlarında test ettim.',
       },
     },
   },
@@ -198,13 +198,13 @@ export const projects: Project[] = [
         summary:
           'An academic team project using deep learning to classify real and manipulated face images.',
         overview:
-          'Developed as a team project, with a focus on real and manipulated face image classification. The scope is face images, rather than the detection of every kind of AI manipulation.',
+          'We worked together on an academic deep learning project to classify real and manipulated face images using PyTorch and EfficientNet.',
       },
       tr: {
         summary:
           'Gerçek ve sahte yüz görüntülerini derin öğrenme yöntemleriyle sınıflandırmaya yönelik akademik ekip çalışması.',
         overview:
-          'Gerçek ve sahte yüz görüntülerinin sınıflandırılmasına odaklanan bir ekip projesi. Kapsamı yüz görüntüleri; her tür yapay zekâ manipülasyonunu tespit etme iddiası taşımıyor.',
+          'Gerçek ve sahte yüz görüntülerini PyTorch ve EfficientNet kullanarak sınıflandırmaya yönelik akademik projeyi ekip olarak yürüttük.',
       },
     },
   },
@@ -227,13 +227,13 @@ export const projects: Project[] = [
         summary:
           'An ongoing team research project on real-time face anonymization and cryptographic protection of image data.',
         overview:
-          'We are exploring face privacy through computer vision and cryptography. The project is under development; this page describes the public scope of the research.',
+          'We are developing SecureFace together as a team, combining computer vision for face anonymization with cryptographic protection of image data.',
       },
       tr: {
         summary:
           'Gerçek zamanlı yüz anonimleştirme ve görüntü verilerinin kriptografik yöntemlerle korunması üzerine devam eden ekip araştırması.',
         overview:
-          'Bilgisayarlı görü ve kriptografi kullanarak yüz gizliliği üzerine çalışıyoruz. Proje geliştirme aşamasında; burada araştırmanın paylaşılması onaylanan kapsamı yer alıyor.',
+          'SecureFace’i ekip olarak geliştiriyoruz. Yüz anonimleştirme için bilgisayarlı görü, görüntü verilerinin korunması için kriptografik yöntemler üzerine çalışıyoruz.',
       },
     },
   },
@@ -254,13 +254,13 @@ export const projects: Project[] = [
         summary:
           'An experimental project exploring how reinforcement learning can be used to solve the Rubik’s Cube.',
         overview:
-          'An ongoing machine learning experiment in learning to solve the Rubik’s Cube. The work is exploratory and does not claim general solving success.',
+          'I’m experimenting with reinforcement learning to train an agent for the Rubik’s Cube, alongside an interface for inspecting cube states and moves.',
       },
       tr: {
         summary:
           'Rubik küpünü çözmek için pekiştirmeli öğrenme yöntemlerini araştırdığım deneysel proje.',
         overview:
-          'Rubik küpünü çözmeyi öğrenme üzerine devam eden bir makine öğrenmesi deneyi. Çalışma araştırma aşamasında ve genel çözüm başarısı iddiası taşımıyor.',
+          'Rubik küpü için bir ajan eğitmek üzere pekiştirmeli öğrenme deneyleri yapıyor, küp durumlarını ve hamleleri inceleyebileceğim bir arayüz geliştiriyorum.',
       },
     },
   },

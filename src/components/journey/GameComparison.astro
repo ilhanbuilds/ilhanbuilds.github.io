@@ -36,7 +36,13 @@ const games = ['idleoyun', 'dinocore'].map((id) =>
             {project.year} / {project.technologies.join(' · ')}
           </span>
           <strong>{project.title}</strong>
-          {project.id === 'dinocore' && <span>AI-assisted development</span>}
+          {project.id === 'dinocore' && (
+            <span>
+              {locale === 'tr'
+                ? 'Yapay zekâ destekli geliştirme'
+                : 'AI-assisted development'}
+            </span>
+          )}
         </figcaption>
       </figure>
     ))}

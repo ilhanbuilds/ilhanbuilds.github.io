@@ -38,37 +38,37 @@ export const projectImages = {
     coverImage: {
       src: rackerOverview,
       alt: {
-        en: 'Provided Racker promotional artwork showing the Android and Wear OS interfaces.',
-        tr: 'Racker’ın Android ve Wear OS arayüzlerini gösteren, sağlanan tanıtım görseli.',
+        en: 'Racker’s Android and Wear OS interfaces.',
+        tr: 'Racker’ın Android ve Wear OS arayüzleri.',
       },
     },
     logo: {
       src: rackerLogo,
       alt: {
-        en: 'Official Racker app icon from Google Play.',
-        tr: 'Google Play’den alınan resmi Racker uygulama simgesi.',
+        en: 'Racker app icon.',
+        tr: 'Racker uygulama simgesi.',
       },
     },
     gallery: [
       {
         src: rackerPlanning,
         alt: {
-          en: 'Racker’s supplied Android composition: home, calendar, programs, program editor and exercise selection, with demo data.',
-          tr: 'Sağlanan Racker Android kompozisyonu: demo verilerle ana sayfa, takvim, programlar, program düzenleme ve egzersiz seçimi.',
+          en: 'Racker: home, workout calendar, programs and exercise selection.',
+          tr: 'Racker: ana sayfa, antrenman takvimi, programlar ve egzersiz seçimi.',
         },
       },
       {
         src: rackerTracking,
         alt: {
-          en: 'Racker’s supplied Android composition showing active training, set tracking and progress with demo data.',
-          tr: 'Sağlanan Racker Android kompozisyonunda demo verilerle canlı antrenman, set takibi ve gelişim ekranları.',
+          en: 'Racker: active workout, set tracking and progress screens.',
+          tr: 'Racker: canlı antrenman, set takibi ve gelişim ekranları.',
         },
       },
       {
         src: rackerWatch,
         alt: {
-          en: 'Provided Racker Wear OS composition showing workout, rest timer and summary screens.',
-          tr: 'Antrenman, dinlenme sayacı ve özet ekranlarını gösteren, sağlanan Racker Wear OS kompozisyonu.',
+          en: 'Racker on Wear OS: workout, rest timer and summary screens.',
+          tr: 'Wear OS üzerinde Racker: antrenman, dinlenme sayacı ve özet ekranları.',
         },
       },
     ],
@@ -77,16 +77,16 @@ export const projectImages = {
     coverImage: {
       src: kutlumiHome,
       alt: {
-        en: 'Kutlumi’s landing page and celebration preview with approved demo names.',
-        tr: 'Onaylı demo isimlerle Kutlumi ana sayfası ve kutlama ön izlemesi.',
+        en: 'Kutlumi’s landing page and celebration preview.',
+        tr: 'Kutlumi ana sayfası ve kutlama ön izlemesi.',
       },
     },
     gallery: [
       {
         src: kutlumiCreate,
         alt: {
-          en: 'Creating a celebration in Kutlumi using approved demo text and values.',
-          tr: 'Kutlumi’de onaylı demo metin ve değerlerle kutlama oluşturma.',
+          en: 'Creating a celebration in Kutlumi.',
+          tr: 'Kutlumi’de kutlama oluşturma.',
         },
       },
       {
@@ -99,8 +99,8 @@ export const projectImages = {
       {
         src: kutlumiEnvelopes,
         alt: {
-          en: 'Unopened celebration envelopes labeled with approved demo names.',
-          tr: 'Onaylı demo isimlerin yer aldığı açılmamış kutlama zarfları.',
+          en: 'Unopened celebration envelopes in Kutlumi.',
+          tr: 'Kutlumi’de açılmamış kutlama zarfları.',
         },
       },
     ],
@@ -109,8 +109,8 @@ export const projectImages = {
     coverImage: {
       src: secureAnonymization,
       alt: {
-        en: 'SecureFace’s anonymization interface with the portfolio owner’s approved face example.',
-        tr: 'Portfolyo sahibinin paylaşımına onay verdiği yüz örneğiyle SecureFace anonimleştirme arayüzü.',
+        en: 'Face anonymization preview in SecureFace.',
+        tr: 'SecureFace arayüzünde yüz anonimleştirme ön izlemesi.',
       },
     },
     gallery: [
@@ -233,8 +233,8 @@ export const projectImages = {
       {
         src: rubikSolved,
         alt: {
-          en: 'The simulator displaying an ordered cube state, not a solving result.',
-          tr: 'Simülatörde düzenli küp durumu; çözüm başarımı sonucu değildir.',
+          en: 'An ordered cube state in the RubikRL simulator.',
+          tr: 'RubikRL simülatöründe düzenli küp durumu.',
         },
       },
       {
