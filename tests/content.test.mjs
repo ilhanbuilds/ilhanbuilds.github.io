@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 
 async function files(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -29,7 +30,7 @@ test('build contains only the approved project routes in both languages', async 
     'secureface',
     'rubikrl',
   ];
-  for (const base of ['dist/work', 'dist/tr/work']) {
+  for (const base of ['dist/work', 'dist/en/work', 'dist/tr/work']) {
     const dirs = (await readdir(base, { withFileTypes: true }))
       .filter((entry) => entry.isDirectory())
       .map((entry) => entry.name);
@@ -62,7 +63,45 @@ test('sitemap has all 28 indexable pages and excludes error pages', async () => 
   const xml = await readFile('dist/sitemap-0.xml', 'utf8');
   assert.equal((xml.match(/<loc>/g) ?? []).length, 28);
   assert.equal(xml.includes('404'), false);
-  assert.ok(xml.includes('https://ilhanbuilds.github.io/tr/work/racker/'));
+  assert.equal(xml.includes('https://ilhanbuilds.github.io/tr/'), false);
+  assert.ok(xml.includes('https://ilhanbuilds.github.io/en/work/racker/'));
+});
+
+test('approved CVs are byte-identical to the reviewed one-page phone-free originals', async () => {
+  const approved = {
+    'Ilhan_Kilic_CV_Portfolyo.pdf':
+      '60d6a3bf3bc22cb599927dc81789ad7b9ed32dbbc85455751767d3d8b69192ce',
+    'Ilhan_Kilic_CV_EN_Portfolyo.pdf':
+      '870acbf5a2c0e6ba5c4625d6541ff8232944459445aa6e4beb98b1107c586b1e',
+  };
+  for (const [name, hash] of Object.entries(approved)) {
+    for (const root of ['public', 'dist']) {
+      const bytes = await readFile(`${root}/documents/${name}`);
+      assert.equal(bytes.toString('ascii', 0, 5), '%PDF-');
+      assert.equal(
+        createHash('sha256').update(bytes).digest('hex'),
+        hash,
+        `${root}/${name}`,
+      );
+    }
+  }
+});
+
+test('legacy Turkish routes are noindex aliases with canonical root destinations', async () => {
+  for (const path of [
+    '',
+    'work/',
+    'journey/',
+    'about/',
+    'work/racker/',
+    'work/secureface/',
+  ]) {
+    const html = await readFile(`dist/tr/${path}index.html`, 'utf8');
+    assert.match(html, /name="robots" content="noindex"/);
+    assert.ok(html.includes(`href="https://ilhanbuilds.github.io/${path}"`));
+    assert.ok(html.includes('location.search'));
+    assert.ok(html.includes('location.hash'));
+  }
 });
 
 test('no analytics, trackers, remote fonts or private source links in HTML', async () => {
@@ -142,9 +181,11 @@ test('only reviewed local images are published without identifying metadata', as
       offset += 8 + size + (size % 2);
     }
   }
-  assert.equal(
-    (await files('public')).some((path) => /\.pdf$/i.test(path)),
-    false,
-    'Unapproved CV must stay outside public assets',
-  );
+  const pdfs = (await files('public'))
+    .filter((path) => /\.pdf$/i.test(path))
+    .map((path) => path.replace(/\\/g, '/'));
+  assert.deepEqual(pdfs.sort(), [
+    'public/documents/Ilhan_Kilic_CV_EN_Portfolyo.pdf',
+    'public/documents/Ilhan_Kilic_CV_Portfolyo.pdf',
+  ]);
 });

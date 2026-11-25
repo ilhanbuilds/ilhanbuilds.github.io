@@ -18,6 +18,10 @@ const captures = [
   ['racker-detail', '/work/racker/', 1440, 1000, 'light'],
   ['secureface-detail', '/work/secureface/', 1440, 1000, 'light'],
   ['about-desktop', '/about/', 1440, 1000, 'light'],
+  ['home-en-desktop', '/en/', 1440, 1000, 'light'],
+  ['home-en-mobile', '/en/', 390, 844, 'light'],
+  ['about-en-desktop', '/en/about/', 1440, 1000, 'light'],
+  ['racker-en-detail', '/en/work/racker/', 1440, 1000, 'light'],
 ];
 const manifest = [];
 try {

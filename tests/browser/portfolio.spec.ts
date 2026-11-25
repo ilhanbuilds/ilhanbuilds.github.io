@@ -27,14 +27,14 @@ test('every public page has localized metadata, matching language routes and val
   test.setTimeout(120_000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const internalLinks = new Set<string>();
-  for (const prefix of ['/', '/tr/']) {
+  for (const prefix of ['/', '/en/']) {
     for (const path of paths) {
       const url = `${prefix}${path}`;
       const response = await page.goto(url);
       expect(response?.status(), url).toBe(200);
       await expect(page.locator('html')).toHaveAttribute(
         'lang',
-        prefix === '/' ? 'en' : 'tr',
+        prefix === '/en/' ? 'en' : 'tr',
       );
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
@@ -45,7 +45,7 @@ test('every public page has localized metadata, matching language routes and val
         'href',
         `https://ilhanbuilds.github.io${url}`,
       );
-      const other = prefix === '/' ? `/tr/${path}` : `/${path}`;
+      const other = prefix === '/' ? `/en/${path}` : `/${path}`;
       await expect(page.locator('.language')).toHaveAttribute('href', other);
       const links = await page
         .locator('a[href^="/"]')
@@ -92,7 +92,7 @@ test('project images have intrinsic dimensions, preserve their ratio and open at
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const path of [
     '/work/racker/',
-    '/tr/work/idleoyun/',
+    '/work/idleoyun/',
     '/work/calculator/',
     '/journey/',
     '/about/',
@@ -148,7 +148,7 @@ test('project images have intrinsic dimensions, preserve their ratio and open at
 test('Racker uses the official icon and verified Google Play link in both languages', async ({
   page,
 }) => {
-  for (const path of ['/', '/tr/', '/work/racker/', '/tr/work/racker/']) {
+  for (const path of ['/', '/en/', '/work/racker/', '/en/work/racker/']) {
     await page.goto(path);
     await expect(
       page.locator(
@@ -164,7 +164,7 @@ test('Racker uses the official icon and verified Google Play link in both langua
 test('journey shows original game images and keeps smaller projects compact', async ({
   page,
 }) => {
-  await page.goto('/tr/journey/');
+  await page.goto('/journey/');
   await expect(page.locator('.game-comparison img')).toHaveCount(2);
   await expect(page.locator('.game-comparison')).toContainText(
     'yapay zekâ desteğiyle',
@@ -221,7 +221,7 @@ test('theme follows system preference and keeps an explicit choice through navig
   page,
 }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
-  await page.goto('/');
+  await page.goto('/en/');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   const toggle = page.locator('.theme-toggle');
   await expect(toggle).toHaveAccessibleName('Use light theme');
@@ -230,7 +230,7 @@ test('theme follows system preference and keeps an explicit choice through navig
   expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe(
     'light',
   );
-  await page.goto('/tr/work/racker/');
+  await page.goto('/work/racker/');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(page.locator('.theme-toggle')).toHaveAccessibleName(
@@ -256,7 +256,7 @@ test('mobile navigation works by keyboard, closes with Escape, and navigates', a
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/tr/');
+  await page.goto('/');
   const menu = page.locator('.menu-toggle');
   await expect(menu).toHaveAccessibleName('Menü');
   await menu.focus();
@@ -271,14 +271,14 @@ test('mobile navigation works by keyboard, closes with Escape, and navigates', a
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await menu.click();
   await page.getByRole('link', { name: 'Yolculuk', exact: true }).click();
-  await expect(page).toHaveURL('/tr/journey/');
+  await expect(page).toHaveURL('/journey/');
 });
 
 test('keyboard skip link reaches main content', async ({
   page,
   browserName,
 }) => {
-  await page.goto('/');
+  await page.goto('/en/');
   // Windows WebKit defaults to tabbing only to form controls. Verify activation
   // there; Chromium also verifies that the skip link is first in the tab order.
   if (browserName === 'webkit') {
@@ -296,7 +296,7 @@ test('keyboard skip link reaches main content', async ({
 test('journey preserves approved chronology and team attribution', async ({
   page,
 }) => {
-  await page.goto('/journey/');
+  await page.goto('/en/journey/');
   const headings = await page.locator('.timeline-entry h3').allTextContents();
   expect(headings).toEqual([
     'IdleOyun',
@@ -324,11 +324,11 @@ for (const width of [360, 390, 412, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const path of [
       '/',
-      '/tr/',
+      '/en/',
       '/work/',
-      '/tr/journey/',
+      '/journey/',
       '/about/',
-      '/tr/work/racker/',
+      '/work/racker/',
       '/work/dinocore/',
     ]) {
       await page.goto(path);
@@ -348,11 +348,11 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
     for (const path of [
       '/',
-      '/tr/',
+      '/en/',
       '/work/',
       '/journey/',
       '/about/',
-      '/tr/work/secureface/',
+      '/work/secureface/',
       '/work/racker/',
       '/404.html',
     ]) {
@@ -368,7 +368,7 @@ for (const theme of ['light', 'dark'] as const) {
 test('custom error pages and screenshot evidence', async ({
   page,
 }, testInfo) => {
-  for (const path of ['/404.html', '/tr/404/']) {
+  for (const path of ['/404.html', '/en/404/']) {
     await page.goto(path);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       'content',
@@ -382,7 +382,7 @@ test('custom error pages and screenshot evidence', async ({
     path: testInfo.outputPath('home.png'),
     fullPage: true,
   });
-  await page.goto('/tr/journey/');
+  await page.goto('/journey/');
   await page.screenshot({
     path: testInfo.outputPath('journey-tr.png'),
     fullPage: true,
