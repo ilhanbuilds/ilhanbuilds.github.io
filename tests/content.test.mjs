@@ -26,6 +26,7 @@ test('build contains only the approved project routes in both languages', async 
     'kutlumi',
     'lina',
     'racker',
+    'bilekten',
     'deepfake-detection',
     'secureface',
     'rubikrl',
@@ -63,6 +64,7 @@ test('sitemap has all 28 indexable pages and excludes error pages', async () => 
   const xml = await readFile('dist/sitemap-0.xml', 'utf8');
   assert.equal((xml.match(/<loc>/g) ?? []).length, 28);
   assert.equal(xml.includes('404'), false);
+  assert.equal(xml.includes('/journey/'), false);
   assert.equal(xml.includes('https://ilhanbuilds.github.io/tr/'), false);
   assert.ok(xml.includes('https://ilhanbuilds.github.io/en/work/racker/'));
 });
@@ -98,7 +100,11 @@ test('legacy Turkish routes are noindex aliases with canonical root destinations
   ]) {
     const html = await readFile(`dist/tr/${path}index.html`, 'utf8');
     assert.match(html, /name="robots" content="noindex"/);
-    assert.ok(html.includes(`href="https://ilhanbuilds.github.io/${path}"`));
+    assert.ok(
+      html.includes(
+        `href="https://ilhanbuilds.github.io/${path === 'journey/' ? 'work/' : path}"`,
+      ),
+    );
     assert.ok(html.includes('location.search'));
     assert.ok(html.includes('location.hash'));
   }
@@ -117,7 +123,7 @@ test('no analytics, trackers, remote fonts or private source links in HTML', asy
       path,
     );
     assert.equal(
-      /https:\/\/github\.com\/ilhanbuilds\/(?:Racker["'/]|SecureFace|RubikRL|kutlumi)/i.test(
+      /https:\/\/github\.com\/ilhanbuilds\/(?:Racker["'/]|SecureFace|RubikRL|kutlumi|Bilekten)/i.test(
         html,
       ),
       false,
@@ -144,6 +150,11 @@ test('only reviewed local images are published without identifying metadata', as
     'rubikrl/scrambled-state.webp',
     'rubikrl/interface.webp',
     'personal/portrait.webp',
+    'bilekten/phone-overview.webp',
+    'bilekten/watch-controls.webp',
+    'bilekten/watch-media.webp',
+    'bilekten/watch-apps.webp',
+    'bilekten/watch-camera.webp',
     'racker/overview.webp',
     'racker/android-planning.webp',
     'racker/android-tracking.webp',
@@ -165,6 +176,7 @@ test('only reviewed local images are published without identifying metadata', as
   );
   for (const path of [
     ...actual,
+    ...(await files('src/assets/covers')),
     ...(await files('dist')).filter((path) => path.endsWith('.webp')),
   ]) {
     const data = await readFile(path);
@@ -188,6 +200,36 @@ test('only reviewed local images are published without identifying metadata', as
     'public/documents/Ilhan_Kilic_CV_EN_Portfolyo.pdf',
     'public/documents/Ilhan_Kilic_CV_Portfolyo.pdf',
   ]);
+});
+
+test('only reviewed truthful promotional covers are imported; withheld face and claim artwork stays excluded', async () => {
+  const approved = JSON.parse(
+    await readFile('tests/fixtures/approved-covers.json', 'utf8'),
+  );
+  assert.deepEqual(
+    (await readdir('src/assets/covers')).sort(),
+    Object.keys(approved).sort(),
+  );
+  for (const [name, hash] of Object.entries(approved)) {
+    const bytes = await readFile(`src/assets/covers/${name}`);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), hash, name);
+    assert.equal(bytes.toString('ascii', 12, 16), 'VP8 ', name);
+    assert.equal(bytes.readUInt16LE(26) & 0x3fff, 1440, name);
+    assert.equal(bytes.readUInt16LE(28) & 0x3fff, 720, name);
+  }
+  for (const [path, target, lang] of [
+    ['journey', '/work/', 'tr'],
+    ['en/journey', '/en/work/', 'en'],
+    ['tr/journey', '/work/', 'tr'],
+  ]) {
+    const html = await readFile(`dist/${path}/index.html`, 'utf8');
+    assert.match(html, /name="robots" content="noindex"/);
+    assert.ok(html.includes(`href="https://ilhanbuilds.github.io${target}"`));
+    assert.ok(html.includes(`<html lang="${lang}">`));
+    assert.ok(
+      html.includes('location.search') && html.includes('location.hash'),
+    );
+  }
 });
 
 test('brand browser assets have exact dimensions and approved slash geometry', async () => {

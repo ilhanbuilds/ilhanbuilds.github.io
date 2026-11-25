@@ -4,6 +4,7 @@ const order = [
   'RubikRL',
   'SecureFace',
   'Deepfake Detection',
+  'Bilekten',
   'Racker',
   'Lina',
   'Kutlumi',
@@ -46,7 +47,7 @@ test('home identifies the person and offers CV, projects and approved social con
   }
 });
 
-test('project cards and Journey follow verified newest-first chronology with no nested anchors', async ({
+test('project cards and legacy Journey follow verified newest-first chronology with no nested anchors', async ({
   page,
 }) => {
   for (const prefix of ['', '/en']) {
@@ -81,14 +82,15 @@ test('project cards and Journey follow verified newest-first chronology with no 
     );
     await expect(page).toHaveURL(expected!);
     await page.goto(`${prefix}/journey/`);
-    expect(await page.locator('.timeline-entry h3').allTextContents()).toEqual(
+    expect(await page.locator('.project-card h3').allTextContents()).toEqual(
       order,
     );
-    await expect(page.locator('.game-comparison img')).toHaveCount(2);
+    await expect(page).toHaveURL(`${prefix}/work/`);
+    await expect(page.locator('.game-comparison')).toHaveCount(0);
   }
 });
 
-test('demo resources load only on request, stay sandboxed and can be released', async ({
+test('demo resources load near the viewport without buttons or focus theft and stay sandboxed', async ({
   page,
 }) => {
   for (const [slug, file] of [
@@ -103,15 +105,30 @@ test('demo resources load only on request, stay sandboxed and can be released', 
     };
     page.on('request', listener);
     await page.goto(`/work/${slug}/`);
-    await expect(page.locator('[data-demo-host] iframe')).toHaveCount(0);
-    expect(requests).toEqual([]);
-    await page.locator('[data-demo-start]').click();
+    const host = page.locator('[data-demo-host]');
+    const box = await host.boundingBox();
+    if (box!.y > (page.viewportSize()?.height ?? 720) + 240) {
+      await expect(host.locator('iframe')).toHaveCount(0);
+      expect(requests).toEqual([]);
+    }
+    await expect(
+      page.locator('[data-demo-start], [data-demo-close]'),
+    ).toHaveCount(0);
+    await page.locator('.detail-back').focus();
+    await host.scrollIntoViewIfNeeded();
     const frame = page.locator('[data-demo-host] iframe');
     await expect(frame).toHaveAttribute(
       'src',
       new RegExp(`/demos/${file}\\.html`),
     );
+    await expect(page.locator('.detail-back')).toBeFocused();
     const sandbox = await frame.getAttribute('sandbox');
+    expect(sandbox?.split(' ').sort()).toEqual(
+      slug === 'hcjeditor'
+        ? ['allow-downloads', 'allow-scripts']
+        : ['allow-scripts'],
+    );
+    await expect(frame).toHaveAttribute('referrerpolicy', 'no-referrer');
     expect(sandbox).toContain('allow-scripts');
     expect(sandbox).not.toContain('allow-same-origin');
     await expect
@@ -144,9 +161,8 @@ test('demo resources load only on request, stay sandboxed and can be released', 
         preview.getByRole('heading', { name: 'Efsanevi Oyun!' }),
       ).toBeVisible();
     }
-    await page.locator('[data-demo-close]').click();
-    await expect(frame).toHaveCount(0);
-    await expect(page.locator('[data-demo-start]')).toBeFocused();
+    await page.locator('[data-demo-host]').scrollIntoViewIfNeeded();
+    await expect(frame).toHaveCount(1);
     page.off('request', listener);
   }
 });
@@ -156,7 +172,7 @@ test('recorded SecureFace comparison and Racker image preview disclose their rea
 }) => {
   await page.goto('/work/secureface/');
   const comparison = page.locator('[data-compare]');
-  await comparison.locator('summary').click();
+  await expect(comparison.locator('summary')).toHaveCount(0);
   const slider = comparison.getByRole('slider');
   await slider.fill('25');
   expect(
@@ -172,8 +188,7 @@ test('recorded SecureFace comparison and Racker image preview disclose their rea
   );
   await page.goto('/en/work/racker/');
   const preview = page.locator('[data-product-preview]');
-  await expect(preview.locator('[data-slides] figure')).toHaveCount(0);
-  await preview.locator('summary').click();
+  await expect(preview.locator('summary')).toHaveCount(0);
   await expect(preview.locator('[data-slides] figure')).toHaveCount(3);
   await expect(preview.locator('[data-count]')).toHaveText('1 / 3');
   await preview.locator('[data-next]').click();
@@ -197,7 +212,6 @@ for (const theme of ['light', 'dark'] as const) {
         for (const path of [
           '',
           'about/',
-          'journey/',
           'work/',
           ...[
             'idleoyun',
@@ -207,6 +221,7 @@ for (const theme of ['light', 'dark'] as const) {
             'kutlumi',
             'lina',
             'racker',
+            'bilekten',
             'deepfake-detection',
             'secureface',
             'rubikrl',
@@ -224,7 +239,7 @@ for (const theme of ['light', 'dark'] as const) {
               () => document.documentElement.scrollWidth <= window.innerWidth,
             ),
           ).toBe(true);
-          for (const image of await page.locator('img').all()) {
+          for (const image of await page.locator('img:visible').all()) {
             await image.scrollIntoViewIfNeeded();
             await expect
               .poll(() =>

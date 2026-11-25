@@ -7,33 +7,12 @@ const output = resolve(process.argv[2] ?? '.tools/PortfolioReview');
 const baseURL = process.env.PORTFOLIO_PREVIEW_URL ?? 'http://127.0.0.1:4321';
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch();
-const captures = [
-  ['home-desktop-light', '/', 1440, 1000, 'light'],
-  ['home-desktop-dark', '/', 1440, 1000, 'dark'],
-  ['home-mobile-light', '/', 390, 844, 'light'],
-  ['home-mobile-dark', '/', 390, 844, 'dark'],
-  ['journey-desktop', '/journey/', 1440, 1000, 'light'],
-  ['journey-mobile', '/journey/', 390, 844, 'light'],
-  ['journey-desktop-dark', '/journey/', 1440, 1000, 'dark'],
-  ['journey-mobile-dark', '/journey/', 390, 844, 'dark'],
-  ['about-desktop-dark', '/about/', 1440, 1000, 'dark'],
-  ['about-mobile-light', '/about/', 390, 844, 'light'],
-  ['about-mobile-dark', '/about/', 390, 844, 'dark'],
-  ['projects-desktop', '/work/', 1440, 1000, 'light'],
-  ['racker-detail', '/work/racker/', 1440, 1000, 'light'],
-  ['secureface-detail', '/work/secureface/', 1440, 1000, 'light'],
-  ['about-desktop', '/about/', 1440, 1000, 'light'],
-  ['home-en-desktop', '/en/', 1440, 1000, 'light'],
-  ['home-en-mobile', '/en/', 390, 844, 'light'],
-  ['about-en-desktop', '/en/about/', 1440, 1000, 'light'],
-  ['racker-en-detail', '/en/work/racker/', 1440, 1000, 'light'],
-];
+const captures = [];
 // Every content/error page is reviewed in both languages, themes and viewports.
 for (const prefix of ['', '/en']) {
   for (const path of [
     '',
     'work/',
-    'journey/',
     'about/',
     ...[
       'idleoyun',
@@ -43,6 +22,7 @@ for (const prefix of ['', '/en']) {
       'kutlumi',
       'lina',
       'racker',
+      'bilekten',
       'deepfake-detection',
       'secureface',
       'rubikrl',
@@ -87,10 +67,38 @@ try {
     if (response?.status() !== 200)
       throw new Error(`Preview did not serve ${path}`);
     await page.evaluate(() => document.fonts.ready);
-    for (const image of await page.locator('img').all()) {
+    for (const image of await page.locator('img:visible').all()) {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate((element) => element.decode());
     }
+    const demo = page.locator('[data-demo]');
+    if (await demo.count()) {
+      await demo.locator('[data-demo-host]').scrollIntoViewIfNeeded();
+      await page.locator('[data-demo][data-loaded="true"]').waitFor();
+      const kind = await demo.getAttribute('data-kind');
+      const ready =
+        kind === 'rubikrl'
+          ? '.cube'
+          : kind === 'hcjeditor'
+            ? '#html-code'
+            : kind === 'calculator'
+              ? '#display'
+              : '#menu';
+      await demo.frameLocator('iframe').locator(ready).first().waitFor();
+    }
+    // Full-document viewport makes Chromium paint off-screen opaque frames too.
+    const fullHeight = await page.evaluate(
+      () => document.documentElement.scrollHeight,
+    );
+    await page.setViewportSize({ width, height: fullHeight });
+    await page.evaluate(
+      () =>
+        new Promise((resolve) =>
+          window.requestAnimationFrame(() =>
+            window.requestAnimationFrame(resolve),
+          ),
+        ),
+    );
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
       path: join(output, `${name}.png`),

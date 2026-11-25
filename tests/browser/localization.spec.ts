@@ -40,12 +40,15 @@ test('explicit localized links win over a saved preference and legacy links pres
     'work/kutlumi/',
     'work/lina/',
     'work/racker/',
+    'work/bilekten/',
     'work/deepfake-detection/',
     'work/secureface/',
     'work/rubikrl/',
   ]) {
     await page.goto(`/tr/${path}?from=old#main`);
-    await expect(page).toHaveURL(`/${path}?from=old#main`);
+    await expect(page).toHaveURL(
+      `/${path === 'journey/' ? 'work/' : path}?from=old#main`,
+    );
     await expect(page.locator('html')).toHaveAttribute('lang', 'tr');
   }
 });
