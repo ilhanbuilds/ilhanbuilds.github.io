@@ -48,7 +48,7 @@ const person = {
               : 'light';
       })();
     </script>
-    <title>{title} · {profile.name}</title>
+    <title>{title === profile.name ? title : `${title} · ${profile.name}`}</title>
     <meta name="description" content={description} />
     <meta
       name="theme-color"
