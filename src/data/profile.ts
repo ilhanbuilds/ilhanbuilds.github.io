@@ -1,3 +1,5 @@
+import portrait from '../assets/images/personal/portrait.webp';
+
 export const profile = {
   name: 'İlhan Kılıç',
   university: {
@@ -13,5 +15,5 @@ export const profile = {
   linkedin: undefined as string | undefined,
   email: undefined as string | undefined,
   resume: undefined as string | undefined,
-  portrait: undefined as string | undefined,
+  portrait,
 };

@@ -1,9 +1,11 @@
 import type { Project } from '../types/content';
+import { projectImages } from './project-images';
 
 // Only information approved for public display belongs in this file.
 export const projects: Project[] = [
   {
     id: 'idleoyun',
+    ...projectImages.idleoyun,
     slug: 'idleoyun',
     title: 'IdleOyun',
     year: 2024,
@@ -30,6 +32,7 @@ export const projects: Project[] = [
   },
   {
     id: 'calculator',
+    ...projectImages.calculator,
     slug: 'calculator',
     title: 'Calculator',
     year: 2025,
@@ -51,6 +54,7 @@ export const projects: Project[] = [
   },
   {
     id: 'hcjeditor',
+    ...projectImages.hcjeditor,
     slug: 'hcjeditor',
     title: 'HCJEditor',
     year: 2025,
@@ -72,6 +76,7 @@ export const projects: Project[] = [
   },
   {
     id: 'dinocore',
+    ...projectImages.dinocore,
     slug: 'dinocore',
     title: 'DinoCore: Evolution Idle',
     year: 2026,
@@ -97,6 +102,7 @@ export const projects: Project[] = [
   },
   {
     id: 'kutlumi',
+    ...projectImages.kutlumi,
     slug: 'kutlumi',
     title: 'Kutlumi',
     year: 2026,
@@ -118,6 +124,7 @@ export const projects: Project[] = [
   },
   {
     id: 'lina',
+    ...projectImages.lina,
     slug: 'lina',
     title: 'Lina',
     year: 2026,
@@ -144,6 +151,7 @@ export const projects: Project[] = [
   },
   {
     id: 'racker',
+    ...projectImages.racker,
     slug: 'racker',
     title: 'Racker',
     year: 2026,
@@ -153,6 +161,8 @@ export const projects: Project[] = [
     visibility: 'private',
     featured: 1,
     documentationUrl: 'https://github.com/ilhanbuilds/Racker-Legal',
+    storeUrl:
+      'https://play.google.com/store/apps/details?id=com.ilhanki.titanlog',
     translations: {
       en: {
         summary:
@@ -200,6 +210,7 @@ export const projects: Project[] = [
   },
   {
     id: 'secureface',
+    ...projectImages.secureface,
     slug: 'secureface',
     title: 'SecureFace',
     year: 2026,
@@ -228,6 +239,7 @@ export const projects: Project[] = [
   },
   {
     id: 'rubikrl',
+    ...projectImages.rubikrl,
     slug: 'rubikrl',
     title: 'RubikRL',
     year: 2026,

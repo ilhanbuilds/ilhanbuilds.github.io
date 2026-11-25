@@ -32,7 +32,10 @@ export interface Project {
   repositoryUrl?: string;
   demoUrl?: string;
   documentationUrl?: string;
+  storeUrl?: string;
   coverImage?: ProjectImage;
+  logo?: ProjectImage;
+  timelineImage?: ProjectImage;
   gallery?: ProjectImage[];
   translations: Localized<ProjectCopy>;
 }
