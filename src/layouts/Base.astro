@@ -14,6 +14,8 @@ interface Props {
 }
 const { locale, title, description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const pageTitle = `${title} · ilhanbuilds`;
+const shareImage = new URL('/branding/og-image.png', Astro.site);
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -73,7 +75,7 @@ const person = {
         });
       })();
     </script>
-    <title>{title === profile.name ? title : `${title} · ${profile.name}`}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta
       name="theme-color"
@@ -86,6 +88,18 @@ const person = {
       media="(prefers-color-scheme: dark)"
     />
     <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/icons/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href={canonical} />
     {noindex ? (
       <meta name="robots" content="noindex" />
@@ -109,7 +123,7 @@ const person = {
       </>
     )}
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={`${title} · ${profile.name}`} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'tr_TR'} />
@@ -117,7 +131,17 @@ const person = {
       property="og:locale:alternate"
       content={locale === 'en' ? 'tr_TR' : 'en_US'}
     />
-    <meta property="og:site_name" content="İlhan Kılıç" />
+    <meta property="og:site_name" content="ilhanbuilds" />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ilhanbuilds — İlhan Kılıç" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <meta name="twitter:image:alt" content="ilhanbuilds — İlhan Kılıç" />
     <script
       type="application/ld+json"
       set:html={JSON.stringify(person).replace(/</g, '\\u003c')}

@@ -20,9 +20,14 @@ const links = [
   <a
     class="wordmark"
     href={route(locale)}
-    aria-label={`ilhan. · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
+    aria-label={`/ilhanbuilds · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
   >
-    ilhan<span class="wordmark-dot">.</span>
+    <span class="wordmark-slash" aria-hidden="true">
+      /
+    </span>
+    <span>
+      ilhan<span class="wordmark-builds">builds</span>
+    </span>
   </a>
   <nav
     aria-label={locale === 'en' ? 'Main navigation' : 'Ana navigasyon'}

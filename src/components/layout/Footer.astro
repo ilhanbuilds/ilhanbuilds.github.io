@@ -18,10 +18,17 @@ const { locale } = Astro.props;
         LinkedIn
       </a>
     )}
-    {profile.email && <a href={`mailto:${profile.email}`}>{profile.email}</a>}
+    {profile.developerEmail && (
+      <a
+        href={`mailto:${profile.developerEmail}`}
+        aria-label={`${copy[locale].developerContact}: ${profile.developerEmail}`}
+      >
+        {profile.developerEmail}
+      </a>
+    )}
   </div>
   <p>
-    © {new Date().getFullYear()} {profile.name}
+    © {new Date().getFullYear()} ilhanbuilds
     <span class="footer-label"> · {copy[locale].footer}</span>
   </p>
 </footer>

@@ -189,3 +189,31 @@ test('only reviewed local images are published without identifying metadata', as
     'public/documents/Ilhan_Kilic_CV_Portfolyo.pdf',
   ]);
 });
+
+test('brand browser assets have exact dimensions and approved slash geometry', async () => {
+  const svg = await readFile('public/icons/favicon.svg', 'utf8');
+  assert.match(svg, /viewBox="0 0 64 64"/);
+  assert.match(svg, /fill="#007aff"/);
+  assert.doesNotMatch(svg, /IB|gradient|filter|image/);
+  for (const [name, width, height] of [
+    ['icons/favicon-32.png', 32, 32],
+    ['icons/apple-touch-icon.png', 180, 180],
+    ['icons/icon-192.png', 192, 192],
+    ['icons/icon-512.png', 512, 512],
+    ['branding/og-image.png', 1200, 630],
+  ]) {
+    const source = await readFile(`public/${name}`);
+    assert.equal(source.subarray(1, 4).toString(), 'PNG');
+    assert.equal(source.readUInt32BE(16), width);
+    assert.equal(source.readUInt32BE(20), height);
+    assert.deepEqual(await readFile(`dist/${name}`), source);
+  }
+  const manifest = JSON.parse(
+    await readFile('public/site.webmanifest', 'utf8'),
+  );
+  assert.equal(manifest.name, 'ilhanbuilds');
+  assert.deepEqual(
+    manifest.icons.map((icon) => icon.sizes),
+    ['192x192', '512x512'],
+  );
+});

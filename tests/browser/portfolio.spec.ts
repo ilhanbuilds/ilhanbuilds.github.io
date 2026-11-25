@@ -37,6 +37,14 @@ test('every public page has localized metadata, matching language routes and val
         prefix === '/en/' ? 'en' : 'tr',
       );
       await expect(page.locator('h1')).toHaveCount(1);
+      await expect(page).toHaveTitle(/ilhanbuilds$/);
+      await expect(
+        page.locator('meta[property="og:site_name"]'),
+      ).toHaveAttribute('content', 'ilhanbuilds');
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+        'content',
+        'https://ilhanbuilds.github.io/branding/og-image.png',
+      );
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         'content',
         /.+/,
@@ -98,7 +106,9 @@ test('project images have intrinsic dimensions, preserve their ratio and open at
     '/about/',
   ]) {
     await page.goto(path);
-    for (const image of await page.locator('img').all()) {
+    for (const image of await page
+      .locator('img:not(.about-portrait img)')
+      .all()) {
       await image.scrollIntoViewIfNeeded();
       await expect
         .poll(() =>

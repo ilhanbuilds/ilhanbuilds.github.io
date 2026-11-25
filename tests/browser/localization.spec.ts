@@ -96,7 +96,7 @@ for (const locale of ['tr', 'en'] as const) {
         `/documents/${filename}`,
       );
       await expect(
-        page.locator('.site-footer a[href="mailto:kilicilhan.75@gmail.com"]'),
+        page.locator('.site-footer a[href="mailto:ilhanbuilds@gmail.com"]'),
       ).toHaveCount(1);
       await expect(
         page.locator(
