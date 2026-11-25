@@ -1,0 +1,43 @@
+---
+import { timeline } from '../../data/projects';
+import { route, statuses, copy } from '../../i18n';
+import type { Locale } from '../../types/content';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const years = [...new Set(timeline.map((p) => p.year))];
+---
+
+<div class="timeline">
+  {years.map((year) => (
+    <section class="timeline-year" aria-labelledby={`year-${year}`}>
+      <h2 id={`year-${year}`}>{year}</h2>
+      <div class="timeline-entries">
+        {timeline
+          .filter((p) => p.year === year)
+          .map((p) => (
+            <article
+              class:list={[
+                'timeline-entry',
+                { 'timeline-expanded': p.featured || p.currentlyBuilding },
+              ]}
+            >
+              <div class="project-tags">
+                <span>{p.category[locale]}</span>
+                {p.status && (
+                  <span class="status">{statuses[locale][p.status]}</span>
+                )}
+                {p.collaboration === 'team' && <span>{copy[locale].team}</span>}
+              </div>
+              <h3>
+                <a href={route(locale, `work/${p.slug}`)}>{p.title}</a>
+              </h3>
+              <p>{p.translations[locale].summary}</p>
+              <span class="meta">{p.technologies.join(' / ')}</span>
+            </article>
+          ))}
+      </div>
+    </section>
+  ))}
+</div>

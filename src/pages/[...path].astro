@@ -1,0 +1,43 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PortfolioPage from '../components/PortfolioPage.astro';
+import Detail from '../components/projects/Detail.astro';
+import { projects } from '../data/projects';
+import type { Locale, Project } from '../types/content';
+
+export const getStaticPaths = (() => {
+  return (['en', 'tr'] as const).flatMap((locale) => {
+    const prefix = locale === 'tr' ? 'tr/' : '';
+    const pages = (['work', 'journey', 'about'] as const).map((page) => ({
+      params: { path: `${prefix}${page}` },
+      props: { locale, page },
+    }));
+    const details = projects.map((project) => ({
+      params: { path: `${prefix}work/${project.slug}` },
+      props: { locale, project },
+    }));
+    return [
+      ...pages,
+      ...details,
+      ...(locale === 'tr'
+        ? [
+            { params: { path: 'tr' }, props: { locale, page: 'home' } },
+            { params: { path: 'tr/404' }, props: { locale, page: '404' } },
+          ]
+        : []),
+    ];
+  });
+}) satisfies GetStaticPaths;
+interface Props {
+  locale: Locale;
+  page?: 'home' | 'work' | 'journey' | 'about' | '404';
+  project?: Project;
+}
+const { locale, page, project } = Astro.props;
+---
+
+{project ? (
+  <Detail locale={locale} project={project} />
+) : (
+  page && <PortfolioPage locale={locale} page={page} />
+)}

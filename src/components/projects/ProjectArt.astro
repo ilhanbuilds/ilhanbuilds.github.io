@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import type { Locale, Project } from '../../types/content';
+import { copy } from '../../i18n';
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+const { project, locale } = Astro.props;
+const t = copy[locale];
+---
+
+{project.coverImage ? (
+  <Image
+    src={project.coverImage.src}
+    alt={project.coverImage.alt[locale]}
+    widths={[360, 720, 1080, 1440]}
+    sizes="(max-width: 767px) 100vw, 70vw"
+    format="webp"
+    loading="lazy"
+    class="project-cover"
+  />
+) : (
+  <div class:list={['project-art', project.id]} aria-hidden="true">
+    <div class="art-top">
+      <span>{project.id === 'racker' ? t.rackerLabel : t.secureLabel}</span>
+      <span>{project.year}</span>
+    </div>
+    <div class="art-title">
+      {project.title}
+      <span class="art-period">.</span>
+    </div>
+    <div class="art-bottom">
+      <span>{project.id === 'racker' ? t.rackerCaption : t.secureCaption}</span>
+      <span>{project.id === 'racker' ? 'R' : 'SF'}</span>
+    </div>
+  </div>
+)}

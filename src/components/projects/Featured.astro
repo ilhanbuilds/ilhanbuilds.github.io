@@ -1,0 +1,37 @@
+---
+import { featured } from '../../data/projects';
+import { copy, route, statuses } from '../../i18n';
+import type { Locale } from '../../types/content';
+import ProjectArt from './ProjectArt.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+
+<div class="featured-grid">
+  {featured.map((p) => (
+    <article class="featured-project">
+      <a
+        class="art-link"
+        href={route(locale, `work/${p.slug}`)}
+        aria-label={`${t.viewProject}: ${p.title}`}
+      >
+        <ProjectArt project={p} locale={locale} />
+      </a>
+      <div class="project-heading">
+        <h3>
+          <a href={route(locale, `work/${p.slug}`)}>{p.title}</a>
+        </h3>
+        <span class="meta">{p.category[locale]}</span>
+      </div>
+      <p class="project-summary">{p.translations[locale].summary}</p>
+      <div class="project-tags">
+        {p.status && <span class="status">{statuses[locale][p.status]}</span>}
+        {p.collaboration === 'team' && <span>{t.team}</span>}
+        <span>{p.technologies.join(' / ')}</span>
+      </div>
+    </article>
+  ))}
+</div>
