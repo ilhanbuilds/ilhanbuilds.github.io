@@ -20,10 +20,7 @@ const source = projectImages.secureface.coverImage.src.src;
       ? 'Interactive comparison from the approved recorded screenshot. This does not run live face detection or encryption.'
       : 'Onaylı kayıtlı ekran görüntüsünden etkileşimli karşılaştırma. Canlı yüz tespiti veya şifreleme çalıştırmaz.'}
   </p>
-  <details data-compare data-source={source}>
-    <summary>
-      {english ? 'Open image comparison' : 'Görsel karşılaştırmayı aç'}
-    </summary>
+  <div data-compare data-source={source}>
     <div class="compare-stage" style="--reveal:50%">
       <div
         class="compare-layer compare-after"
@@ -45,23 +42,52 @@ const source = projectImages.secureface.coverImage.src.src;
       {english ? 'Original image visibility' : 'Özgün görüntünün görünürlüğü'}
       <input type="range" min="0" max="100" value="50" />
     </label>
-  </details>
+  </div>
 </section>
 <script>
   document
-    .querySelectorAll<HTMLDetailsElement>('[data-compare]')
-    .forEach((details) => {
-      const stage = details.querySelector<HTMLElement>('.compare-stage')!;
-      const range = details.querySelector<HTMLInputElement>('input')!;
-      details.addEventListener('toggle', () => {
-        if (details.open)
-          stage.style.setProperty(
-            '--compare-source',
-            `url("${details.dataset.source}")`,
-          );
-      });
+    .querySelectorAll<HTMLElement>('[data-compare]')
+    .forEach((comparison) => {
+      const stage = comparison.querySelector<HTMLElement>('.compare-stage')!;
+      const range = comparison.querySelector<HTMLInputElement>('input')!;
+      const load = () =>
+        stage.style.setProperty(
+          '--compare-source',
+          `url("${comparison.dataset.source}")`,
+        );
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              load();
+              observer.disconnect();
+            }
+          },
+          { rootMargin: '240px' },
+        );
+        observer.observe(stage);
+      } else load();
       range.addEventListener('input', () =>
         stage.style.setProperty('--reveal', `${range.value}%`),
       );
     });
 </script>
+<style>
+  .secure-comparison {
+    margin-block: 1.5rem;
+    padding-block: 1.5rem;
+  }
+  .secure-comparison h2 {
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+  }
+  .demo-description {
+    margin-block: 0.65rem 1rem;
+  }
+  .compare-stage {
+    width: min(100%, 22rem);
+    margin-top: 0;
+  }
+  .compare-control {
+    max-width: 22rem;
+  }
+</style>

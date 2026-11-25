@@ -1,21 +1,22 @@
 ---
 interface Props {
   target: string;
+  locale?: 'tr' | 'en';
 }
-const { target } = Astro.props;
+const { target, locale = 'tr' } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="tr">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sayfa taşındı · ilhanbuilds</title>
+    <title>{locale === 'en' ? 'Page moved' : 'Sayfa taşındı'} · ilhanbuilds</title>
     <meta name="robots" content="noindex" />
     <link rel="canonical" href={new URL(target, Astro.site)} />
-    <script is:inline define:vars={{ target }}>
+    <script is:inline define:vars={{ target, locale }}>
       try {
-        localStorage.setItem('locale', 'tr');
+        localStorage.setItem('locale', locale);
       } catch {
         /* The destination still works without storage. */
       }
@@ -27,7 +28,12 @@ const { target } = Astro.props;
   </head>
   <body>
     <p>
-      Bu sayfa taşındı. <a href={target}>Yeni adreste devam edin.</a>
+      {locale === 'en' ? 'This page has moved.' : 'Bu sayfa taşındı.'}
+      <a href={target}>
+        {locale === 'en'
+          ? 'Continue at the new address.'
+          : 'Yeni adreste devam edin.'}
+      </a>
     </p>
   </body>
 </html>

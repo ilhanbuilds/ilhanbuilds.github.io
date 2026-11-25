@@ -224,11 +224,41 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'bilekten',
+    ...projectImages.bilekten,
+    slug: 'bilekten',
+    title: 'Bilekten',
+    year: 2026,
+    timelineOrder: 8,
+    category: { en: 'Android & Wear OS', tr: 'Android ve Wear OS' },
+    technologies: ['Kotlin', 'Jetpack Compose', 'Wear OS'],
+    visibility: 'private',
+    status: 'on-hold',
+    translations: {
+      en: {
+        summary:
+          'An unpublished Android and Wear OS project for controlling phone media, apps and shortcuts from a watch. Development is paused; I plan to return to it.',
+        overview:
+          'I developed Bilekten after Racker to bring phone controls to the wrist. It combines a companion phone interface with watch screens for media, favourite apps and device controls.',
+        technicalDetails:
+          'Built natively with Kotlin and Jetpack Compose for Android and Wear OS, focusing on the phone–watch connection, media controls and shortcuts. Available commands depend on device support and Android permissions.',
+      },
+      tr: {
+        summary:
+          'Telefonun medya, uygulama ve kısayol kontrollerine saatten erişmek için geliştirdiğim, yayınlanmamış Android ve Wear OS projesi. Geliştirmeye ara verdim; ileride devam etmeyi planlıyorum.',
+        overview:
+          'Racker’dan sonra, telefon kontrollerini bileğe taşımak için geliştirdim. Telefonda bir yönetim arayüzü; saatte medya, favori uygulamalar ve cihaz kontrolleri bulunuyor.',
+        technicalDetails:
+          'Android ve Wear OS arayüzlerini Kotlin ve Jetpack Compose ile geliştirdim. Telefon–saat bağlantısı, medya denetimi ve kısayollar üzerinde çalıştım. Desteklenen komutlar cihazın yeteneklerine ve Android izinlerine bağlı.',
+      },
+    },
+  },
+  {
     id: 'deepfake-detection',
     slug: 'deepfake-detection',
     title: 'Deepfake Detection',
     year: 2026,
-    timelineOrder: 8,
+    timelineOrder: 9,
     category: { en: 'Academic project', tr: 'Akademik proje' },
     technologies: ['Python', 'PyTorch', 'EfficientNet'],
     visibility: 'public',
@@ -259,7 +289,7 @@ export const projects: Project[] = [
     slug: 'secureface',
     title: 'SecureFace',
     year: 2026,
-    timelineOrder: 9,
+    timelineOrder: 10,
     category: { en: 'Research & development', tr: 'Araştırma ve geliştirme' },
     technologies: ['Computer Vision', 'Face Privacy', 'Cryptography'],
     visibility: 'private',
@@ -292,7 +322,7 @@ export const projects: Project[] = [
     slug: 'rubikrl',
     title: 'RubikRL',
     year: 2026,
-    timelineOrder: 10,
+    timelineOrder: 11,
     category: { en: 'Reinforcement learning', tr: 'Pekiştirmeli öğrenme' },
     technologies: ['Python', 'Reinforcement Learning'],
     visibility: 'private',

@@ -3,8 +3,6 @@ import Base from '../layouts/Base.astro';
 import Featured from './projects/Featured.astro';
 import ProjectCard from './projects/ProjectCard.astro';
 import ProjectChronology from './projects/ProjectChronology.astro';
-import Timeline from './journey/Timeline.astro';
-import GameComparison from './journey/GameComparison.astro';
 import { Image } from 'astro:assets';
 import { building } from '../data/projects';
 import { profile } from '../data/profile';
@@ -12,21 +10,19 @@ import { copy, route } from '../i18n';
 import type { Locale } from '../types/content';
 interface Props {
   locale: Locale;
-  page: 'home' | 'work' | 'journey' | 'about' | '404';
+  page: 'home' | 'work' | 'about' | '404';
 }
 const { locale, page } = Astro.props;
 const t = copy[locale];
 const titles = {
   home: profile.name,
   work: t.work,
-  journey: t.journey,
   about: t.about,
   '404': '404',
 };
 const descriptions = {
   home: t.homeDescription,
   work: t.projectDescription,
-  journey: t.journeyDescription,
   about: t.aboutDescription,
   '404': t.notFoundBody,
 };
@@ -140,28 +136,6 @@ const interests =
           ))}
         </div>
       </section>
-      <section
-        class="section journey-preview"
-        aria-labelledby="journey-preview"
-      >
-        <div>
-          <p class="eyebrow">2024 — 2026</p>
-          <h2 id="journey-preview">{t.journey}</h2>
-          <a class="text-link" href={route(locale, 'journey')}>
-            {t.journeyLink}
-          </a>
-        </div>
-        <div class="journey-preview-notes">
-          <div>
-            <span class="meta">2024 / Python</span>
-            <p>{t.start}</p>
-          </div>
-          <div>
-            <span class="meta">2026 / Mobile · ML</span>
-            <p>{t.now}</p>
-          </div>
-        </div>
-      </section>
     </>
   )}
   {page === 'work' && (
@@ -177,20 +151,6 @@ const interests =
         <p>{t.workIntro}</p>
       </div>
       <ProjectChronology locale={locale} />
-    </>
-  )}
-  {page === 'journey' && (
-    <>
-      <div class="page-intro">
-        <p class="eyebrow">2024 — 2026</p>
-        <h1>
-          {t.journey}
-          <span class="accent">.</span>
-        </h1>
-        <p>{t.journeyIntro}</p>
-      </div>
-      <Timeline locale={locale} />
-      <GameComparison locale={locale} />
     </>
   )}
   {page === 'about' && (

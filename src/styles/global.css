@@ -342,34 +342,12 @@ img {
   max-width: 100%;
   height: auto;
 }
-.portrait-frame .screenshot {
-  width: auto;
-  max-height: 38rem;
-}
 .gallery-image-link {
   display: block;
 }
 .gallery-image-link:hover {
   outline: 1px solid var(--accent);
   outline-offset: 5px;
-}
-.racker-gallery figure:last-child {
-  grid-column: 1 / -1;
-  max-width: 38rem;
-  margin-inline: auto;
-}
-.timeline-image {
-  display: block;
-  width: fit-content;
-  max-width: 100%;
-  margin-top: 1.25rem;
-}
-.timeline-image .screenshot {
-  width: auto;
-  max-height: 22rem;
-}
-.timeline-image-small .screenshot {
-  max-height: 10rem;
 }
 .about-portrait {
   position: relative;
@@ -387,52 +365,6 @@ img {
   aspect-ratio: 1;
   object-fit: cover;
   object-position: 50% 45%;
-}
-.game-comparison {
-  border-top: 1px solid var(--border);
-  padding-block: 2.5rem 3rem;
-}
-.comparison-heading {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 3rem;
-  margin-bottom: 2rem;
-}
-.comparison-heading p {
-  color: var(--muted);
-  font-size: 0.95rem;
-  max-width: 36rem;
-}
-.comparison-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-.comparison-images figure {
-  margin: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  gap: 1.25rem;
-}
-.comparison-images a {
-  display: block;
-}
-.comparison-images .screenshot {
-  width: auto;
-  max-height: 22rem;
-}
-.comparison-images figcaption {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-.comparison-images strong {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
 }
 .project-art {
   display: flex;
@@ -565,30 +497,6 @@ img {
   padding-bottom: 0;
   border-bottom: 0;
 }
-.journey-preview {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 4rem;
-}
-.journey-preview h2 {
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  margin-bottom: 1.5rem;
-}
-.journey-preview h2 span {
-  color: var(--muted);
-}
-.journey-preview-notes {
-  padding-left: 2rem;
-  border-left: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2rem;
-}
-.journey-preview-notes p {
-  max-width: 20rem;
-  margin-top: 0.5rem;
-}
 .site-footer {
   border-top: 1px solid var(--border);
   display: flex;
@@ -627,62 +535,6 @@ img {
 }
 .archive h2 {
   margin-bottom: 1rem;
-}
-.timeline-year {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 3rem;
-  border-top: 1px solid var(--border);
-  padding-block: 2.5rem;
-}
-.timeline-year > h2 {
-  color: var(--muted);
-  font-size: 2rem;
-}
-.timeline-entries {
-  padding-left: 2.5rem;
-  border-left: 1px solid var(--border);
-}
-.timeline-entry {
-  position: relative;
-  padding-block: 0 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
-}
-.timeline-entry::before {
-  content: '';
-  position: absolute;
-  left: calc(-2.5rem - 4px);
-  top: 0.5rem;
-  width: 7px;
-  height: 7px;
-  background: var(--muted);
-  border-radius: 50%;
-}
-.timeline-entry:last-child {
-  padding-bottom: 0;
-  margin-bottom: 0;
-  border: 0;
-}
-.timeline-entry .project-tags {
-  margin-top: 0;
-  margin-bottom: 0.6rem;
-}
-.timeline-entry p {
-  margin-block: 0.7rem;
-  color: var(--muted);
-  max-width: 42rem;
-  font-size: 0.95rem;
-}
-.timeline-expanded h3 {
-  font-size: 2rem;
-}
-.timeline-expanded {
-  padding-block: 0.8rem 2.5rem;
-}
-.timeline-expanded::before {
-  top: 1.3rem;
-  background: var(--accent);
 }
 .about-grid {
   display: grid;
@@ -733,32 +585,64 @@ img {
   gap: 1rem 2rem;
 }
 .detail-intro {
-  padding-block: 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(10rem, 18rem);
+  gap: 2rem 3rem;
+  align-items: center;
+  padding-block: 2rem;
 }
 .detail-intro .project-tags {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .detail-intro h1 {
-  font-size: clamp(2.8rem, 6vw, 5.5rem);
-  margin-block: 1rem 1.5rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-block: 0.65rem 1rem;
   overflow-wrap: anywhere;
 }
-.detail-intro > p {
-  font-size: 1.2rem;
+.detail-summary {
+  font-size: 1.05rem;
   max-width: 47rem;
   color: var(--muted);
 }
-.detail-intro + .project-art {
-  aspect-ratio: 2.7;
+.detail-technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
 }
-.detail-intro + .project-art .art-title {
-  font-size: clamp(3rem, 7vw, 7rem);
+.detail-technologies li {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.6rem;
+}
+.detail-identity {
+  min-height: 11rem;
+  padding: 1.5rem;
+  border-left: 2px solid var(--brand-blue);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.identity-name {
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.detail-identity .detail-logo {
+  width: 96px;
+  margin: 0;
 }
 .detail-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 6rem;
-  padding-block: 3rem 4rem;
+  grid-template-columns: minmax(10rem, 1fr) minmax(0, 3fr);
+  gap: 3rem;
+  padding-block: 2rem;
 }
 .project-facts {
   margin: 0;
@@ -870,30 +754,6 @@ img {
     width: 52px;
     margin-right: 0.4rem;
   }
-  .racker-gallery figure:last-child {
-    grid-column: auto;
-  }
-  .comparison-heading {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .comparison-images {
-    gap: 1rem;
-  }
-  .comparison-images figure {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: end;
-    gap: 1rem;
-  }
-  .comparison-images .screenshot {
-    max-height: 18rem;
-    width: auto;
-  }
-  .comparison-images figcaption {
-    min-height: 6rem;
-  }
   .wrap {
     width: calc(100% - 2.5rem);
   }
@@ -987,13 +847,9 @@ img {
     max-width: 45%;
   }
   .currently,
-  .journey-preview,
   .interests {
     grid-template-columns: 1fr;
     gap: 2rem;
-  }
-  .journey-preview-notes {
-    padding-left: 1.3rem;
   }
   .site-footer {
     flex-direction: column;
@@ -1020,21 +876,6 @@ img {
     flex-direction: row;
     text-align: left;
   }
-  .timeline-year {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding-block: 2rem;
-  }
-  .timeline-entries {
-    margin-left: 0.3rem;
-    padding-left: 1.5rem;
-  }
-  .timeline-entry::before {
-    left: calc(-1.5rem - 4px);
-  }
-  .timeline-expanded h3 {
-    font-size: 1.7rem;
-  }
   .about-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1048,16 +889,26 @@ img {
     gap: 0.8rem;
   }
   .detail-intro {
-    padding-block: 2rem;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-block: 1.5rem;
   }
   .detail-intro h1 {
-    font-size: clamp(2.7rem, 10vw, 4.5rem);
+    font-size: clamp(1.9rem, 7vw, 2.5rem);
   }
-  .detail-intro > p {
-    font-size: 1.05rem;
+  .detail-identity {
+    min-height: 0;
+    padding: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
   }
-  .detail-intro + .project-art {
-    aspect-ratio: 1.42;
+  .detail-identity .identity-name {
+    font-size: 1.1rem;
+  }
+  .detail-identity .detail-logo {
+    width: 56px;
+    flex: 0 0 56px;
   }
   .detail-grid {
     grid-template-columns: 1fr;
@@ -1207,9 +1058,7 @@ img {
   color: #111;
 }
 .project-image-frame,
-.gallery img,
-.game-comparison img,
-.timeline-image img {
+.gallery img {
   border-radius: 8px;
 }
 .project-card {
@@ -1304,20 +1153,6 @@ img {
 .currently .card-cover .screenshot {
   max-height: 19rem;
 }
-.detail-idleoyun + .portrait-frame,
-.detail-calculator + .portrait-frame,
-.detail-dinocore + .portrait-frame {
-  max-width: 100%;
-}
-.detail-hcjeditor + .project-image-frame {
-  background: #1d2028;
-}
-.detail-rubikrl + .project-image-frame {
-  background: #202329;
-}
-.detail-lina + .project-image-frame {
-  background: #191f2c;
-}
 .detail-grid {
   border-top: 1px solid var(--border);
   margin-top: 2rem;
@@ -1330,12 +1165,6 @@ img {
   max-width: 48rem;
   margin-block: 1rem 1.5rem;
 }
-.demo-close {
-  background: none;
-  border: 0;
-  color: var(--text);
-  cursor: pointer;
-}
 .demo-frame {
   display: block;
   width: 100%;
@@ -1345,27 +1174,8 @@ img {
   margin-top: 1.25rem;
   background: var(--surface);
 }
-.demo-frame-hcjeditor {
-  height: 820px;
-}
-.demo-frame-rubikrl {
-  height: 740px;
-}
 [hidden] {
   display: none !important;
-}
-summary {
-  cursor: pointer;
-  width: fit-content;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-summary:hover,
-summary:focus-visible {
-  border-color: var(--accent);
 }
 .compare-stage {
   position: relative;
@@ -1482,14 +1292,8 @@ summary:focus-visible {
   .project-card h3 {
     font-size: 1.5rem;
   }
-  .demo-frame-hcjeditor {
-    height: 1150px;
-  }
   .demo-frame-idleoyun {
     height: 720px;
-  }
-  .demo-frame-rubikrl {
-    height: 800px;
   }
 }
 
@@ -1516,38 +1320,4 @@ summary:focus-visible {
   .card-topline {
     font-size: 0.875rem;
   }
-}
-
-/* Reserve the native card-image geometry before responsive source decoding. */
-.card-cover .screenshot {
-  width: 100%;
-  height: auto;
-  max-height: none;
-  max-width: calc(28rem * var(--image-ratio));
-  aspect-ratio: var(--image-ratio);
-}
-.currently .card-cover .screenshot {
-  max-height: none;
-  max-width: calc(19rem * var(--image-ratio));
-}
-
-/* The same reservation applies to portrait covers in detail pages. */
-.project-image-frame {
-  --image-height: 999rem;
-}
-.project-image-frame.portrait-frame {
-  --image-height: 38rem;
-}
-.card-cover .project-image-frame {
-  --image-height: 28rem;
-}
-.currently .card-cover .project-image-frame {
-  --image-height: 19rem;
-}
-.project-image-frame .screenshot {
-  width: 100%;
-  height: auto;
-  max-height: none;
-  max-width: calc(var(--image-height) * var(--image-ratio));
-  aspect-ratio: var(--image-ratio);
 }

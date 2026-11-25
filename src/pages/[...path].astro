@@ -9,7 +9,7 @@ import LegacyRedirect from '../components/navigation/LegacyRedirect.astro';
 export const getStaticPaths = (() => {
   const localized = (['tr', 'en'] as const).flatMap((locale) => {
     const prefix = locale === 'en' ? 'en/' : '';
-    const pages = (['work', 'journey', 'about'] as const).map((page) => ({
+    const pages = (['work', 'about'] as const).map((page) => ({
       params: { path: `${prefix}${page}` },
       props: { locale, page },
     }));
@@ -20,6 +20,10 @@ export const getStaticPaths = (() => {
     return [
       ...pages,
       ...details,
+      {
+        params: { path: `${prefix}journey` },
+        props: { locale, legacyTarget: `/${prefix}work/` },
+      },
       ...(locale === 'en'
         ? [
             { params: { path: 'en' }, props: { locale, page: 'home' } },
@@ -39,14 +43,19 @@ export const getStaticPaths = (() => {
     params: { path: `tr${path ? `/${path}` : ''}` },
     props: {
       locale: 'tr',
-      legacyTarget: path === '404' ? '/404.html' : `/${path ? `${path}/` : ''}`,
+      legacyTarget:
+        path === '404'
+          ? '/404.html'
+          : path === 'journey'
+            ? '/work/'
+            : `/${path ? `${path}/` : ''}`,
     },
   }));
   return [...localized, ...legacy];
 }) satisfies GetStaticPaths;
 interface Props {
   locale: Locale;
-  page?: 'home' | 'work' | 'journey' | 'about' | '404';
+  page?: 'home' | 'work' | 'about' | '404';
   project?: Project;
   legacyTarget?: string;
 }
@@ -54,7 +63,7 @@ const { locale, page, project, legacyTarget } = Astro.props;
 ---
 
 {legacyTarget ? (
-  <LegacyRedirect target={legacyTarget} />
+  <LegacyRedirect target={legacyTarget} locale={locale} />
 ) : project ? (
   <Detail locale={locale} project={project} />
 ) : (

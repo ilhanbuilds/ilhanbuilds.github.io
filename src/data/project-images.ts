@@ -25,6 +25,11 @@ import kutlumiThemes from '../assets/images/kutlumi/themes.webp';
 import kutlumiEnvelopes from '../assets/images/kutlumi/envelopes.webp';
 import secureUpload from '../assets/images/secureface/upload.webp';
 import secureAnonymization from '../assets/images/secureface/anonymization.webp';
+import bilektenPhone from '../assets/images/bilekten/phone-overview.webp';
+import bilektenMedia from '../assets/images/bilekten/watch-media.webp';
+import bilektenApps from '../assets/images/bilekten/watch-apps.webp';
+import bilektenCamera from '../assets/images/bilekten/watch-camera.webp';
+import bilektenControls from '../assets/images/bilekten/watch-controls.webp';
 
 interface ProjectMedia {
   coverImage: ProjectImage;
@@ -34,6 +39,45 @@ interface ProjectMedia {
 }
 
 export const projectImages = {
+  bilekten: {
+    coverImage: {
+      src: bilektenControls,
+      alt: {
+        tr: 'Bilekten saat arayüzünde bağlı telefon, medya ve kamera kontrolleri.',
+        en: 'Bilekten watch interface showing the connected phone, media and camera controls.',
+      },
+    },
+    gallery: [
+      {
+        src: bilektenPhone,
+        alt: {
+          tr: 'Bilekten telefon arayüzü tanıtımı: bağlantı durumu ve son komut.',
+          en: 'Bilekten phone interface presentation: connection state and the latest command.',
+        },
+      },
+      {
+        src: bilektenMedia,
+        alt: {
+          tr: 'Saatte medya oynatma, ses ve ileri/geri sarma kontrolleri.',
+          en: 'Watch media playback, volume and seeking controls.',
+        },
+      },
+      {
+        src: bilektenApps,
+        alt: {
+          tr: 'Bilekten saatte favori uygulamalar listesi.',
+          en: 'Bilekten favourite applications list on the watch.',
+        },
+      },
+      {
+        src: bilektenCamera,
+        alt: {
+          tr: 'Saatten bağlı telefona fotoğraf çekme isteği gönderen kamera ekranı.',
+          en: 'Watch camera screen for requesting a photo on the connected phone.',
+        },
+      },
+    ],
+  },
   racker: {
     coverImage: {
       src: rackerOverview,
