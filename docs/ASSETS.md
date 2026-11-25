@@ -47,7 +47,7 @@ Neither the withheld image nor that older CV is copied into the repository, publ
 
 Both files are one page, include SecureFace, contain no phone number in extracted text, and have the expected email, LinkedIn, GitHub, portfolio and Google Play URI annotations. They were visually rendered and inspected. The source PDFs were not recreated or modified; their exact bytes are guarded by SHA-256 tests. The old CV exclusion remains in force.
 
-LinkedIn `https://www.linkedin.com/in/ilhan-kilic`, email `kilicilhan.75@gmail.com`, and GitHub `https://github.com/ilhanbuilds` are now explicitly approved and centralized in the profile. GitHub and Google Play responded HTTP 200 during review; LinkedIn blocks automated access with HTTP 999. The portfolio URLs in the PDFs are the intended post-deployment destinations and currently return 404 because production deployment has not been authorized.
+LinkedIn `https://www.linkedin.com/in/ilhan-kilic`, email `kilicilhan.75@gmail.com`, and GitHub `https://github.com/ilhanbuilds` are now explicitly approved and centralized in the profile. GitHub and Google Play responded HTTP 200 during review; LinkedIn blocks automated access with HTTP 999. The portfolio URLs in the unchanged PDFs point to the v1.0.0 production site.
 
 ## Remaining information
 
@@ -68,6 +68,12 @@ These files are reproduced by `scripts/generate-brand-assets.mjs` using existing
 
 ## v1 interactive sources
 
-No additional photograph, model result, private dataset or project source image is added for v1. The unchanged personal portrait is now also used as a small CSS square on Home. SecureFace's comparison selects two aligned regions from the already approved anonymization screenshot using CSS backgrounds; the source pixels/file remain unchanged. Racker's image navigator uses the existing approved gallery. RubikRL's real supplied interface image appears in its home card and project detail.
+No additional photograph, model result, private dataset or project source image is added for v1. The unchanged personal portrait is now also used as a small CSS square on Home. SecureFace's comparison selects two aligned regions from the already approved anonymization screenshot using CSS backgrounds; the source pixels/file remain unchanged. Racker's image navigator uses the existing approved gallery. RubikRL's real supplied interface image appears in its home card and the original screenshot gallery.
 
 Legacy public-app adaptations, HCJEditor isolation and independent cube behavior are documented in [legacy sources](DEMO_LEGACY_SOURCES.md), [editor sources](DEMO_EDITOR_SOURCES.md), [cube sources](DEMO_CUBE_SOURCES.md) and [DinoCore validation](DEMO_DINOCORE_SOURCES.md). The ambiguous Deepfake face remains excluded; there is no verified permission/output pair suitable for a recorded analysis demo. Private Kutlumi celebrations, original account lists, model/checkpoint files and research implementations are excluded.
+
+## v1.1 cover assets
+
+See [cover audit](COVERS_V1_1.md) for all ten exact filenames, feature-claim checks, face-permission exclusions and optimization details. New compositions live in `src/assets/covers` with a separate localized `src/data/covers.ts` map; original `project-images.ts` assets remain byte-identical. Racker keeps the original cover. The withheld Deepfake cover and `1.jpeg` are not public assets. Promotional artwork and original interface captures have separate captions and display contexts.
+
+Bilekten adds five owner-supplied phone/watch images and a reviewed cover with its English composition. Media import is separate from read-only source inspection. The phone overview is labeled as a presentation; camera UI does not establish physical shutter/save acceptance. Existing27 assets are unchanged, making 32 approved screenshot/icon/portrait assets plus 12 separate cover compositions. No private Bilekten source or repository link is published.

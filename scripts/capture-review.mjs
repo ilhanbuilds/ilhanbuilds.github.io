@@ -78,7 +78,7 @@ try {
       const kind = await demo.getAttribute('data-kind');
       const ready =
         kind === 'rubikrl'
-          ? '.cube'
+          ? '.sticker'
           : kind === 'hcjeditor'
             ? '#html-code'
             : kind === 'calculator'
