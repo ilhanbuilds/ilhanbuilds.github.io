@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import type { Locale, ProjectImage } from '../../types/content';
+interface Props {
+  image: ProjectImage;
+  locale: Locale;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+}
+const {
+  image,
+  locale,
+  sizes = '(max-width: 767px) 100vw, 70vw',
+  loading = 'lazy',
+} = Astro.props;
+const widths = [
+  ...new Set(
+    [360, 720, 1080, 1440, image.src.width].filter(
+      (width) => width <= image.src.width,
+    ),
+  ),
+].sort((a, b) => a - b);
+---
+
+<Image
+  src={image.src}
+  alt={image.alt[locale]}
+  widths={widths}
+  sizes={sizes}
+  format="webp"
+  quality={90}
+  loading={loading}
+  decoding="async"
+  class="screenshot"
+/>

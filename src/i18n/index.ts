@@ -60,6 +60,11 @@ export const copy = {
     technicalDetails: 'Technical details',
     lessons: 'What I learned',
     screenshots: 'Screenshots',
+    store: 'View on Google Play',
+    openImage: 'Open full-size image',
+    comparisonTitle: 'Two ways of making a game.',
+    comparisonIntro:
+      'The original Python clicker, followed by a Unity experiment using AI-assisted development. Different tools, two points in the same journey.',
     repository: 'Source on GitHub',
     documentation: 'Public documentation',
     demo: 'Live demo',
@@ -137,6 +142,11 @@ export const copy = {
     technicalDetails: 'Teknik detaylar',
     lessons: 'Öğrendiklerim',
     screenshots: 'Ekran görüntüleri',
+    store: 'Google Play’de incele',
+    openImage: 'Görseli tam boy aç',
+    comparisonTitle: 'Oyun yapmanın iki farklı yolu.',
+    comparisonIntro:
+      'Kendi ellerimle yazdığım Python tıklama oyunu ve ardından yapay zekâ desteğiyle geliştirdiğim Unity denemesi. Farklı araçlar, aynı yolculuğun iki noktası.',
     repository: 'GitHub kaynak kodu',
     documentation: 'Açık dokümantasyon',
     demo: 'Canlı demo',

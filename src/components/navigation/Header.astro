@@ -20,7 +20,7 @@ const links = [
   <a
     class="wordmark"
     href={route(locale)}
-    aria-label={`${profile.name} · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
+    aria-label={`ilhan. · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
   >
     ilhan<span class="wordmark-dot">.</span>
   </a>
@@ -48,7 +48,7 @@ const links = [
       href={alternate(Astro.url.pathname, other)}
       lang={other}
       hreflang={other}
-      aria-label={other === 'tr' ? 'Türkçe' : 'English'}
+      aria-label={other === 'tr' ? 'TR · Türkçe' : 'EN · English'}
     >
       {other.toUpperCase()}
     </a>

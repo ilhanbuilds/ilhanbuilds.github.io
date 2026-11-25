@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Featured from './projects/Featured.astro';
 import ProjectRow from './projects/ProjectRow.astro';
 import Timeline from './journey/Timeline.astro';
+import GameComparison from './journey/GameComparison.astro';
+import { Image } from 'astro:assets';
 import { building, timeline, projects } from '../data/projects';
 import { profile } from '../data/profile';
 import { copy, route } from '../i18n';
@@ -166,6 +168,7 @@ const interests =
         </h1>
         <p>{t.journeyIntro}</p>
       </div>
+      <GameComparison locale={locale} />
       <Timeline locale={locale} />
     </>
   )}
@@ -180,6 +183,20 @@ const interests =
       </div>
       <div class="about-grid">
         <div class="prose">
+          <figure class="about-portrait">
+            <Image
+              src={profile.portrait}
+              alt={
+                locale === 'en'
+                  ? 'Portrait supplied by İlhan Kılıç.'
+                  : 'İlhan Kılıç’ın sağladığı kişisel portre.'
+              }
+              widths={[360, 600, 900]}
+              sizes="(max-width: 767px) 85vw, 480px"
+              format="webp"
+              loading="eager"
+            />
+          </figure>
           <p>{t.aboutBody}</p>
           <p>{t.aboutBody2}</p>
         </div>

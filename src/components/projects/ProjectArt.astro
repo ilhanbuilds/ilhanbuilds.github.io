@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Screenshot from './Screenshot.astro';
 import type { Locale, Project } from '../../types/content';
 import { copy } from '../../i18n';
 interface Props {
@@ -11,15 +11,17 @@ const t = copy[locale];
 ---
 
 {project.coverImage ? (
-  <Image
-    src={project.coverImage.src}
-    alt={project.coverImage.alt[locale]}
-    widths={[360, 720, 1080, 1440]}
-    sizes="(max-width: 767px) 100vw, 70vw"
-    format="webp"
-    loading="lazy"
-    class="project-cover"
-  />
+  <div
+    class:list={[
+      'project-image-frame',
+      {
+        'portrait-frame':
+          project.coverImage.src.height > project.coverImage.src.width,
+      },
+    ]}
+  >
+    <Screenshot image={project.coverImage} locale={locale} />
+  </div>
 ) : (
   <div class:list={['project-art', project.id]} aria-hidden="true">
     <div class="art-top">
