@@ -21,6 +21,7 @@ try {
           'rubikrl',
           'secureface',
           'racker',
+          'bilekten',
         ]) {
           const name = `demo-${slug}-${locale}-${device}-${theme}`;
           const page = await browser.newPage({
@@ -32,12 +33,10 @@ try {
             `${baseURL}${locale === 'en' ? '/en' : ''}/work/${slug}/`,
           );
           await page.evaluate(() => document.fonts.ready);
-          if (['secureface', 'racker'].includes(slug)) {
+          if (['secureface', 'racker', 'bilekten'].includes(slug)) {
             await page
               .locator(
-                slug === 'secureface'
-                  ? '[data-compare]'
-                  : '[data-product-preview]',
+                slug === 'secureface' ? '[data-compare]' : '[data-sync-demo]',
               )
               .scrollIntoViewIfNeeded();
           } else {

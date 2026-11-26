@@ -1,21 +1,21 @@
 import { test, expect, type Page, type Request } from '@playwright/test';
 
-async function openEditor(page: Page) {
+async function openEditor(page: Page, language: 'tr' | 'en' = 'tr') {
   await page.goto('/');
-  await page.evaluate(() => {
+  await page.evaluate((language) => {
     localStorage.setItem('editor-isolation-proof', 'host-only');
     const frame = document.createElement('iframe');
     frame.dataset.editorTest = 'true';
     frame.title = 'HCJEditor test';
-    frame.sandbox.add('allow-scripts', 'allow-downloads');
-    frame.src = '/demos/hcjeditor.html';
-    frame.style.cssText = 'width:100%;height:850px';
+    frame.sandbox.add('allow-scripts');
+    frame.src = `/demos/hcjeditor.html?lang=${language}`;
+    frame.style.cssText = `width:100%;height:${innerWidth <= 600 ? 720 : 600}px`;
     document.body.prepend(frame);
-  });
+  }, language);
   return page.frameLocator('[data-editor-test]');
 }
 
-test('HCJEditor preserves live HTML/CSS/JS, original shortcuts and local file import', async ({
+test('HCJEditor preserves live HTML/CSS/JS, original keyboard shortcuts', async ({
   page,
 }) => {
   const editor = await openEditor(page);
@@ -49,68 +49,101 @@ test('HCJEditor preserves live HTML/CSS/JS, original shortcuts and local file im
   await editor.locator('#css-code').fill('p {');
   await editor.locator('#css-code').press('Enter');
   await expect(editor.locator('#css-code')).toHaveValue('p {\n  \n}');
-  await editor
-    .getByRole('button', { name: 'Dosya Yükle', exact: true })
-    .click();
-  await editor.locator('#full-html-file').setInputFiles({
-    name: 'sample.html',
-    mimeType: 'text/html',
-    buffer: Buffer.from(
-      '<!doctype html><html><head><style>h2{color:rgb(80,20,130)}</style></head><body><h2>Dosyadan</h2><script>document.body.dataset.loaded="yes";</script></body></html>',
-    ),
-  });
-  await expect(editor.locator('#load-modal')).toBeHidden();
-  await expect(preview.locator('h2')).toHaveText('Dosyadan');
-  await expect(preview.locator('body')).toHaveAttribute('data-loaded', 'yes');
-  await expect(preview.locator('h2')).toHaveCSS('color', 'rgb(80, 20, 130)');
-  await editor
-    .getByRole('button', { name: 'Dosya Yükle', exact: true })
-    .click();
-  await editor.locator('#css-file').setInputFiles({
-    name: 'sample.css',
-    mimeType: 'text/css',
-    buffer: Buffer.from('h2{color:rgb(30,110,70)}'),
-  });
-  await expect(preview.locator('h2')).toHaveCSS('color', 'rgb(30, 110, 70)');
-  await editor
-    .getByRole('button', { name: 'Dosya Yükle', exact: true })
-    .click();
-  await editor.locator('#js-file').setInputFiles({
-    name: 'sample.js',
-    mimeType: 'text/javascript',
-    buffer: Buffer.from('document.body.dataset.loaded="separate";'),
-  });
-  await expect(preview.locator('body')).toHaveAttribute(
-    'data-loaded',
-    'separate',
-  );
   expect(
     await page.evaluate(() => localStorage.getItem('htmlCode')),
   ).toBeNull();
 });
 
-test('HCJEditor downloads the composed page as a real HTML file', async ({
+for (const language of ['tr', 'en'] as const) {
+  test(`HCJEditor ${language} file buttons show accessible notices without file operations`, async ({
+    page,
+    isMobile,
+  }) => {
+    let chooserCount = 0;
+    let downloadCount = 0;
+    page.on('filechooser', () => chooserCount++);
+    page.on('download', () => downloadCount++);
+    const editor = await openEditor(page, language);
+    const notice = editor.getByRole('status');
+    const noticeText =
+      language === 'en'
+        ? 'File operations are disabled in this demo.'
+        : 'Bu demoda dosya işlemleri devre dışı.';
+    await expect(
+      editor.locator('input[type="file"], a[download], [role="dialog"]'),
+    ).toHaveCount(0);
+    await expect(page.locator('[data-editor-test]')).toHaveAttribute(
+      'sandbox',
+      'allow-scripts',
+    );
+    await expect(editor.locator('html')).toHaveAttribute('lang', language);
+    for (const name of language === 'en'
+      ? ['Open file', 'Save file']
+      : ['Dosya Yükle', 'Dosyayı indir']) {
+      const button = editor.getByRole('button', { name, exact: true });
+      if (!isMobile) {
+        await button.hover();
+        await expect(notice).toBeVisible();
+        await expect(notice).toHaveText(noticeText);
+        await editor.locator('h3').first().hover();
+        await expect(notice).toBeHidden();
+      }
+      await button.focus();
+      await expect(notice).toBeVisible();
+      await expect(notice).toHaveText(noticeText);
+      await expect(button).toHaveAttribute('aria-describedby', 'file-notice');
+      await button.press('Escape');
+      await expect(notice).toBeHidden();
+      if (isMobile) await button.tap();
+      else await button.click();
+      await expect(notice).toBeVisible();
+      await expect(notice).toHaveText(noticeText);
+      await expect(button).toBeFocused();
+      await button.evaluate(
+        () =>
+          new Promise<void>((resolve) =>
+            requestAnimationFrame(() => resolve()),
+          ),
+      );
+      expect(chooserCount).toBe(0);
+      expect(downloadCount).toBe(0);
+    }
+    await editor
+      .locator('#html-code')
+      .fill('<p id="still-live">Live editing remains available</p>');
+    await expect(
+      editor.frameLocator('#preview').locator('#still-live'),
+    ).toHaveText('Live editing remains available');
+  });
+}
+
+test('HCJEditor fits its compact frame with usable panes, preview and original controls', async ({
   page,
 }) => {
   const editor = await openEditor(page);
-  await editor.locator('#html-code').fill('<h1>İndirilen çalışma</h1>');
-  await editor.locator('#css-code').fill('h1 { color: blue; }');
-  await editor
-    .locator('#js-code')
-    .fill('document.body.dataset.downloaded = "yes";');
-  const waiting = page.waitForEvent('download');
-  await editor.getByRole('button', { name: 'Dosyayı indir' }).click();
-  const download = await waiting;
-  expect(download.suggestedFilename()).toBe('index.html');
-  const stream = await download.createReadStream();
-  const chunks: Buffer[] = [];
-  for await (const chunk of stream) chunks.push(Buffer.from(chunk));
-  const source = Buffer.concat(chunks).toString('utf8');
-  expect(source).toContain('<h1>İndirilen çalışma</h1>');
-  expect(source).toContain('color: blue');
-  expect(source).toContain('dataset.downloaded');
-  expect(source).toContain('</script>');
-  expect(source).not.toContain('editor-isolation-proof');
+  const bounds = await editor.locator('body').evaluate((body) => ({
+    viewportHeight: innerHeight,
+    viewportWidth: innerWidth,
+    documentHeight: document.documentElement.scrollHeight,
+    documentWidth: document.documentElement.scrollWidth,
+    areas: [...body.querySelectorAll('textarea, #preview, footer button')].map(
+      (area) => {
+        const { top, bottom, left, right, width, height } =
+          area.getBoundingClientRect();
+        return { top, bottom, left, right, width, height };
+      },
+    ),
+  }));
+  expect(bounds.documentHeight).toBeLessThanOrEqual(bounds.viewportHeight);
+  expect(bounds.documentWidth).toBeLessThanOrEqual(bounds.viewportWidth);
+  for (const area of bounds.areas) {
+    expect(area.width).toBeGreaterThanOrEqual(44);
+    expect(area.height).toBeGreaterThanOrEqual(44);
+    expect(area.top).toBeGreaterThanOrEqual(0);
+    expect(area.bottom).toBeLessThanOrEqual(bounds.viewportHeight);
+    expect(area.left).toBeGreaterThanOrEqual(0);
+    expect(area.right).toBeLessThanOrEqual(bounds.viewportWidth);
+  }
 });
 
 test('HCJEditor isolates user code from host DOM/storage and restricts preview network APIs/assets', async ({

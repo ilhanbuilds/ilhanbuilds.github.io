@@ -1,4 +1,5 @@
 ---
+import Icon from '../common/Icon.astro';
 import Screenshot from './Screenshot.astro';
 import { copy } from '../../i18n';
 import type { Locale, ProjectImage } from '../../types/content';
@@ -55,19 +56,33 @@ const english = locale === 'en';
       </button>
     </div>
     <figure class="lightbox-figure">
-      <div data-gallery-media></div>
+      <div
+        class:list={['lightbox-stage', { 'has-navigation': images.length > 1 }]}
+      >
+        {images.length > 1 && (
+          <button
+            class="lightbox-arrow"
+            type="button"
+            data-gallery-previous
+            aria-label={english ? 'Previous image' : 'Önceki görsel'}
+          >
+            <Icon name="chevronLeft" />
+          </button>
+        )}
+        <div data-gallery-media></div>
+        {images.length > 1 && (
+          <button
+            class="lightbox-arrow"
+            type="button"
+            data-gallery-next
+            aria-label={english ? 'Next image' : 'Sonraki görsel'}
+          >
+            <Icon name="chevronRight" />
+          </button>
+        )}
+      </div>
       <figcaption data-gallery-caption></figcaption>
     </figure>
-    {images.length > 1 && (
-      <div class="lightbox-navigation">
-        <button type="button" data-gallery-previous>
-          {english ? 'Previous image' : 'Önceki görsel'}
-        </button>
-        <button type="button" data-gallery-next>
-          {english ? 'Next image' : 'Sonraki görsel'}
-        </button>
-      </div>
-    )}
   </dialog>
 </section>
 
@@ -253,8 +268,7 @@ const english = locale === 'en';
   .gallery-lightbox::backdrop {
     background: rgb(0 0 0 / 78%);
   }
-  .lightbox-toolbar,
-  .lightbox-navigation {
+  .lightbox-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -279,6 +293,21 @@ const english = locale === 'en';
   }
   .gallery-lightbox button:hover {
     border-color: var(--accent);
+  }
+  .lightbox-stage {
+    display: grid;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .lightbox-stage.has-navigation {
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+  }
+  .gallery-lightbox .lightbox-arrow {
+    width: 44px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
   }
   .lightbox-figure {
     margin: 0.75rem 0;

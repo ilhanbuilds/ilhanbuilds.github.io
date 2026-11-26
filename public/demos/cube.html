@@ -233,5 +233,19 @@
       </section>
     </main>
     <script src="/demos/cube.js"></script>
+    <script>
+      // Only intrinsic document content sets the frame height; no viewport feedback.
+      const reportHeight = () =>
+        parent.postMessage(
+          {
+            type: 'portfolio-cube-height',
+            height: document.body.getBoundingClientRect().height,
+          },
+          '*',
+        );
+      new ResizeObserver(reportHeight).observe(document.body);
+      document.fonts.ready.then(reportHeight);
+      window.addEventListener('load', reportHeight);
+    </script>
   </body>
 </html>

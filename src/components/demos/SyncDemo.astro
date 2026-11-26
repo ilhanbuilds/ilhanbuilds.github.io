@@ -1,0 +1,272 @@
+---
+import type { Locale } from '../../types/content';
+interface Props {
+  kind: 'racker' | 'bilekten';
+  locale: Locale;
+}
+const { kind, locale } = Astro.props;
+const english = locale === 'en';
+const weight = kind === 'racker';
+const title = weight
+  ? english
+    ? 'Weight sync simulation'
+    : 'Kilo senkronizasyon simülasyonu'
+  : english
+    ? 'Interactive connection simulation'
+    : 'Etkileşimli bağlantı simülasyonu';
+const label = weight
+  ? english
+    ? 'Weight'
+    : 'Kilo'
+  : english
+    ? 'Volume'
+    : 'Ses seviyesi';
+const initial = weight ? (english ? '75.0 kg' : '75,0 kg') : '50%';
+---
+
+<section
+  class="section sync-section"
+  data-sync-demo
+  data-kind={kind}
+  data-locale={locale}
+>
+  <h2>{title}</h2>
+  <p class="demo-description">
+    {weight
+      ? english
+        ? 'A symbolic portfolio example of device synchronization, using temporary demo values. It does not demonstrate a weight-editing feature in the Wear OS app.'
+        : 'Geçici demo değerleriyle cihazlar arası senkronizasyon fikrini gösteren sembolik portfolyo örneği. Wear OS uygulamasında kilo düzenleme özelliği göstermez.'
+      : english
+        ? 'Watch controls update a symbolic phone volume. This local simulation does not connect to a device or change system volume.'
+        : 'Saat kontrolleri sembolik telefon sesini günceller. Bu yerel simülasyon cihaz bağlantısı kurmaz veya sistem sesini değiştirmez.'}
+  </p>
+  <div class:list={['sync-devices', 'demo-surface', kind]}>
+    <div class="watch-device">
+      <div class="watch-screen">
+        <span class="device-brand">{weight ? 'Racker' : 'Bilekten'}</span>
+        <span class="device-label">{label}</span>
+        <strong data-watch-value>{initial}</strong>
+        <div class="watch-controls">
+          <button
+            type="button"
+            data-minus
+            aria-label={
+              english
+                ? `Decrease ${weight ? 'weight' : 'volume'}`
+                : `${weight ? 'Kiloyu' : 'Sesi'} azalt`
+            }
+          >
+            {weight ? '↓' : '−'}
+          </button>
+          <button
+            type="button"
+            data-plus
+            aria-label={
+              english
+                ? `Increase ${weight ? 'weight' : 'volume'}`
+                : `${weight ? 'Kiloyu' : 'Sesi'} artır`
+            }
+          >
+            {weight ? '↑' : '+'}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="phone-device">
+      <div class="phone-camera" aria-hidden="true"></div>
+      <span class="device-brand">{weight ? 'Racker' : 'Bilekten'}</span>
+      <span class="connection-dot">
+        {english ? 'Simulation' : 'Simülasyon'}
+      </span>
+      <span class="phone-symbol" aria-hidden="true">
+        {weight ? '↕' : '♪'}
+      </span>
+      <span class="device-label">{label}</span>
+      <strong data-phone-value aria-live="polite">
+        {initial}
+      </strong>
+      <div class="level-track" aria-hidden="true">
+        <span data-level style="width:50%"></span>
+      </div>
+      <small>{english ? 'Demo values' : 'Demo değerleri'}</small>
+    </div>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-sync-demo]').forEach((demo) => {
+    const weight = demo.dataset.kind === 'racker';
+    let value = weight ? 750 : 50;
+    const min = weight ? 400 : 0;
+    const max = weight ? 2000 : 100;
+    const number = new Intl.NumberFormat(
+      demo.dataset.locale === 'en' ? 'en-US' : 'tr-TR',
+      { minimumFractionDigits: 1, maximumFractionDigits: 1 },
+    );
+    const update = (change: number) => {
+      value = Math.min(max, Math.max(min, value + change));
+      const text = weight ? `${number.format(value / 10)} kg` : `${value}%`;
+      demo.querySelector<HTMLElement>('[data-watch-value]')!.textContent = text;
+      demo.querySelector<HTMLElement>('[data-phone-value]')!.textContent = text;
+      demo.querySelector<HTMLElement>('[data-level]')!.style.width =
+        `${weight ? ((value - min) / (max - min)) * 100 : value}%`;
+      demo.querySelector<HTMLButtonElement>('[data-minus]')!.disabled =
+        value === min;
+      demo.querySelector<HTMLButtonElement>('[data-plus]')!.disabled =
+        value === max;
+    };
+    demo
+      .querySelector('[data-minus]')!
+      .addEventListener('click', () => update(weight ? -1 : -10));
+    demo
+      .querySelector('[data-plus]')!
+      .addEventListener('click', () => update(weight ? 1 : 10));
+    update(0);
+  });
+</script>
+<style>
+  .sync-section {
+    margin-block: 1.5rem;
+    padding-block: 1.5rem;
+  }
+  .sync-section h2 {
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+  }
+  .demo-description {
+    margin-block: 0.65rem 1rem;
+  }
+  .sync-devices {
+    --device-accent: #d7d7d7;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    align-items: center;
+    gap: clamp(0.7rem, 3vw, 2rem);
+    max-width: 32rem;
+    padding: clamp(0.65rem, 3vw, 1.8rem);
+  }
+  .racker {
+    --device-accent: #ff9a3e;
+  }
+  .watch-device {
+    border: 7px solid #454545;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    background: #090909;
+    color: #fff;
+    box-shadow: 0 0 0 2px #191919;
+  }
+  .watch-screen {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.35rem;
+  }
+  .device-brand {
+    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+    font-weight: 650;
+    color: var(--device-accent);
+  }
+  .device-label {
+    font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+    color: #b9b9b9;
+  }
+  strong {
+    font-size: clamp(1.05rem, 2.5vw, 1.8rem);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .watch-controls {
+    display: flex;
+    gap: 0.3rem;
+  }
+  button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 1px solid #555;
+    border-radius: 50%;
+    background: #242424;
+    color: var(--device-accent);
+    font-size: 1.35rem;
+    cursor: pointer;
+  }
+  button:hover {
+    border-color: var(--device-accent);
+  }
+  button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .phone-device {
+    min-width: 0;
+    aspect-ratio: 0.58;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    position: relative;
+    padding: 1.6rem 0.7rem 1rem;
+    background: #0e0e0e;
+    border: 5px solid #454545;
+    border-radius: 23px;
+    color: #fff;
+  }
+  .phone-camera {
+    position: absolute;
+    top: 0.45rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 27%;
+    height: 6px;
+    border-radius: 5px;
+    background: #3c3c3c;
+  }
+  .connection-dot,
+  small {
+    font-size: 0.65rem;
+    color: #b9b9b9;
+    text-align: center;
+  }
+  .phone-symbol {
+    font-size: 1.8rem;
+    color: var(--device-accent);
+    line-height: 1;
+  }
+  .level-track {
+    height: 5px;
+    width: 85%;
+    background: #333;
+    border-radius: 4px;
+  }
+  .level-track span {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+    background: var(--device-accent);
+    transition: width 120ms;
+  }
+  @media (max-width: 399px) {
+    .watch-device {
+      border-width: 4px;
+    }
+    .watch-screen {
+      gap: 0.15rem;
+    }
+    .phone-device {
+      gap: 0.45rem;
+      padding-inline: 0.35rem;
+    }
+    .device-brand {
+      font-size: 0.65rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .level-track span {
+      transition: none;
+    }
+  }
+</style>

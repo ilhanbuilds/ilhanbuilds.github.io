@@ -12,30 +12,24 @@ const demos: Record<
 > = {
   idleoyun: {
     path: 'idleoyun',
-    title: english
-      ? 'Python game · browser adaptation'
-      : 'Python oyunu · tarayıcı uyarlaması',
+    title: 'IdleOyun',
     description: english
       ? 'The original menus, clicker and market adapted for the browser. Demo accounts exist only in this frame’s memory; progress is cleared when leaving or reloading the page.'
       : 'Özgün menüler, tıklama oyunu ve marketin tarayıcı uyarlaması. Demo hesaplar yalnızca bu çerçevenin belleğinde tutulur; sayfadan ayrılınca veya sayfa yenilenince ilerleme silinir.',
   },
   calculator: {
     path: 'calculator',
-    title: english
-      ? 'Windows Forms · browser adaptation'
-      : 'Windows Forms · tarayıcı uyarlaması',
+    title: english ? 'Calculator' : 'Hesap makinesi',
     description: english
       ? 'The original layout and integer arithmetic behavior, adapted from C# for the browser.'
       : 'Özgün C# arayüzü ve tam sayı hesaplama davranışının tarayıcı uyarlaması.',
   },
   hcjeditor: {
     path: 'hcjeditor',
-    title: english
-      ? 'HCJEditor · isolated browser editor'
-      : 'HCJEditor · yalıtılmış tarayıcı editörü',
+    title: 'HCJEditor',
     description: english
-      ? 'The original editor with local file import, download and isolated live preview. No code is sent to a service. Download your work before leaving; edits are not saved.'
-      : 'Özgün editör: yerel dosya yükleme, indirme ve yalıtılmış canlı ön izleme. Kod bir servise gönderilmez. Sayfadan ayrılmadan çalışmanızı indirin; düzenlemeler kaydedilmez.',
+      ? 'Try HTML, CSS and JavaScript in an isolated live preview. File operations are disabled and edits are cleared when leaving.'
+      : 'HTML, CSS ve JavaScript’i yalıtılmış canlı ön izlemede deneyin. Dosya işlemleri kapalıdır; sayfadan ayrılınca düzenlemeler silinir.',
   },
   rubikrl: {
     path: 'cube',
@@ -59,7 +53,7 @@ const demo = demos[id];
   >
     <h2>{demo.title}</h2>
     <p class="demo-description">{demo.description}</p>
-    <div class="demo-host" data-demo-host></div>
+    <div class="demo-host demo-surface" data-demo-host></div>
     <noscript>
       <p>
         {english
@@ -83,11 +77,31 @@ const demo = demos[id];
       frame.src = url.href;
       frame.title = section.querySelector('h2')!.textContent!;
       frame.sandbox.add('allow-scripts');
-      if (section.dataset.kind === 'hcjeditor')
-        frame.sandbox.add('allow-downloads');
       frame.referrerPolicy = 'no-referrer';
       frame.className = `demo-frame demo-frame-${section.dataset.kind}`;
       host.replaceChildren(frame);
+      if (section.dataset.kind === 'rubikrl') {
+        window.addEventListener('message', (event: MessageEvent<unknown>) => {
+          if (
+            event.source !== frame.contentWindow ||
+            typeof event.data !== 'object' ||
+            event.data === null
+          )
+            return;
+          const data = event.data as Record<string, unknown>;
+          if (
+            data.type === 'portfolio-cube-height' &&
+            typeof data.height === 'number' &&
+            Number.isFinite(data.height) &&
+            data.height >= 250 &&
+            data.height <= 1800
+          )
+            host.style.setProperty(
+              '--demo-height',
+              `${Math.ceil(data.height)}px`,
+            );
+        });
+      }
       frame.addEventListener(
         'load',
         () => {
@@ -122,12 +136,13 @@ const demo = demos[id];
     margin-block: 0.65rem 1rem;
   }
   .demo-host {
-    --demo-height: 640px;
+    --demo-height: 660px;
     min-height: var(--demo-height);
     max-width: 60rem;
+    margin-inline: auto;
   }
   [data-kind='calculator'] .demo-host {
-    --demo-height: 550px;
+    --demo-height: 590px;
     max-width: 360px;
   }
   [data-kind='idleoyun'] .demo-host {
@@ -142,13 +157,14 @@ const demo = demos[id];
   .demo-host :global(.demo-frame) {
     height: var(--demo-height);
     margin-top: 0;
+    border: 0;
   }
   @media (max-width: 47.99rem) {
     [data-kind='hcjeditor'] .demo-host {
-      --demo-height: 660px;
+      --demo-height: 720px;
     }
     [data-kind='rubikrl'] .demo-host {
-      --demo-height: 640px;
+      --demo-height: 660px;
     }
   }
 </style>

@@ -52,6 +52,7 @@ for (const theme of ['light', 'dark'] as const) {
       'none',
     );
     await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.evaluate(() => localStorage.setItem('locale', 'tr'));
     await page.goto('/');
     expect(
       (await page.locator('.primary-project').boundingBox())!.width,
@@ -62,13 +63,18 @@ for (const theme of ['light', 'dark'] as const) {
     );
     await expect(page.locator('.project-cover figcaption')).toHaveCount(0);
     await page.goto('/work/deepfake-detection/');
-    await expect(page.locator('[data-gallery], [data-demo], img')).toHaveCount(
-      0,
+    await expect(
+      page.locator('[data-gallery] .gallery-image-link'),
+    ).toHaveCount(1);
+    await expect(page.locator('[data-gallery] img')).toHaveAttribute(
+      'src',
+      /interface-anonymized/,
     );
+    await expect(page.locator('[data-demo], iframe')).toHaveCount(0);
   });
 }
 
-test('Bilekten is newer than Racker, unpublished and paused with real media but no private source or simulated controller', async ({
+test('Bilekten is newer than Racker, unpublished and paused with real media and a local symbolic controller without private source', async ({
   page,
 }) => {
   for (const prefix of ['', '/en']) {
@@ -155,7 +161,7 @@ test('covers use a common complete 2:1 canvas, localized compositions and honest
     ).toHaveAttribute('alt', /temsili|illustrative/i);
     await expect(page.locator('[data-project="racker"] img')).toHaveAttribute(
       'src',
-      /overview\./,
+      prefix ? /racker-en\./ : /overview\./,
     );
   }
 });

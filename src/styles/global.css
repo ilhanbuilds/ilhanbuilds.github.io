@@ -665,17 +665,7 @@ img {
   align-items: start;
   gap: 0.5rem;
 }
-.next-project {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  padding-block: 2rem 4rem;
-  border-top: 1px solid var(--border);
-}
-.next-project a {
-  font-size: clamp(1.6rem, 4vw, 3rem);
-  letter-spacing: -0.04em;
-}
+
 .gallery {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1285,39 +1275,7 @@ img {
 .compare-label.after {
   right: 1rem;
 }
-.compare-control {
-  display: grid;
-  gap: 0.5rem;
-  max-width: 36rem;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-}
-.compare-control input {
-  width: 100%;
-  min-height: 44px;
-  accent-color: var(--accent);
-}
-.product-preview-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-.product-preview-controls button {
-  min-height: 44px;
-  padding: 0.5rem 1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
-.product-preview figure {
-  margin: 0;
-}
-.product-preview img {
-  max-height: 44rem;
-  width: auto;
-  margin-inline: auto;
-}
+
 .site-footer {
   border-top: 2px solid var(--brand-blue);
 }
@@ -1384,4 +1342,109 @@ img {
   .card-topline {
     font-size: 0.875rem;
   }
+}
+
+/* Compact personal profile, with the original photographic composition. */
+.about-page .page-intro {
+  padding-block: 1.6rem 1.4rem;
+}
+.about-page .page-intro h1 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  margin-bottom: 0.6rem;
+}
+.about-page .about-grid {
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.4fr);
+  gap: 2rem 3rem;
+  padding-bottom: 2rem;
+  align-items: start;
+}
+.about-page .about-portrait {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 0.25rem;
+}
+.about-portrait img {
+  object-position: 50% 45%;
+}
+.about-page .prose {
+  font-size: 1rem;
+}
+.about-page .prose p {
+  margin-bottom: 0.75rem;
+}
+.about-page .about-facts {
+  padding-top: 0.8rem;
+}
+.about-page .about-facts section + section {
+  margin-top: 1rem;
+}
+.about-page .about-facts h2 {
+  margin-bottom: 0.45rem;
+  color: var(--text);
+  font-weight: 650;
+}
+.about-page .about-facts p {
+  margin: 0;
+}
+.about-interests ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.about-interests li {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.contact-actions a,
+.contact-email {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.contact-actions a:hover,
+.contact-email:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.contact-purpose {
+  margin-top: 0.6rem;
+}
+.contact-purpose .contact-email {
+  text-decoration: none;
+}
+.contact-email svg {
+  flex-shrink: 0;
+}
+@media (max-width: 47.99rem) {
+  .about-page .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .about-page .about-portrait {
+    max-width: 300px;
+  }
+}
+.demo-surface {
+  margin-inline: auto;
+  border: 1px solid var(--brand-blue);
+  border-radius: 10px;
+  background: var(--surface);
 }

@@ -123,11 +123,7 @@ test('demo resources load near the viewport without buttons or focus theft and s
     );
     await expect(page.locator('.detail-back')).toBeFocused();
     const sandbox = await frame.getAttribute('sandbox');
-    expect(sandbox?.split(' ').sort()).toEqual(
-      slug === 'hcjeditor'
-        ? ['allow-downloads', 'allow-scripts']
-        : ['allow-scripts'],
-    );
+    expect(sandbox?.split(' ').sort()).toEqual(['allow-scripts']);
     await expect(frame).toHaveAttribute('referrerpolicy', 'no-referrer');
     expect(sandbox).toContain('allow-scripts');
     expect(sandbox).not.toContain('allow-same-origin');
@@ -174,7 +170,9 @@ test('recorded SecureFace comparison and Racker image preview disclose their rea
   const comparison = page.locator('[data-compare]');
   await expect(comparison.locator('summary')).toHaveCount(0);
   const slider = comparison.getByRole('slider');
-  await slider.fill('25');
+  await slider.focus();
+  await slider.press('Home');
+  for (let step = 0; step < 25; step++) await slider.press('ArrowRight');
   expect(
     await comparison
       .locator('.compare-stage')
@@ -182,20 +180,16 @@ test('recorded SecureFace comparison and Racker image preview disclose their rea
   ).toBe('25%');
   await slider.focus();
   await page.keyboard.press('ArrowRight');
-  await expect(slider).toHaveValue('26');
+  await expect(slider).toHaveAttribute('aria-valuenow', '26');
   await expect(page.locator('.secure-comparison')).toContainText(
     'Canlı yüz tespiti veya şifreleme çalıştırmaz',
   );
   await page.goto('/en/work/racker/');
-  const preview = page.locator('[data-product-preview]');
-  await expect(preview.locator('summary')).toHaveCount(0);
-  await expect(preview.locator('[data-slides] figure')).toHaveCount(3);
-  await expect(preview.locator('[data-count]')).toHaveText('1 / 3');
-  await preview.locator('[data-next]').click();
-  await expect(preview.locator('[data-count]')).toHaveText('2 / 3');
-  await expect(preview.locator('[data-slides] figure').nth(1)).toBeVisible();
-  await preview.locator('[data-prev]').click();
-  await expect(preview.locator('[data-count]')).toHaveText('1 / 3');
+  const preview = page.locator('[data-sync-demo]');
+  await expect(preview.locator('[data-phone-value]')).toHaveText('75.0 kg');
+  await preview.locator('[data-plus]').click();
+  await expect(preview.locator('[data-phone-value]')).toHaveText('75.1 kg');
+  await expect(preview.locator('[data-watch-value]')).toHaveText('75.1 kg');
 });
 
 for (const theme of ['light', 'dark'] as const) {

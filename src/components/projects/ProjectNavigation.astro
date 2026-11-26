@@ -1,0 +1,110 @@
+---
+import { timeline } from '../../data/projects';
+import { route } from '../../i18n';
+import type { Locale, Project } from '../../types/content';
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+const { project, locale } = Astro.props;
+const index = timeline.findIndex((item) => item.id === project.id);
+const neighbors = [timeline[index - 1], project, timeline[index + 1]];
+---
+
+<nav
+  class="project-navigation"
+  aria-label={locale === 'en' ? 'Project timeline' : 'Proje zaman çizelgesi'}
+>
+  {neighbors.map((item, position) => (
+    <div class:list={['project-node', { active: position === 1 }]}>
+      {item ? (
+        position === 1 ? (
+          <span aria-current="step">
+            <i aria-hidden="true"></i>
+            <span>{item.title}</span>
+          </span>
+        ) : (
+          <a
+            href={route(locale, `work/${item.slug}`)}
+            aria-label={`${position === 0 ? (locale === 'en' ? 'Previous project' : 'Önceki proje') : locale === 'en' ? 'Next project' : 'Sonraki proje'}: ${item.title}`}
+          >
+            <i aria-hidden="true"></i>
+            <span>{item.title}</span>
+          </a>
+        )
+      ) : (
+        <span class="empty-node" aria-hidden="true"></span>
+      )}
+    </div>
+  ))}
+</nav>
+<style>
+  .project-navigation {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 46rem;
+    margin: 2.5rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .project-node {
+    min-width: 0;
+    position: relative;
+    text-align: center;
+  }
+  .project-node:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: var(--border);
+    left: 50%;
+    right: -50%;
+    top: 12px;
+  }
+  .project-node a,
+  .project-node > span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .project-node a {
+    min-height: 64px;
+  }
+  .project-node i {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin: 5px;
+    border: 2px solid var(--muted);
+    border-radius: 50%;
+    background: var(--background);
+  }
+  .project-node.active i {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border-color: var(--brand-blue);
+    background: var(--brand-blue);
+  }
+  .project-node.active {
+    color: var(--accent);
+    font-weight: 650;
+  }
+  .project-node a:hover {
+    color: var(--accent);
+  }
+  .project-node a:hover i {
+    border-color: var(--accent);
+  }
+  .empty-node {
+    height: 24px;
+  }
+</style>

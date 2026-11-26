@@ -2,11 +2,12 @@
 import Screenshot from './Screenshot.astro';
 import DemoShell from '../demos/DemoShell.astro';
 import SecureCompare from '../demos/SecureCompare.astro';
-import ProductPreview from '../demos/ProductPreview.astro';
+import SyncDemo from '../demos/SyncDemo.astro';
+import ProjectNavigation from './ProjectNavigation.astro';
+import Icon from '../common/Icon.astro';
 import Base from '../../layouts/Base.astro';
 import Gallery from './Gallery.astro';
 import { copy, route, statuses } from '../../i18n';
-import { timeline } from '../../data/projects';
 import type { Locale, Project } from '../../types/content';
 interface Props {
   locale: Locale;
@@ -21,20 +22,22 @@ const sections = [
   [t.technicalDetails, content.technicalDetails],
   [t.lessons, content.lessons],
 ];
-const next =
-  timeline[
-    (timeline.findIndex((item) => item.id === p.id) + 1) % timeline.length
-  ]!;
-const gallery = [p.coverImage, ...(p.gallery ?? [])].filter(
-  (image): image is NonNullable<typeof image> => Boolean(image),
-);
+const gallery = [
+  ...(p.id === 'rubikrl' ? [] : [p.coverImage]),
+  ...(p.gallery ?? []),
+].filter((image): image is NonNullable<typeof image> => Boolean(image));
 ---
 
 <Base locale={locale} title={p.title} description={content.summary}>
   <div class:list={['detail-intro', `detail-${p.id}`]}>
     <div class="detail-lead">
-      <a class="detail-back text-link" href={route(locale, 'work')}>
-        {t.work}
+      <a
+        class="detail-back button-link secondary"
+        data-project-back
+        href={route(locale, 'work')}
+      >
+        <Icon name="arrowLeft" />
+        {locale === 'en' ? 'Back to projects' : 'Projelere dön'}
       </a>
       <div class="project-tags">
         <span>{p.category[locale]}</span>
@@ -119,7 +122,9 @@ const gallery = [p.coverImage, ...(p.gallery ?? [])].filter(
   </div>
   <DemoShell id={p.id} locale={locale} />
   {p.id === 'secureface' && <SecureCompare locale={locale} />}
-  {p.id === 'racker' && <ProductPreview locale={locale} project={p} />}
+  {(p.id === 'racker' || p.id === 'bilekten') && (
+    <SyncDemo locale={locale} kind={p.id} />
+  )}
   {gallery.length > 0 && (
     <Gallery
       images={gallery}
@@ -138,8 +143,15 @@ const gallery = [p.coverImage, ...(p.gallery ?? [])].filter(
         : {})}
     />
   )}
-  <nav class="next-project" aria-label={t.next}>
-    <span class="meta">{t.next}</span>
-    <a href={route(locale, `work/${next.slug}`)}>{next.title}</a>
-  </nav>
+  <ProjectNavigation project={p} locale={locale} />
 </Base>
+<style>
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.85rem;
+  }
+</style>
