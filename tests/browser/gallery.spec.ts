@@ -60,6 +60,8 @@ for (const locale of ['tr', 'en'] as const) {
 test('gallery cards preserve complete images and lightbox fits a narrow touch viewport', async ({
   page,
 }) => {
+  // Decode all thirteen real images, including cold production requests.
+  test.setTimeout(120_000);
   await page.setViewportSize({ width: 360, height: 780 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/work/racker/');
@@ -67,13 +69,9 @@ test('gallery cards preserve complete images and lightbox fits a narrow touch vi
   expect(await links.count()).toBeGreaterThan(1);
   for (const link of await links.all()) {
     await link.scrollIntoViewIfNeeded();
-    await expect
-      .poll(() =>
-        link
-          .locator('img')
-          .evaluate((image) => (image as HTMLImageElement).complete),
-      )
-      .toBe(true);
+    await link
+      .locator('img')
+      .evaluate((image) => (image as HTMLImageElement).decode());
     const geometry = await link.evaluate((element) => {
       const bounds = element.getBoundingClientRect();
       const image = element.querySelector('img')!;
@@ -93,17 +91,14 @@ test('gallery cards preserve complete images and lightbox fits a narrow touch vi
   await links.first().click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
-  await expect
-    .poll(() =>
-      dialog
-        .locator('[data-gallery-image]')
-        .evaluate(
-          (image) =>
-            (image as HTMLImageElement).complete &&
-            (image as HTMLImageElement).naturalWidth > 0,
-        ),
-    )
-    .toBe(true);
+  await dialog
+    .locator('[data-gallery-image]')
+    .evaluate((image) => (image as HTMLImageElement).decode());
+  expect(
+    await dialog
+      .locator('[data-gallery-image]')
+      .evaluate((image) => (image as HTMLImageElement).naturalWidth),
+  ).toBeGreaterThan(0);
   const layout = await dialog.evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     const close = element
