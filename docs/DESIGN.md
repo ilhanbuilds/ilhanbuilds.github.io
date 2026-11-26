@@ -44,3 +44,9 @@ The outer demo frames are opaque-origin sandboxes. HCJEditor's user-code preview
 Promotional artwork is explicitly captioned, uses a standard 2:1 contain canvas and never replaces the original screenshot inventory. Five approved PNG covers are optimized to WebP; their English variants are deterministic compositions with English text and the full original UI. Racker retains its exact original artwork. RubikRL/SecureFace/DinoCore retain approved screenshots because new artwork overstates or ambiguously describes features. Deepfake uses simple typography because face permission is unverified. Covers are never extracted as official logos.
 
 Details no longer begin with a giant cover. The introduction pairs a moderate title, summary, status and technology chips with the real Racker icon or simple text identity. A single compact Projects back link remains. Original covers join the gallery so no approved screenshot disappears.
+
+## Final card and cover adjustments
+
+Work content is capped at 1200px. Each year retains its left-hand year/line and uses a two-column card grid from 768px, with one column below 768px. Cards share 2:1 contain media, compact padding, a consistent title/description rhythm and aligned actions; short localized card descriptions are independent of the full detail summaries. The scope is `.project-chronology`/`.work-page`, so Home's full-width Racker showcase is preserved. The generic caption below covers was removed at the owner's request; original gallery captions remain.
+
+The four corrected covers replace the earlier screenshot/typographic card fallbacks. Deepfake uses a score-free illustrative composition, never a real model result or original third-party face. The latest exact source-to-project decisions are in `COVERS_V1_1.md`.

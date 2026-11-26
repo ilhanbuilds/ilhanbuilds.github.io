@@ -38,7 +38,7 @@ Kullanıcının ek talimatıyla on birinci proje eklendi. Racker’dan sonra gel
 
 Beş yeni onaylı görsel ayrı Bilekten galerisinde yer alır. Telefon görüntüsü tanıtım olarak, saat görüntüleri arayüz olarak açıklanır. Yeni Türkçe kapak ve gerçek saat ekranından deterministik İngilizce kompozisyon eklendi. Cihaz kontrolleri Android izinlerine ve hedef cihaz desteğine bağlıdır; kamera ekranı bir istek arayüzüdür, kaydedilmiş fotoğraf kanıtı değildir.
 
-## Doğrulama
+## İlk taslak doğrulaması (önceki PR sürümü)
 
 Yerel strict Astro/TypeScript, ESLint, Prettier, production build ve 10 içerik/gizlilik/bütünlük testi başarılı. 11 projelik tam Playwright koşusu: **111 başarılı, 1 desteklenmeyen WebKit Layout Instability API kontrolü atlandı**. Chromium CLS ölçümü ve iki tarayıcıdaki görsel geometrisi kontrolleri çalışır. Son kullanılmayan görsel/aç-kapat CSS kuralları temizlendikten sonra ilgili demo, kapak, galeri ve CLS kontrolleri **17 başarılı, aynı 1 API atlama** ile tekrar geçti. Mevcut hesap makinesi, oyun ekonomisi, editör dosya/sandbox/CSP ve küp testleri korunur. Yeni kontroller; doğrudan demo yükleme ve odak, iki dilde kapaklar, 2:1 contain alanı, modal odak döngüsü/Escape/dokunma, no-JS tam boy bağlantı, Journey dil/query/hash yönlendirmeleri ve Bilekten’in konum/durum/gizlilik sınırlarını doğrular.
 
@@ -62,3 +62,17 @@ Bu sekiz örnekte TBT 0, CLS 0,00078–0,00188. 99 sonucu 100’e yuvarlanmadı.
 Fiziksel telefon/saat, manuel ekran okuyucu ve native Bilekten işlevleri bu portfolyo görevinde test edilmedi. Galeriler/etkileşimler tarayıcı emülasyonlarıyla doğrulandı. Harici Unity’nin erişimi değişebilir; editör sandbox’ı evrensel CPU/ağ engeli değildir. İzin doğrulaması eksik Deepfake yüzü ve yanlış/karışık özellik iddiaları taşıyan üç yeni kapak bilinçli olarak dışarıda tutulur. İnceleme ekran görüntüleri, ham ölçümler ve gerçekleşen commit/PR/CI bilgilerini içeren son rapor public repository dışında PortfolioReview klasöründe tutulur.
 
 Yerel inceleme çıktısı: **120 tam sayfa +48 doğrudan demo/ön izleme +8 Bilekten lightbox görüntüsü**. Her grup Türkçe/İngilizce, açık/koyu ve masaüstü/mobil kombinasyonlarını içerir. Galeri ve demo görüntülerinde gerçek iframe içeriği tarayıcıda boyanmış olarak doğrulandı; kaynak fotoğraflar değiştirilmedi.
+
+## Son görsel ayarlar — 26 Kasım 2026
+
+Bu bölüm önceki kapak dışlama kararlarının ve tek sütunlu kart sunumunun güncel durumunu belirtir. Projeler içeriği 1200px ile sınırlandı; sol yıl çizgisi korunarak 768px ve üzerinde aynı yıl içinde iki sütun, altında tek sütun kullanılır. Kartların başlık/boşluk/aksiyon ölçüleri eşitlendi ve kısa kart açıklamaları detay metninden ayrıldı. Sıra ve 11 proje korunur. Ana sayfadaki Racker vitrini bu sınırlamadan etkilenmez. Hafif hover/focus korunur; reduced motion’da kart hareketi kapalıdır.
+
+Kullanıcının isteğiyle kapakların altındaki genel “Tanıtım kompozisyonu” yazısı kaldırıldı; galerilerin kısa açıklamaları ve kapak alt metinleri korunur. Yeni düzeltilmiş DinoCore/SecureFace/RubikRL kapakları sırasıyla erken prototip/ekip araştırması/deneysel RL projesi olarak doğrulandı ve WebP’ye dönüştürüldü. İngilizce karşılıklar özgün onaylı ekranlardan hazırlandı.
+
+Deepfake’in yeni temsili görseli kullanılabilir. Ancak kaynak kapakta kalan örnek skor, süre, model ve sonuç paneli tamamen çıkarıldı; yalnız temsili resim parçası ve doğru TR/EN açıklamalarla skorsuz kompozisyon oluşturuldu. Orijinal üçüncü taraf yüzü ve 1.jpeg dışarıda; gerçek ekran galerisi veya canlı analiz demosu eklenmedi. Güncel toplam 20 kapak dosyası, önceki 32 kaynak görsel ve iki değişmeyen CV vardır. Önceki altı TR/EN kapak çifti ve orijinal Racker kapağı değiştirilmedi. Tam dosya eşleştirmesi ve kararlar `COVERS_V1_1.md` içindedir.
+
+### Son düzenleme doğrulaması
+
+Typecheck 0 hata/uyarı/hint; lint, format, build ve 10 içerik/gizlilik testi başarılı. Tam Chromium/WebKit paketi 115 başarılı, 1 desteklenmeyen WebKit CLS API kontrolü atlandı. Son boşluk daraltmasından sonra iki dil/tema, 768–1920px iki sütun, 360px tek sütun, 1200px içerik ve 600px altı kart yüksekliği, reduced motion, Racker vitrin genişliği ve kapak/gizlilik kontrolleri 10/10 geçti. Ana işlev, CV, sandbox/CSP ve galeri testleri korunur.
+
+Son aday yerel preview’de 48 HTML ve 248 asset ile doğrulandı; CV/demo/ikon hash’leri eşleşir. Varsayılan GPU ile Lighthouse 13.6.0/Chrome 158: mobil Home 100, Work 99, Editor 100, About 100, English 100; masaüstü Home/Work/Editor 100. Erişilebilirlik/best practices/SEO tümünde 100; TBT 0, CLS 0,00078–0,00190. 99 dahil tüm ham raporlar saklanır. Önceki ölçümler silinmez. Fiziksel cihaz ve manuel ekran okuyucu kabulü yapılmadı; v1.1.0 yayınlanmaz, PR #2 taslak kalır.
