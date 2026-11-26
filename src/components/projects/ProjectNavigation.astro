@@ -8,7 +8,7 @@ interface Props {
 }
 const { project, locale } = Astro.props;
 const index = timeline.findIndex((item) => item.id === project.id);
-const neighbors = [timeline[index - 1], project, timeline[index + 1]];
+const neighbors = [timeline[index + 1], project, timeline[index - 1]];
 ---
 
 <nav
