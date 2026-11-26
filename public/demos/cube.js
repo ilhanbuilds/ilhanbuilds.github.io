@@ -221,4 +221,7 @@
   stage.addEventListener('pointercancel', stopDragging);
   stage.addEventListener('lostpointercapture', stopDragging);
   reset();
+  document.querySelectorAll('button[disabled]').forEach((button) => {
+    button.disabled = false;
+  });
 })();

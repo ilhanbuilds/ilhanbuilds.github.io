@@ -50,6 +50,8 @@ test('home identifies the person and offers CV, projects and approved social con
 test('project cards and legacy Journey follow verified newest-first chronology with no nested anchors', async ({
   page,
 }) => {
+  // This batch follows six document navigations on the published site.
+  test.setTimeout(120_000);
   for (const prefix of ['', '/en']) {
     await page.goto(`${prefix}/work/`);
     expect(await page.locator('.project-card h3').allTextContents()).toEqual(
@@ -76,10 +78,13 @@ test('project cards and legacy Journey follow verified newest-first chronology w
       .getAttribute('href');
     await first.locator('.project-summary').scrollIntoViewIfNeeded();
     const summary = await first.locator('.project-summary').boundingBox();
-    await page.mouse.click(
-      summary!.x + summary!.width / 2,
-      summary!.y + summary!.height / 2,
-    );
+    await Promise.all([
+      page.waitForURL(expected!, { waitUntil: 'load' }),
+      page.mouse.click(
+        summary!.x + summary!.width / 2,
+        summary!.y + summary!.height / 2,
+      ),
+    ]);
     await expect(page).toHaveURL(expected!);
     await page.goto(`${prefix}/journey/`);
     expect(await page.locator('.project-card h3').allTextContents()).toEqual(
