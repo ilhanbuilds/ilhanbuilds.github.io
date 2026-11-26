@@ -1,5 +1,73 @@
 import { test, expect } from '@playwright/test';
 
+for (const theme of ['light', 'dark'] as const) {
+  test(`project cards form a compact two-column desktop timeline and one mobile column in ${theme}`, async ({
+    page,
+  }) => {
+    test.setTimeout(90_000);
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
+    for (const prefix of ['', '/en'])
+      for (const width of [360, 768, 1440, 1920]) {
+        await page.setViewportSize({ width, height: 1000 });
+        await page.goto(`${prefix}/work/`);
+        await page.evaluate(() => document.fonts.ready);
+        const main = await page.locator('main').boundingBox();
+        expect(main!.width).toBeLessThanOrEqual(1200);
+        for (const year of await page.locator('.chronology-year').all()) {
+          const grid = year.locator('.chronology-cards');
+          const columns = await grid.evaluate(
+            (e) => getComputedStyle(e).gridTemplateColumns.split(' ').length,
+          );
+          expect(columns).toBe(width < 768 ? 1 : 2);
+          const cards = grid.locator('.project-card');
+          const first = await cards.first().boundingBox();
+          if (width >= 768) {
+            expect(first!.height).toBeLessThan(600);
+            const heading = await year.locator('h2').boundingBox();
+            expect(heading!.x + heading!.width).toBeLessThan(first!.x);
+          }
+          if ((await cards.count()) > 1) {
+            const second = await cards.nth(1).boundingBox();
+            expect(Math.abs(first!.width - second!.width)).toBeLessThan(1);
+            if (width >= 768) {
+              expect(Math.abs(first!.y - second!.y)).toBeLessThan(1);
+              expect(Math.abs(first!.height - second!.height)).toBeLessThan(1);
+              expect(second!.x).toBeGreaterThan(first!.x + first!.width);
+            } else expect(second!.y).toBeGreaterThan(first!.y + first!.height);
+          }
+        }
+        for (const summary of await page
+          .locator('.project-card .project-summary')
+          .all())
+          expect((await summary.innerText()).length).toBeLessThanOrEqual(100);
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+        ).toBe(true);
+      }
+    await page.locator('.project-card').first().hover();
+    await expect(page.locator('.project-card').first()).toHaveCSS(
+      'transform',
+      'none',
+    );
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('/');
+    expect(
+      (await page.locator('.primary-project').boundingBox())!.width,
+    ).toBeGreaterThan(1200);
+    await expect(page.locator('.primary-project img').first()).toHaveAttribute(
+      'src',
+      /overview\./,
+    );
+    await expect(page.locator('.project-cover figcaption')).toHaveCount(0);
+    await page.goto('/work/deepfake-detection/');
+    await expect(page.locator('[data-gallery], [data-demo], img')).toHaveCount(
+      0,
+    );
+  });
+}
+
 test('Bilekten is newer than Racker, unpublished and paused with real media but no private source or simulated controller', async ({
   page,
 }) => {
@@ -59,6 +127,10 @@ test('covers use a common complete 2:1 canvas, localized compositions and honest
       if (geometry.fit) expect(geometry.fit).toBe('contain');
     }
     for (const slug of [
+      'rubikrl',
+      'secureface',
+      'dinocore',
+      'deepfake-detection',
       'bilekten',
       'idleoyun',
       'calculator',
@@ -72,20 +144,15 @@ test('covers use a common complete 2:1 canvas, localized compositions and honest
         'src',
         new RegExp(`${slug}${prefix ? '-en' : ''}\\.`),
       );
-      await expect(cover.locator('figcaption')).toHaveText(
-        prefix ? 'Promotional composition' : 'Tanıtım kompozisyonu',
+      await expect(cover.locator('figcaption')).toHaveCount(0);
+      await expect(cover.locator('img')).toHaveAttribute(
+        'alt',
+        /tanıtım|promotional/i,
       );
     }
-    for (const slug of ['rubikrl', 'secureface', 'dinocore'])
-      await expect(
-        page.locator(`[data-project="${slug}"] .project-cover`),
-      ).toHaveAttribute('data-cover-kind', 'screenshot');
     await expect(
       page.locator('[data-project="deepfake-detection"] img'),
-    ).toHaveCount(0);
-    await expect(
-      page.locator('[data-project="deepfake-detection"] .project-cover'),
-    ).toHaveAttribute('data-cover-kind', 'typography');
+    ).toHaveAttribute('alt', /temsili|illustrative/i);
     await expect(page.locator('[data-project="racker"] img')).toHaveAttribute(
       'src',
       /overview\./,

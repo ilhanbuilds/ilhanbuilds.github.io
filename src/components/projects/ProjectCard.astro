@@ -25,7 +25,9 @@ const t = copy[locale];
         {p.title}
       </a>
     </h3>
-    <p class="project-summary">{p.translations[locale].summary}</p>
+    <p class="project-summary">
+      {p.translations[locale].cardSummary ?? p.translations[locale].summary}
+    </p>
     <div class="project-tags">
       {p.technologies.map((technology) => (
         <span>{technology}</span>

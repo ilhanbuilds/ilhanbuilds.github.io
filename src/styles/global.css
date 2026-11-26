@@ -1128,21 +1128,84 @@ img {
 .project-chronology {
   padding-bottom: 3rem;
 }
+.wrap.work-page {
+  max-width: 1200px;
+}
+.project-chronology .project-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition:
+    border-color 160ms,
+    transform 160ms;
+}
+.project-chronology .project-card:hover {
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-chronology .project-card:hover {
+    transform: none;
+  }
+}
+.project-chronology .card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem 1.15rem;
+}
+.project-chronology .card-topline {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+.project-chronology h3 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  min-height: 1.3em;
+}
+.project-chronology .project-summary {
+  margin-block: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  min-height: 3.2em;
+}
+.project-chronology .project-tags {
+  margin-top: 0.5rem;
+  gap: 0.25rem 0.7rem;
+}
+.project-chronology .card-bottom .project-tags {
+  margin-top: 0;
+}
+.project-chronology .card-bottom {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  align-items: start;
+  gap: 0.5rem;
+}
+.project-chronology .card-actions {
+  gap: 0.3rem 1rem;
+}
+.project-chronology .card-actions .text-link {
+  font-size: 0.875rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
 .chronology-year {
   display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr);
-  gap: 2.5rem;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 1.5rem;
 }
 .chronology-year > h2 {
-  font-size: 1.5rem;
-  padding-top: 1.5rem;
+  font-size: 1.25rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border);
 }
 .chronology-cards {
-  padding: 0 0 3rem 2.5rem;
+  padding: 0 0 2rem 1.5rem;
   border-left: 1px solid var(--border);
   display: grid;
-  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 .chronology-year:last-child .chronology-cards {
   padding-bottom: 0;
@@ -1279,6 +1342,7 @@ img {
     padding-top: 1rem;
   }
   .chronology-cards {
+    grid-template-columns: minmax(0, 1fr);
     padding-left: 1rem;
     gap: 1.5rem;
     padding-bottom: 2rem;

@@ -29,19 +29,6 @@ const isComposition = Boolean(promotional) || project.id === 'racker';
       </div>
     )}
   </div>
-  <figcaption>
-    {isComposition
-      ? locale === 'en'
-        ? 'Promotional composition'
-        : 'Tanıtım kompozisyonu'
-      : image
-        ? locale === 'en'
-          ? 'Application screenshot'
-          : 'Uygulama ekranı'
-        : locale === 'en'
-          ? 'Project identity'
-          : 'Proje kimliği'}
-  </figcaption>
 </figure>
 <style>
   .project-cover {
@@ -65,11 +52,6 @@ const isComposition = Boolean(promotional) || project.id === 'racker';
     aspect-ratio: auto;
     object-fit: contain;
     border-radius: 0;
-  }
-  figcaption {
-    margin-top: 0.4rem;
-    color: var(--muted);
-    font-size: 0.875rem;
   }
   .cover-typography {
     padding: 1.5rem;

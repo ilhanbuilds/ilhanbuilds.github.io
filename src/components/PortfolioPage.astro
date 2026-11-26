@@ -53,6 +53,7 @@ const interests =
   title={titles[page]}
   description={descriptions[page]}
   noindex={page === '404'}
+  {...(page === 'work' ? { mainClass: 'work-page' } : {})}
 >
   {page === 'home' && (
     <>

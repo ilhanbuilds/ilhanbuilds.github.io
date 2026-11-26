@@ -11,8 +11,15 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  mainClass?: string;
 }
-const { locale, title, description, noindex = false } = Astro.props;
+const {
+  locale,
+  title,
+  description,
+  noindex = false,
+  mainClass = '',
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = `${title} · ilhanbuilds`;
 const shareImage = new URL('/branding/og-image.png', Astro.site);
@@ -152,7 +159,7 @@ const person = {
       {copy[locale].skip}
     </a>
     <Header locale={locale} />
-    <main id="main" class="wrap" tabindex="-1">
+    <main id="main" class:list={['wrap', mainClass]} tabindex="-1">
       <slot />
     </main>
     <Footer locale={locale} />

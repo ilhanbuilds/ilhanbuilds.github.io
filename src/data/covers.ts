@@ -1,3 +1,11 @@
+import dinocore from '../assets/covers/dinocore.webp';
+import dinocoreEn from '../assets/covers/dinocore-en.webp';
+import secureface from '../assets/covers/secureface.webp';
+import securefaceEn from '../assets/covers/secureface-en.webp';
+import rubikrl from '../assets/covers/rubikrl.webp';
+import rubikrlEn from '../assets/covers/rubikrl-en.webp';
+import deepfakedetection from '../assets/covers/deepfake-detection.webp';
+import deepfakedetectionEn from '../assets/covers/deepfake-detection-en.webp';
 import type { Locale, ProjectImage } from '../types/content';
 import idleoyun from '../assets/covers/idleoyun.webp';
 import idleoyunEn from '../assets/covers/idleoyun-en.webp';
@@ -17,6 +25,70 @@ import bilektenEn from '../assets/covers/bilekten-en.webp';
 export const promotionalCovers: Partial<
   Record<string, Partial<Record<Locale, ProjectImage>>>
 > = {
+  dinocore: {
+    tr: {
+      src: dinocore,
+      alt: {
+        tr: 'DinoCore tanıtımı: erken aşama Unity idle oyun prototipi.',
+        en: 'DinoCore promotional artwork: an early Unity idle game prototype.',
+      },
+    },
+    en: {
+      src: dinocoreEn,
+      alt: {
+        tr: 'DinoCore tanıtımı: erken aşama Unity idle oyun prototipi.',
+        en: 'DinoCore promotional artwork: an early Unity idle game prototype.',
+      },
+    },
+  },
+  secureface: {
+    tr: {
+      src: secureface,
+      alt: {
+        tr: 'SecureFace tanıtımı: yüz gizliliği üzerine ekip araştırması.',
+        en: 'SecureFace promotional artwork: team research on face privacy.',
+      },
+    },
+    en: {
+      src: securefaceEn,
+      alt: {
+        tr: 'SecureFace tanıtımı: yüz gizliliği üzerine ekip araştırması.',
+        en: 'SecureFace promotional artwork: team research on face privacy.',
+      },
+    },
+  },
+  rubikrl: {
+    tr: {
+      src: rubikrl,
+      alt: {
+        tr: 'RubikRL tanıtımı: pekiştirmeli öğrenme ile deneysel küp araştırması.',
+        en: 'RubikRL promotional artwork: experimental reinforcement learning and cube research.',
+      },
+    },
+    en: {
+      src: rubikrlEn,
+      alt: {
+        tr: 'RubikRL tanıtımı: pekiştirmeli öğrenme ile deneysel küp araştırması.',
+        en: 'RubikRL promotional artwork: experimental reinforcement learning and cube research.',
+      },
+    },
+  },
+  'deepfake-detection': {
+    tr: {
+      src: deepfakedetection,
+      alt: {
+        tr: 'Deepfake Detection tanıtımı: temsili görsel; gerçek model sonucu veya skor içermez.',
+        en: 'Deepfake Detection promotional artwork: illustrative imagery with no actual model result or score.',
+      },
+    },
+    en: {
+      src: deepfakedetectionEn,
+      alt: {
+        tr: 'Deepfake Detection tanıtımı: temsili görsel; gerçek model sonucu veya skor içermez.',
+        en: 'Deepfake Detection promotional artwork: illustrative imagery with no actual model result or score.',
+      },
+    },
+  },
   bilekten: {
     tr: {
       src: bilekten,

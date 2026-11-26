@@ -5,6 +5,7 @@ export type Localized<T> = Record<Locale, T>;
 export type Status = 'in-development' | 'unreleased' | 'on-hold';
 export interface ProjectCopy {
   summary: string;
+  cardSummary?: string;
   overview?: string;
   process?: string;
   technicalDetails?: string;
