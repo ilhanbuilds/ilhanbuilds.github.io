@@ -17,6 +17,7 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/idleOyun',
     translations: {
       en: {
+        cardSummary: 'My first small Python clicker game.',
         technicalDetails:
           'The original Python/PyQt5 application separates panels from game rules. Click power, rebirth and prestige affect earnings and upgrade prices.',
         summary:
@@ -25,6 +26,7 @@ export const projects: Project[] = [
           'A Python game built around clicking, earning in-game currency and buying upgrades.',
       },
       tr: {
+        cardSummary: 'Küçük bir Python tıklama oyunu; ilk programlama denemem.',
         technicalDetails:
           'Özgün Python/PyQt5 uygulamasında paneller ve oyun kuralları ayrıdır. Tıklama gücü, rebirth ve prestige, kazancı ve yükseltme fiyatlarını etkiler.',
         summary:
@@ -47,6 +49,7 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/Hesap-Makinesi-Form',
     translations: {
       en: {
+        cardSummary: 'A Windows Forms calculator for basic integer arithmetic.',
         overview:
           'A Windows Forms calculator with a numeric keypad, editable display and the four basic operations.',
         technicalDetails:
@@ -55,6 +58,8 @@ export const projects: Project[] = [
           'A simple calculator exploring desktop interfaces and basic arithmetic operations.',
       },
       tr: {
+        cardSummary:
+          'Temel tam sayı işlemleri için Windows Forms hesap makinesi.',
         overview:
           'Sayısal tuş takımı, düzenlenebilir ekranı ve dört temel işlemi olan bir Windows Forms hesap makinesi.',
         technicalDetails:
@@ -77,6 +82,8 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/HCJEditor',
     translations: {
       en: {
+        cardSummary:
+          'A browser editor with live HTML, CSS and JavaScript preview.',
         overview:
           'A compact workspace for trying HTML, CSS and JavaScript together and seeing the result immediately.',
         technicalDetails:
@@ -85,6 +92,8 @@ export const projects: Project[] = [
           'A browser editor for writing or loading HTML, CSS and JavaScript, previewing the result live, and downloading it as one file.',
       },
       tr: {
+        cardSummary:
+          'HTML, CSS ve JavaScript için canlı ön izlemeli tarayıcı editörü.',
         overview:
           'HTML, CSS ve JavaScript’i birlikte deneyip sonucu anlık görebilmek için küçük bir çalışma alanı.',
         technicalDetails:
@@ -108,6 +117,7 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/DinoCore-Evolution-Idle',
     translations: {
       en: {
+        cardSummary: 'An early idle game prototype built with Unity.',
         overview:
           'A Unity idle game built around rooms, resource production, dinosaurs and upgrades.',
         technicalDetails:
@@ -118,6 +128,7 @@ export const projects: Project[] = [
           'I used Unity and AI-assisted development tools to build the resource production and upgrade systems.',
       },
       tr: {
+        cardSummary: 'Unity ile geliştirdiğim erken aşama idle oyun prototipi.',
         overview:
           'Odalar, kaynak üretimi, dinozorlar ve yükseltmeler üzerine kurulu bir Unity idle oyunu.',
         technicalDetails:
@@ -142,6 +153,7 @@ export const projects: Project[] = [
     status: 'unreleased',
     translations: {
       en: {
+        cardSummary: 'A web project for creating personal celebration pages.',
         overview:
           'A shared celebration experience where messages are presented through themes and envelopes.',
         technicalDetails:
@@ -150,6 +162,8 @@ export const projects: Project[] = [
           'A website for creating personal celebrations with messages, themes and envelopes.',
       },
       tr: {
+        cardSummary:
+          'Kişisel kutlama sayfaları hazırlamak için geliştirdiğim web projesi.',
         overview:
           'Mesajları temalar ve zarflar üzerinden sunan ortak bir kutlama deneyimi.',
         technicalDetails:
@@ -173,6 +187,8 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/Lina',
     translations: {
       en: {
+        cardSummary:
+          'A desktop assistant using local AI models; development paused.',
         technicalDetails:
           'The desktop interface depends on locally running models. Its theme and settings views are shown here as recorded screenshots, without pretending to run a live assistant.',
         summary:
@@ -181,6 +197,8 @@ export const projects: Project[] = [
           'The assistant uses local models and a modular structure for conversations and settings. Development is currently paused.',
       },
       tr: {
+        cardSummary:
+          'Yerel AI modelleriyle çalışan masaüstü asistanı; geliştirmeye ara verildi.',
         technicalDetails:
           'Masaüstü arayüzü yerelde çalışan modellere ihtiyaç duyar. Tema ve ayar görünümleri burada kayıtlı ekran görüntüleridir; canlı asistan çalıştırılmaz.',
         summary:
@@ -206,6 +224,8 @@ export const projects: Project[] = [
       'https://play.google.com/store/apps/details?id=com.ilhanki.titanlog',
     translations: {
       en: {
+        cardSummary:
+          'Training, nutrition and progress tracking for Android and Wear OS.',
         summary:
           'An offline-first mobile app for tracking training, nutrition and physical progress. My first real application.',
         overview:
@@ -214,6 +234,8 @@ export const projects: Project[] = [
           'Built with React Native, Expo and TypeScript using an offline-first approach. I tested functionality on physical Android and Wear OS devices.',
       },
       tr: {
+        cardSummary:
+          'Android ve Wear OS için antrenman, beslenme ve gelişim takibi.',
         summary:
           'Antrenman, beslenme ve fiziksel gelişim takibi için geliştirdiğim offline-first mobil uygulama. İlk gerçek uygulamam.',
         overview:
@@ -224,11 +246,46 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'bilekten',
+    ...projectImages.bilekten,
+    slug: 'bilekten',
+    title: 'Bilekten',
+    year: 2026,
+    timelineOrder: 8,
+    category: { en: 'Android & Wear OS', tr: 'Android ve Wear OS' },
+    technologies: ['Kotlin', 'Jetpack Compose', 'Wear OS'],
+    visibility: 'private',
+    status: 'on-hold',
+    translations: {
+      en: {
+        cardSummary:
+          'Phone controls from a watch; unpublished and currently paused.',
+        summary:
+          'An unpublished Android and Wear OS project for controlling phone media, apps and shortcuts from a watch. Development is paused; I plan to return to it.',
+        overview:
+          'I developed Bilekten after Racker to bring phone controls to the wrist. It combines a companion phone interface with watch screens for media, favourite apps and device controls.',
+        technicalDetails:
+          'Built natively with Kotlin and Jetpack Compose for Android and Wear OS, focusing on the phone–watch connection, media controls and shortcuts. Available commands depend on device support and Android permissions.',
+      },
+      tr: {
+        cardSummary:
+          'Telefon kontrollerine saatten erişim; yayınlanmadı, geliştirmeye ara verildi.',
+        summary:
+          'Telefonun medya, uygulama ve kısayol kontrollerine saatten erişmek için geliştirdiğim, yayınlanmamış Android ve Wear OS projesi. Geliştirmeye ara verdim; ileride devam etmeyi planlıyorum.',
+        overview:
+          'Racker’dan sonra, telefon kontrollerini bileğe taşımak için geliştirdim. Telefonda bir yönetim arayüzü; saatte medya, favori uygulamalar ve cihaz kontrolleri bulunuyor.',
+        technicalDetails:
+          'Android ve Wear OS arayüzlerini Kotlin ve Jetpack Compose ile geliştirdim. Telefon–saat bağlantısı, medya denetimi ve kısayollar üzerinde çalıştım. Desteklenen komutlar cihazın yeteneklerine ve Android izinlerine bağlı.',
+      },
+    },
+  },
+  {
+    ...projectImages.deepfake,
     id: 'deepfake-detection',
     slug: 'deepfake-detection',
     title: 'Deepfake Detection',
     year: 2026,
-    timelineOrder: 8,
+    timelineOrder: 9,
     category: { en: 'Academic project', tr: 'Akademik proje' },
     technologies: ['Python', 'PyTorch', 'EfficientNet'],
     visibility: 'public',
@@ -236,6 +293,8 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/ilhanbuilds/deepfake-image-detection',
     translations: {
       en: {
+        cardSummary:
+          'An academic team project classifying real and manipulated face images.',
         technicalDetails:
           'The local application supports image/video analysis and Grad-CAM explanations. We evaluate recorded model outputs in their dataset context; a score alone does not establish authenticity.',
         summary:
@@ -244,6 +303,8 @@ export const projects: Project[] = [
           'We worked together on an academic deep learning project to classify real and manipulated face images using PyTorch and EfficientNet.',
       },
       tr: {
+        cardSummary:
+          'Gerçek ve sahte yüz görüntülerini sınıflandıran akademik ekip projesi.',
         technicalDetails:
           'Yerel uygulama fotoğraf/video analizi ve Grad-CAM açıklamalarını destekler. Kayıtlı model çıktılarını veri kümesi bağlamında değerlendiriyoruz; tek başına skor bir görüntünün gerçekliğini kanıtlamaz.',
         summary:
@@ -259,7 +320,7 @@ export const projects: Project[] = [
     slug: 'secureface',
     title: 'SecureFace',
     year: 2026,
-    timelineOrder: 9,
+    timelineOrder: 10,
     category: { en: 'Research & development', tr: 'Araştırma ve geliştirme' },
     technologies: ['Computer Vision', 'Face Privacy', 'Cryptography'],
     visibility: 'private',
@@ -269,6 +330,8 @@ export const projects: Project[] = [
     currentlyBuilding: true,
     translations: {
       en: {
+        cardSummary:
+          'Ongoing team research into face privacy and video protection.',
         technicalDetails:
           'The application combines video review, face-region controls and protected image data. The comparison below uses a recorded approved result; no processing or encryption runs in the browser.',
         summary:
@@ -277,6 +340,8 @@ export const projects: Project[] = [
           'We are developing SecureFace together as a team, combining computer vision for face anonymization with cryptographic protection of image data.',
       },
       tr: {
+        cardSummary:
+          'Yüz gizliliği ve video koruma üzerine devam eden ekip araştırması.',
         technicalDetails:
           'Uygulama video inceleme, yüz bölgesi kontrolleri ve görüntü verilerinin korunmasını bir araya getirir. Aşağıdaki karşılaştırma onaylı kayıtlı sonuçtur; tarayıcıda işleme veya şifreleme çalışmaz.',
         summary:
@@ -292,7 +357,7 @@ export const projects: Project[] = [
     slug: 'rubikrl',
     title: 'RubikRL',
     year: 2026,
-    timelineOrder: 10,
+    timelineOrder: 11,
     category: { en: 'Reinforcement learning', tr: 'Pekiştirmeli öğrenme' },
     technologies: ['Python', 'Reinforcement Learning'],
     visibility: 'private',
@@ -300,6 +365,8 @@ export const projects: Project[] = [
     currentlyBuilding: true,
     translations: {
       en: {
+        cardSummary:
+          'An experiment exploring cube solving with reinforcement learning.',
         technicalDetails:
           'Manual turns and cube-state inspection are separate from model experiments. The lightweight preview below is an independent simulation; general model solving success is not claimed.',
         summary:
@@ -308,6 +375,8 @@ export const projects: Project[] = [
           'I’m experimenting with reinforcement learning to train an agent for the Rubik’s Cube, alongside an interface for inspecting cube states and moves.',
       },
       tr: {
+        cardSummary:
+          'Pekiştirmeli öğrenmeyle küp çözmeyi araştırdığım deneysel proje.',
         technicalDetails:
           'Elle hamleler ve küp durumu incelemesi model deneylerinden ayrıdır. Aşağıdaki hafif ön izleme bağımsız bir simülasyondur; modelin genel çözüm başarısı iddia edilmez.',
         summary:

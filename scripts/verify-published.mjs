@@ -2,8 +2,10 @@ import { request } from '@playwright/test';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
+import { dirname } from 'node:path';
 const baseURL =
   process.env.PORTFOLIO_BASE_URL ?? 'https://ilhanbuilds.github.io';
+const reportPath = process.argv[2] ?? '.tools/production-verification.json';
 const slugs = [
   'idleoyun',
   'calculator',
@@ -12,6 +14,7 @@ const slugs = [
   'kutlumi',
   'lina',
   'racker',
+  'bilekten',
   'deepfake-detection',
   'secureface',
   'rubikrl',
@@ -111,11 +114,8 @@ try {
   const png = await og.body();
   assert.equal(png.readUInt32BE(16), 1200);
   assert.equal(png.readUInt32BE(20), 630);
-  await mkdir('.tools', { recursive: true });
-  await writeFile(
-    '.tools/production-verification.json',
-    JSON.stringify(evidence, null, 2) + '\n',
-  );
+  await mkdir(dirname(reportPath), { recursive: true });
+  await writeFile(reportPath, JSON.stringify(evidence, null, 2) + '\n');
   console.log(
     `Verified ${evidence.routes.length} HTML routes and ${evidence.assets.length} assets; CV/demo/icon hashes match the release source.`,
   );

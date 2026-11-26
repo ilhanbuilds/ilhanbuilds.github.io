@@ -12,30 +12,24 @@ const demos: Record<
 > = {
   idleoyun: {
     path: 'idleoyun',
-    title: english
-      ? 'Python game · browser adaptation'
-      : 'Python oyunu · tarayıcı uyarlaması',
+    title: 'IdleOyun',
     description: english
-      ? 'The original menus, clicker and market adapted for the browser. Demo accounts exist only in this frame’s memory; progress is cleared when closed.'
-      : 'Özgün menüler, tıklama oyunu ve marketin tarayıcı uyarlaması. Demo hesaplar yalnızca bu çerçevenin belleğinde tutulur; kapatıldığında ilerleme silinir.',
+      ? 'The original menus, clicker and market adapted for the browser. Demo accounts exist only in this frame’s memory; progress is cleared when leaving or reloading the page.'
+      : 'Özgün menüler, tıklama oyunu ve marketin tarayıcı uyarlaması. Demo hesaplar yalnızca bu çerçevenin belleğinde tutulur; sayfadan ayrılınca veya sayfa yenilenince ilerleme silinir.',
   },
   calculator: {
     path: 'calculator',
-    title: english
-      ? 'Windows Forms · browser adaptation'
-      : 'Windows Forms · tarayıcı uyarlaması',
+    title: english ? 'Calculator' : 'Hesap makinesi',
     description: english
       ? 'The original layout and integer arithmetic behavior, adapted from C# for the browser.'
       : 'Özgün C# arayüzü ve tam sayı hesaplama davranışının tarayıcı uyarlaması.',
   },
   hcjeditor: {
     path: 'hcjeditor',
-    title: english
-      ? 'HCJEditor · isolated browser editor'
-      : 'HCJEditor · yalıtılmış tarayıcı editörü',
+    title: 'HCJEditor',
     description: english
-      ? 'The original editor with local file import, download and isolated live preview. No code is sent to a service. Download your work before closing; edits are not saved.'
-      : 'Özgün editör: yerel dosya yükleme, indirme ve yalıtılmış canlı ön izleme. Kod bir servise gönderilmez. Kapatmadan önce çalışmanızı indirin; düzenlemeler kaydedilmez.',
+      ? 'Try HTML, CSS and JavaScript in an isolated live preview. File operations are disabled and edits are cleared when leaving.'
+      : 'HTML, CSS ve JavaScript’i yalıtılmış canlı ön izlemede deneyin. Dosya işlemleri kapalıdır; sayfadan ayrılınca düzenlemeler silinir.',
   },
   rubikrl: {
     path: 'cube',
@@ -57,32 +51,23 @@ const demo = demos[id];
     data-path={`/demos/${demo.path}.html?lang=${locale}`}
     data-kind={id}
   >
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">
-          {english ? 'Try it in your browser' : 'Tarayıcıda deneyin'}
-        </p>
-        <h2>{demo.title}</h2>
-      </div>
-    </div>
+    <h2>{demo.title}</h2>
     <p class="demo-description">{demo.description}</p>
-    <button class="button-link" type="button" data-demo-start>
-      {english ? 'Open demo' : 'Demoyu aç'}
-    </button>
-    <button class="text-link demo-close" type="button" data-demo-close hidden>
-      {english ? 'Close demo' : 'Demoyu kapat'}
-    </button>
-    <div class="demo-host" data-demo-host></div>
+    <div class="demo-host demo-surface" data-demo-host></div>
+    <noscript>
+      <p>
+        {english
+          ? 'JavaScript is required for this interactive preview.'
+          : 'Bu etkileşimli ön izleme için JavaScript gereklidir.'}
+      </p>
+    </noscript>
   </section>
 )}
 <script>
   document.querySelectorAll<HTMLElement>('[data-demo]').forEach((section) => {
-    const start =
-      section.querySelector<HTMLButtonElement>('[data-demo-start]')!;
-    const close =
-      section.querySelector<HTMLButtonElement>('[data-demo-close]')!;
     const host = section.querySelector<HTMLElement>('[data-demo-host]')!;
-    start.addEventListener('click', () => {
+    const load = () => {
+      if (host.children.length) return;
       const frame = document.createElement('iframe');
       const url = new URL(section.dataset.path!, location.origin);
       url.searchParams.set(
@@ -92,20 +77,113 @@ const demo = demos[id];
       frame.src = url.href;
       frame.title = section.querySelector('h2')!.textContent!;
       frame.sandbox.add('allow-scripts');
-      if (section.dataset.kind === 'hcjeditor')
-        frame.sandbox.add('allow-downloads');
       frame.referrerPolicy = 'no-referrer';
       frame.className = `demo-frame demo-frame-${section.dataset.kind}`;
       host.replaceChildren(frame);
-      start.hidden = true;
-      close.hidden = false;
-      frame.addEventListener('load', () => frame.focus(), { once: true });
-    });
-    close.addEventListener('click', () => {
-      host.replaceChildren();
-      start.hidden = false;
-      close.hidden = true;
-      start.focus();
-    });
+      if (section.dataset.kind === 'rubikrl') {
+        const pointers = new Set<number>();
+        let pendingHeight: number | undefined;
+        const applyHeight = () => {
+          if (pointers.size || pendingHeight === undefined) return;
+          host.style.setProperty(
+            '--demo-height',
+            `${Math.ceil(pendingHeight)}px`,
+          );
+          section.dataset.fitted = 'true';
+          pendingHeight = undefined;
+        };
+        document.addEventListener('pointerdown', (event) =>
+          pointers.add(event.pointerId),
+        );
+        const release = (event: PointerEvent) => {
+          pointers.delete(event.pointerId);
+          setTimeout(applyHeight, 0);
+        };
+        document.addEventListener('pointerup', release);
+        document.addEventListener('pointercancel', release);
+        window.addEventListener('message', (event: MessageEvent<unknown>) => {
+          if (
+            event.source !== frame.contentWindow ||
+            typeof event.data !== 'object' ||
+            event.data === null
+          )
+            return;
+          const data = event.data as Record<string, unknown>;
+          if (
+            data.type === 'portfolio-cube-height' &&
+            typeof data.height === 'number' &&
+            Number.isFinite(data.height) &&
+            data.height >= 250 &&
+            data.height <= 1800
+          ) {
+            pendingHeight = data.height;
+            applyHeight();
+          }
+        });
+      }
+      frame.addEventListener(
+        'load',
+        () => {
+          section.dataset.loaded = 'true';
+        },
+        { once: true },
+      );
+    };
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            load();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: '240px' },
+      );
+      observer.observe(host);
+    } else load();
   });
 </script>
+<style>
+  .demo-section {
+    margin-block: 1.5rem;
+    padding-block: 1.5rem;
+  }
+  .demo-section h2 {
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+  }
+  .demo-description {
+    margin-block: 0.65rem 1rem;
+  }
+  .demo-host {
+    --demo-height: 660px;
+    min-height: var(--demo-height);
+    max-width: 60rem;
+    margin-inline: auto;
+  }
+  [data-kind='calculator'] .demo-host {
+    --demo-height: 590px;
+    max-width: 360px;
+  }
+  [data-kind='idleoyun'] .demo-host {
+    max-width: 580px;
+  }
+  [data-kind='hcjeditor'] .demo-host {
+    --demo-height: 600px;
+  }
+  [data-kind='rubikrl'] .demo-host {
+    --demo-height: 550px;
+  }
+  .demo-host :global(.demo-frame) {
+    height: var(--demo-height);
+    margin-top: 0;
+    border: 0;
+  }
+  @media (max-width: 47.99rem) {
+    [data-kind='hcjeditor'] .demo-host {
+      --demo-height: 720px;
+    }
+    [data-kind='rubikrl'] .demo-host {
+      --demo-height: 660px;
+    }
+  }
+</style>

@@ -11,8 +11,8 @@ for (const path of paths) {
     ]),
   );
   assert.ok(
-    scores.performance >= 90,
-    `${path}: performance ${scores.performance} < 90`,
+    scores.performance >= 95,
+    `${path}: performance ${scores.performance} < 95`,
   );
   for (const key of ['accessibility', 'best-practices', 'seo'])
     assert.equal(scores[key], 100, `${path}: ${key}`);

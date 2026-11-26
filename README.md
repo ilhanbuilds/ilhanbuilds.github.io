@@ -1,6 +1,6 @@
 # İlhan Kılıç — Personal portfolio
 
-A bilingual, static portfolio tracing my development from a first Python game in 2024 to mobile applications and research projects. Racker and SecureFace lead the showcase; the journey keeps earlier experiments and paused work in context.
+A bilingual, static portfolio tracing my development from a first Python game in 2024 to mobile applications and research projects. Racker and SecureFace lead the showcase; the newest-first project timeline keeps earlier experiments and paused work in context.
 
 ## Stack
 
@@ -32,7 +32,7 @@ npm run preview
 
 ## Content management
 
-`src/data/projects.ts` is the single public content source. To add a project, add one typed `Project` entry with a unique ID, slug, year, timeline order, technologies, category, visibility, and both translations. Lists, detail pages, journey entries and both language routes are generated from it. Set `featured` to an ordering number or `currentlyBuilding` to `true` as appropriate.
+`src/data/projects.ts` is the single public content source. To add a project, add one typed `Project` entry with a unique ID, slug, year, timeline order, technologies, category, visibility, and both translations. Lists, detail pages, timeline cards and both language routes are generated from it. Set `featured` to an ordering number or `currentlyBuilding` to `true` as appropriate.
 
 Optional detail fields include overview, process, technical details, lessons, cover image, gallery, repository and demo URLs. Missing sections are omitted. SecureFace and Deepfake Detection are described as shared team work, without separate individual contribution sections. Status is optional when it has not been established; absence does not mean completion.
 
@@ -77,4 +77,12 @@ Further details: [design](docs/DESIGN.md), [development](docs/DEVELOPMENT.md), [
 
 For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves 120 real full-page Chromium screenshots covering every localized content/error page in both themes and desktop/mobile viewports, and a local review index outside the public site. Current delivery notes are in [the Turkish v1 report](docs/V1_TR.md); [phase 3](docs/PHASE_3_TR.md) and [phase 2](docs/PHASE_2_TR.md) remain historical records.
 
-The v1 detail pages include faithful browser adaptations of IdleOyun/Calculator, the real sandboxed HCJEditor, an independent cube simulation, a recorded SecureFace comparison and a Racker image navigator. All load on request; no AI inference or live encryption is claimed. DinoCore uses its existing external Unity demo. Source provenance and compatibility limits are documented in `docs/DEMO_*_SOURCES.md`. No new dependencies or private project sources were added.
+The detail pages include faithful browser adaptations of IdleOyun/Calculator, the real sandboxed HCJEditor, an independent cube simulation, a recorded SecureFace comparison and local symbolic Racker/Bilekten synchronization examples. The four iframe experiences load near the viewport; no AI inference or live encryption is claimed. DinoCore uses its existing external Unity demo. Source provenance and compatibility limits are documented in `docs/DEMO_*_SOURCES.md`. No new dependencies or private project sources were added.
+
+## v1.1 visual refinement
+
+The current branch is `feat/portfolio-visual-refinement`, based on v1.0.0 main. New reviewed 2:1 promotional covers and localized English compositions are separate from the original screenshot galleries. Details use compact typography, direct deferred demos and an accessible image lightbox. Journey navigation/comparison is removed; `/journey/`, `/en/journey/` and `/tr/journey/` redirect to the matching Work page. See `docs/COVERS_V1_1.md` and `docs/V1_1_TR.md` for the excluded claim/face artwork and verification. The final release request explicitly authorizes merging PR #2 and deploying v1.1.0 only after local and exact-head CI checks pass.
+
+Bilekten is the eleventh approved project: an unpublished Kotlin/Jetpack Compose Android and Wear OS project, paused for later continuation. It follows Racker in development history and appears immediately above it in the newest-first list. Only owner-supplied media and a concise approved description are public; no private source/repository link is included. The browser-only symbolic volume example neither connects to hardware nor changes system volume.
+
+Final refinement details: [release changes](docs/FINAL_REFINEMENT_TR.md), [English cover localization](docs/COVER_LOCALIZATION_FINAL.md), [sanitized media](docs/FINAL_MEDIA.md).

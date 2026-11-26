@@ -4,7 +4,6 @@ import AxeBuilder from '@axe-core/playwright';
 const paths = [
   '',
   'work/',
-  'journey/',
   'about/',
   ...[
     'idleoyun',
@@ -14,6 +13,7 @@ const paths = [
     'kutlumi',
     'lina',
     'racker',
+    'bilekten',
     'deepfake-detection',
     'secureface',
     'rubikrl',
@@ -61,7 +61,7 @@ test('every public page has localized metadata, matching language routes and val
           elements.map((element) => element.getAttribute('href')!),
         );
       links.forEach((link) => internalLinks.add(link));
-      for (const img of await page.locator('img').all()) {
+      for (const img of await page.locator('img:visible').all()) {
         await img.scrollIntoViewIfNeeded();
         await expect
           .poll(() =>
@@ -76,7 +76,7 @@ test('every public page has localized metadata, matching language routes and val
       }
       expect(
         await page
-          .locator('img')
+          .locator('img:visible')
           .evaluateAll((imgs) =>
             imgs.every(
               (img) =>
@@ -107,7 +107,7 @@ test('project images have intrinsic dimensions, preserve their ratio and open at
   ]) {
     await page.goto(path);
     for (const image of await page
-      .locator('img:not(.about-portrait img)')
+      .locator('img:visible:not(.about-portrait img)')
       .all()) {
       await image.scrollIntoViewIfNeeded();
       await expect
@@ -140,7 +140,9 @@ test('project images have intrinsic dimensions, preserve their ratio and open at
         };
       });
       expect(result.intrinsic).toBe(true);
-      expect(result.distortion).toBeLessThan(0.02);
+      // Contain canvases deliberately differ from the source ratio; CSS preserves all pixels.
+      if (result.objectFit !== 'contain')
+        expect(result.distortion).toBeLessThan(0.02);
       expect(result.objectFit).not.toBe('cover');
     }
     for (const href of await page
@@ -171,15 +173,16 @@ test('Racker uses the official icon and verified Google Play link in both langua
   }
 });
 
-test('journey shows original game images and keeps smaller projects compact', async ({
+test('project timeline replaces Journey without the separate game comparison', async ({
   page,
 }) => {
   await page.goto('/journey/');
-  await expect(page.locator('.game-comparison img')).toHaveCount(2);
-  await expect(page.locator('.game-comparison')).toContainText(
-    'yapay zekâ desteğiyle',
+  await expect(page).toHaveURL('/work/');
+  await expect(page.locator('.game-comparison')).toHaveCount(0);
+  await expect(page.locator('.project-card')).toHaveCount(11);
+  await expect(page.locator('.project-chronology h2').first()).toHaveText(
+    '2026',
   );
-  await expect(page.locator('.timeline-image-small')).toHaveCount(2);
   await expect(page.locator('.about-portrait')).toHaveCount(0);
 });
 
@@ -215,7 +218,7 @@ test('loading images stays within the layout shift budget', async ({
   ]) {
     await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
-    for (const image of await page.locator('img').all()) {
+    for (const image of await page.locator('img:visible').all()) {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate((element) =>
         element instanceof HTMLImageElement
@@ -286,8 +289,8 @@ test('mobile navigation works by keyboard, closes with Escape, and navigates', a
   await expect(menu).toBeFocused();
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await menu.click();
-  await page.getByRole('link', { name: 'Yolculuk', exact: true }).click();
-  await expect(page).toHaveURL('/journey/');
+  await page.getByRole('link', { name: 'Projeler', exact: true }).click();
+  await expect(page).toHaveURL('/work/');
 });
 
 test('keyboard skip link reaches main content', async ({
@@ -309,15 +312,16 @@ test('keyboard skip link reaches main content', async ({
   await expect(page.locator('main')).toBeFocused();
 });
 
-test('journey preserves approved chronology and team attribution', async ({
+test('projects preserve approved chronology and team attribution', async ({
   page,
 }) => {
   await page.goto('/en/journey/');
-  const headings = await page.locator('.timeline-entry h3').allTextContents();
+  const headings = await page.locator('.project-card h3').allTextContents();
   expect(headings).toEqual([
     'RubikRL',
     'SecureFace',
     'Deepfake Detection',
+    'Bilekten',
     'Racker',
     'Lina',
     'Kutlumi',
@@ -329,7 +333,7 @@ test('journey preserves approved chronology and team attribution', async ({
   for (const name of ['Deepfake Detection', 'SecureFace']) {
     await expect(
       page
-        .locator('.timeline-entry')
+        .locator('.project-card')
         .filter({ has: page.getByRole('heading', { name, exact: true }) }),
     ).toContainText('Team project');
   }

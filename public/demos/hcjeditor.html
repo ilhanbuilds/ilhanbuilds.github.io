@@ -8,7 +8,7 @@
     <meta name="referrer" content="no-referrer" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data: blob:; font-src data:; frame-src 'self' about: blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data: blob:; font-src data:; frame-src about:; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <style>
       body {
@@ -124,51 +124,6 @@
         transform: scale(1.2);
       }
 
-      /* Modal stil */
-      #load-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 3000;
-      }
-      #load-modal.hidden {
-        display: none;
-      }
-      #modal-content {
-        background-color: #1e1e1e;
-        padding: 20px;
-        border-radius: 8px;
-        width: 300px;
-        color: #eee;
-      }
-      #modal-content h3 {
-        margin-top: 0;
-      }
-      #modal-content label {
-        display: block;
-        margin: 10px 0;
-        font-size: 14px;
-      }
-      #modal-content input[type='file'] {
-        margin-top: 4px;
-        width: 100%;
-      }
-      #modal-content button {
-        margin-top: 10px;
-        padding: 6px 12px;
-        background-color: #333;
-        color: #eee;
-        border: none;
-        cursor: pointer;
-        border-radius: 4px;
-      }
-
       .sr-only {
         position: absolute;
         width: 1px;
@@ -186,7 +141,8 @@
       }
       body {
         display: grid;
-        grid-template-rows: 216px minmax(220px, 1fr) 70px;
+        grid-template-rows: minmax(140px, 36%) minmax(0, 1fr) 70px;
+        overflow: hidden;
       }
       #editor-container {
         height: auto;
@@ -194,6 +150,11 @@
       }
       .editor {
         min-width: 0;
+        min-height: 0;
+      }
+      textarea {
+        flex: 1;
+        min-height: 0;
       }
       #preview-container {
         position: static;
@@ -201,30 +162,41 @@
         min-height: 0;
       }
       footer {
-        position: static;
+        position: relative;
+        gap: 12px;
+      }
+      #file-notice {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 12px;
+        max-width: min(320px, calc(100% - 24px));
+        margin: 0;
+        padding: 8px 12px;
+        border: 1px solid #666;
+        border-radius: 6px;
+        background: #222;
+        color: #eee;
+        font-size: 13px;
+        line-height: 1.4;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 30%);
+      }
+      #file-notice[data-side='save'] {
+        left: auto;
+        right: 12px;
       }
       button:focus-visible,
-      textarea:focus-visible,
-      input:focus-visible {
+      textarea:focus-visible {
         outline: 2px solid #66b5ff;
         outline-offset: 2px;
       }
-      #modal-content {
-        max-width: calc(100vw - 32px);
-        max-height: calc(100vh - 32px);
-        overflow: auto;
-      }
-      #close-modal {
-        min-width: 70px;
-        font-size: 14px;
-      }
       @media (max-width: 600px) {
         body {
-          grid-template-rows: 374px minmax(220px, 1fr) 70px;
+          grid-template-rows: minmax(282px, 55%) minmax(0, 1fr) 70px;
         }
         #editor-container {
           display: grid;
           grid-template-columns: 1fr;
+          grid-template-rows: repeat(3, minmax(0, 1fr));
           gap: 8px;
           padding: 8px 12px;
         }
@@ -294,52 +266,83 @@
 
     <!-- Footer -->
     <footer>
-      <button id="load-btn" title="Dosya Yükle" aria-label="Dosya Yükle">
+      <button
+        id="load-btn"
+        type="button"
+        aria-label="Dosya Yükle"
+        aria-describedby="file-notice"
+      >
         📂
       </button>
       &copy; İlhan Kılıç
-      <button id="save-btn" title="Dosyayı indir" aria-label="Dosyayı indir">
+      <p id="file-notice" role="status" hidden></p>
+      <button
+        id="save-btn"
+        type="button"
+        aria-label="Dosyayı indir"
+        aria-describedby="file-notice"
+      >
         💾
       </button>
     </footer>
-
-    <!-- MODAL PANEL -->
-    <div
-      id="load-modal"
-      class="hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="load-title"
-    >
-      <div id="modal-content">
-        <h3 id="load-title">Dosya Yükle</h3>
-        <label
-          >Tek HTML Dosyası:
-          <input type="file" id="full-html-file" accept=".html,.htm" />
-        </label>
-        <hr />
-        <label
-          >HTML Dosyası:
-          <input type="file" id="html-file" accept=".html,.htm,.txt" />
-        </label>
-        <label
-          >CSS Dosyası:
-          <input type="file" id="css-file" accept=".css,.txt" />
-        </label>
-        <label
-          >JS Dosyası:
-          <input type="file" id="js-file" accept=".js,.txt" />
-        </label>
-        <button id="close-modal">Kapat</button>
-      </div>
-    </div>
 
     <script>
       const htmlInput = document.getElementById('html-code');
       const cssInput = document.getElementById('css-code');
       const jsInput = document.getElementById('js-code');
       const previewFrame = document.getElementById('preview');
-      const saveBtn = document.getElementById('save-btn');
+      const language =
+        new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'tr';
+      document.documentElement.lang = language;
+      document.title =
+        language === 'en'
+          ? 'HCJEditor — Live Code Editor'
+          : 'HCJEditor — Canlı Kod Editör';
+      previewFrame.title =
+        language === 'en' ? 'Live code preview' : 'Canlı kod ön izlemesi';
+      document.getElementById('keyboard-help').textContent =
+        language === 'en'
+          ? 'Tab completes code. Press Escape then Tab or Shift+Tab to leave the editor.'
+          : 'Tab kodu tamamlar. Alandan çıkmak için Escape ardından Tab veya Shift+Tab kullanın.';
+      [htmlInput, cssInput, jsInput].forEach((input, index) => {
+        input.placeholder = `${['HTML', 'CSS', 'JS'][index]} ${language === 'en' ? 'code' : 'Kodu'}`;
+      });
+      const fileNotice = document.getElementById('file-notice');
+      for (const [id, side, label] of [
+        ['load-btn', 'load', language === 'en' ? 'Open file' : 'Dosya Yükle'],
+        ['save-btn', 'save', language === 'en' ? 'Save file' : 'Dosyayı indir'],
+      ]) {
+        const button = document.getElementById(id);
+        button.setAttribute('aria-label', label);
+        const showNotice = () => {
+          fileNotice.dataset.side = side;
+          fileNotice.textContent =
+            language === 'en'
+              ? 'File operations are disabled in this demo.'
+              : 'Bu demoda dosya işlemleri devre dışı.';
+          fileNotice.hidden = false;
+        };
+        const hideNotice = () => {
+          fileNotice.hidden = true;
+        };
+        button.addEventListener('pointerenter', showNotice);
+        button.addEventListener('pointerleave', (event) => {
+          if (
+            event.pointerType !== 'touch' &&
+            document.activeElement !== button
+          )
+            hideNotice();
+        });
+        button.addEventListener('focus', showNotice);
+        button.addEventListener('blur', hideNotice);
+        button.addEventListener('click', () => {
+          button.focus({ preventScroll: true });
+          showNotice();
+        });
+        button.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') hideNotice();
+        });
+      }
 
       // The original editor's controls are retained; user code runs in an opaque child.
       const previewPolicy =
@@ -349,7 +352,7 @@
         // fetch image URLs before its preview CSP is installed.
         const css = cssInput.value.replace(/<\/style/gi, '<\\/style');
         const js = jsInput.value.replace(/<\/script/gi, '<\\/script');
-        previewFrame.srcdoc = `<!doctype html><html lang="tr"><head>
+        previewFrame.srcdoc = `<!doctype html><html lang="${language}"><head>
           <meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${previewPolicy}">
           <style>${css}</style></head><body>${htmlInput.value}<script>${js}<\/script></body></html>`;
       }
@@ -358,70 +361,6 @@
       for (const input of [htmlInput, cssInput, jsInput])
         input.addEventListener('input', updatePreview);
       updatePreview();
-
-      function beautifyCode(code) {
-        if (!code) return '';
-        const lines = code.replace(/\r\n/g, '\n').split('\n');
-        let indentLevel = 0;
-        const indentSize = 2;
-        const result = [];
-
-        lines.forEach((line) => {
-          let trimmed = line.trim();
-
-          if (/^(\}|\<\/)/.test(trimmed))
-            indentLevel = Math.max(indentLevel - 1, 0);
-
-          const indent = ' '.repeat(indentLevel * indentSize);
-          result.push(indent + trimmed);
-
-          if (
-            /\{$/.test(trimmed) ||
-            /^<(?!\/)(?!br|img|input|link|meta|hr)([^>]+)>/.test(trimmed)
-          )
-            indentLevel++;
-        });
-
-        return result.join('\n');
-      }
-
-      // Dosyayı kaydet
-      saveBtn.addEventListener('click', () => {
-        const htmlContent = beautifyCode(htmlInput.value);
-        const cssContent = beautifyCode(cssInput.value);
-        const jsContent = beautifyCode(jsInput.value);
-
-        const fullHtml = `
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kaydedilen Sayfa</title>
-<style>
-${cssContent}
-</style>
-</head>
-<body>
-${htmlContent}
-
-<script>
-${jsContent}
-<\/script>
-</body>
-</html>`.trim();
-
-        const blob = new Blob([fullHtml], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'index.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      });
 
       // ENTER & TAB tuşlarına basınca olacak event
       function handleKeyDown(event) {
@@ -642,126 +581,6 @@ ${jsContent}
 
         updatePreview();
       }
-
-      // Modal ve dosya elemanları
-      const loadBtn = document.getElementById('load-btn');
-      const loadModal = document.getElementById('load-modal');
-      const closeModal = document.getElementById('close-modal');
-
-      const fullHtmlFile = document.getElementById('full-html-file');
-      const htmlFile = document.getElementById('html-file');
-      const cssFile = document.getElementById('css-file');
-      const jsFile = document.getElementById('js-file');
-
-      // Modal aç/kapat
-      loadBtn.addEventListener('click', () =>
-        loadModal.classList.remove('hidden'),
-      );
-      closeModal.addEventListener('click', () =>
-        loadModal.classList.add('hidden'),
-      );
-
-      // Yardımcı: Dosya okuma
-      function readFileInput(input, callback) {
-        if (input.files.length > 0) {
-          const reader = new FileReader();
-          reader.onload = (e) => callback(e.target.result);
-          reader.readAsText(input.files[0]);
-        }
-      }
-
-      // Tam HTML dosyasını ayrıştır ve yükle
-      function parseAndLoadFullHtml(content) {
-        // Style
-        let css = '';
-        content = content.replace(
-          /<style[^>]*>([\s\S]*?)<\/style>/gi,
-          (match, p1) => {
-            css = p1.trim();
-            return '';
-          },
-        );
-
-        // Script
-        let js = '';
-        content = content.replace(
-          /<script[^>]*>([\s\S]*?)<\/script>/gi,
-          (match, p1) => {
-            js = p1.trim();
-            return '';
-          },
-        );
-
-        // Kalan HTML
-        const html = content
-          .replace(/<!DOCTYPE[^>]*>/i, '')
-          .replace(/<html[^>]*>/i, '')
-          .replace(/<\/html>/i, '')
-          .replace(/<head[^>]*>[\s\S]*?<\/head>/i, '')
-          .replace(/<body[^>]*>/i, '')
-          .replace(/<\/body>/i, '')
-          .trim();
-
-        htmlInput.value = html;
-        cssInput.value = css;
-        jsInput.value = js;
-        updatePreview();
-      }
-
-      // Full HTML dosyasını yükle
-      fullHtmlFile.addEventListener('change', () => {
-        readFileInput(fullHtmlFile, (content) => {
-          parseAndLoadFullHtml(content);
-          loadModal.classList.add('hidden');
-        });
-      });
-
-      // Ayrı ayrı dosyalar
-      htmlFile.addEventListener('change', () => {
-        readFileInput(htmlFile, (content) => {
-          parseAndLoadFullHtml(content);
-          loadModal.classList.add('hidden');
-        });
-      });
-      cssFile.addEventListener('change', () => {
-        readFileInput(cssFile, (content) => {
-          cssInput.value = content.trim();
-          updatePreview();
-          loadModal.classList.add('hidden');
-        });
-      });
-      jsFile.addEventListener('change', () => {
-        readFileInput(jsFile, (content) => {
-          jsInput.value = content.trim();
-          updatePreview();
-          loadModal.classList.add('hidden');
-        });
-      });
-
-      loadBtn.addEventListener('click', () => {
-        fullHtmlFile.focus();
-      });
-      closeModal.addEventListener('click', () => {
-        loadBtn.focus();
-      });
-      loadModal.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          loadModal.classList.add('hidden');
-          loadBtn.focus();
-        }
-        if (event.key === 'Tab') {
-          const controls = [...loadModal.querySelectorAll('input, button')];
-          const first = controls[0];
-          const last = controls.at(-1);
-          if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-          } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault();
-            first.focus();
-          }
-        }
-      });
     </script>
   </body>
 </html>

@@ -19,11 +19,7 @@ const t = copy[locale];
         p.featured === 1 ? 'primary-project' : 'secondary-project',
       ]}
     >
-      <a
-        class="art-link"
-        href={route(locale, `work/${p.slug}`)}
-        aria-label={`${t.viewProject}: ${p.title}`}
-      >
+      <a class="art-link" href={route(locale, `work/${p.slug}`)}>
         <ProjectArt project={p} locale={locale} />
       </a>
       <div class="project-info">

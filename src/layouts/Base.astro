@@ -11,8 +11,15 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  mainClass?: string;
 }
-const { locale, title, description, noindex = false } = Astro.props;
+const {
+  locale,
+  title,
+  description,
+  noindex = false,
+  mainClass = '',
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = `${title} · ilhanbuilds`;
 const shareImage = new URL('/branding/og-image.png', Astro.site);
@@ -152,9 +159,72 @@ const person = {
       {copy[locale].skip}
     </a>
     <Header locale={locale} />
-    <main id="main" class="wrap" tabindex="-1">
+    <main id="main" class:list={['wrap', mainClass]} tabindex="-1">
       <slot />
     </main>
     <Footer locale={locale} />
+    <script>
+      const key = 'portfolio-work-position';
+      const restoreKey = 'portfolio-work-restore';
+      const workPath = location.pathname.startsWith('/en/')
+        ? '/en/work/'
+        : '/work/';
+      document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+        const link = event.target.closest<HTMLAnchorElement>('a[href]');
+        if (
+          !link ||
+          event.defaultPrevented ||
+          event.ctrlKey ||
+          event.metaKey ||
+          event.shiftKey ||
+          event.altKey
+        )
+          return;
+        try {
+          if (
+            location.pathname === workPath &&
+            link.origin === location.origin &&
+            link.pathname.startsWith(workPath) &&
+            link.pathname !== workPath
+          )
+            sessionStorage.setItem(
+              key,
+              JSON.stringify({ path: workPath, y: window.scrollY }),
+            );
+          if (link.hasAttribute('data-project-back'))
+            sessionStorage.setItem(restoreKey, workPath);
+        } catch {
+          /* Browsing without session storage still follows ordinary links. */
+        }
+      });
+      try {
+        if (
+          location.pathname === workPath &&
+          sessionStorage.getItem(restoreKey) === workPath
+        ) {
+          sessionStorage.removeItem(restoreKey);
+          const position: unknown = JSON.parse(
+            sessionStorage.getItem(key) ?? 'null',
+          );
+          if (
+            position &&
+            typeof position === 'object' &&
+            'path' in position &&
+            position.path === workPath &&
+            'y' in position &&
+            typeof position.y === 'number' &&
+            Number.isFinite(position.y)
+          ) {
+            const y = position.y;
+            document.fonts.ready.then(() =>
+              requestAnimationFrame(() => window.scrollTo(0, y)),
+            );
+          }
+        }
+      } catch {
+        /* A missing or invalid position uses the default page position. */
+      }
+    </script>
   </body>
 </html>

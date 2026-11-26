@@ -9,7 +9,9 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) =>
-        !page.includes('/404') && !new URL(page).pathname.startsWith('/tr/'),
+        !page.includes('/404') &&
+        !new URL(page).pathname.startsWith('/tr/') &&
+        !new URL(page).pathname.endsWith('/journey/'),
       i18n: { defaultLocale: 'tr', locales: { tr: 'tr-TR', en: 'en-US' } },
     }),
   ],

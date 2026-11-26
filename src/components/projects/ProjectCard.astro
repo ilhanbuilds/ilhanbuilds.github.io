@@ -12,11 +12,9 @@ const t = copy[locale];
 ---
 
 <article class:list={['project-card', `card-${p.id}`]} data-project={p.id}>
-  {p.coverImage && (
-    <div class="card-cover">
-      <ProjectArt project={p} locale={locale} loading={loading} />
-    </div>
-  )}
+  <div class="card-cover">
+    <ProjectArt project={p} locale={locale} loading={loading} />
+  </div>
   <div class="card-content">
     <div class="card-topline">
       <span>{p.category[locale]}</span>
@@ -27,7 +25,9 @@ const t = copy[locale];
         {p.title}
       </a>
     </h3>
-    <p class="project-summary">{p.translations[locale].summary}</p>
+    <p class="project-summary">
+      {p.translations[locale].cardSummary ?? p.translations[locale].summary}
+    </p>
     <div class="project-tags">
       {p.technologies.map((technology) => (
         <span>{technology}</span>

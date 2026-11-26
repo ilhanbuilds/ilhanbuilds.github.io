@@ -2,11 +2,12 @@
 import Screenshot from './Screenshot.astro';
 import DemoShell from '../demos/DemoShell.astro';
 import SecureCompare from '../demos/SecureCompare.astro';
-import ProductPreview from '../demos/ProductPreview.astro';
+import SyncDemo from '../demos/SyncDemo.astro';
+import ProjectNavigation from './ProjectNavigation.astro';
+import Icon from '../common/Icon.astro';
 import Base from '../../layouts/Base.astro';
-import ProjectArt from './ProjectArt.astro';
+import Gallery from './Gallery.astro';
 import { copy, route, statuses } from '../../i18n';
-import { timeline } from '../../data/projects';
 import type { Locale, Project } from '../../types/content';
 interface Props {
   locale: Locale;
@@ -21,35 +22,51 @@ const sections = [
   [t.technicalDetails, content.technicalDetails],
   [t.lessons, content.lessons],
 ];
-const next =
-  timeline[
-    (timeline.findIndex((item) => item.id === p.id) + 1) % timeline.length
-  ]!;
+const gallery = [
+  ...(p.id === 'rubikrl' ? [] : [p.coverImage]),
+  ...(p.gallery ?? []),
+].filter((image): image is NonNullable<typeof image> => Boolean(image));
 ---
 
 <Base locale={locale} title={p.title} description={content.summary}>
   <div class:list={['detail-intro', `detail-${p.id}`]}>
-    <a class="text-link" href={route(locale, 'work')}>
-      {t.back}
-    </a>
-    <div class="project-tags">
-      <span>{p.category[locale]}</span>
-      {p.status && <span class="status">{statuses[locale][p.status]}</span>}
+    <div class="detail-lead">
+      <a
+        class="detail-back button-link secondary"
+        data-project-back
+        href={route(locale, 'work')}
+      >
+        <Icon name="arrowLeft" />
+        {locale === 'en' ? 'Back to projects' : 'Projelere dön'}
+      </a>
+      <div class="project-tags">
+        <span>{p.category[locale]}</span>
+        {p.status && <span class="status">{statuses[locale][p.status]}</span>}
+      </div>
+      <h1>{p.title}</h1>
+      <p class="detail-summary">{content.summary}</p>
+      <ul class="detail-technologies" aria-label={t.technologies}>
+        {p.technologies.map((technology) => (
+          <li>{technology}</li>
+        ))}
+      </ul>
     </div>
-    <h1>
-      {p.logo && (
+    <div class="detail-identity" aria-hidden="true">
+      {p.logo ? (
         <span class="detail-logo">
-          <Screenshot image={p.logo} locale={locale} sizes="72px" />
+          <Screenshot
+            image={p.logo}
+            locale={locale}
+            sizes="96px"
+            loading="eager"
+          />
         </span>
+      ) : (
+        <span class="identity-name">{p.title}</span>
       )}
-      {p.title}
-      <span class="accent">.</span>
-    </h1>
-    <p>{content.summary}</p>
+      <span class="meta">{p.category[locale]}</span>
+    </div>
   </div>
-  {(p.featured || p.coverImage) && (
-    <ProjectArt project={p} locale={locale} loading="eager" />
-  )}
   <div class="detail-grid">
     <aside>
       <dl class="project-facts">
@@ -57,26 +74,12 @@ const next =
           <dt>{t.year}</dt>
           <dd>{p.year}</dd>
         </div>
-        <div>
-          <dt>{t.category}</dt>
-          <dd>{p.category[locale]}</dd>
-        </div>
-        {p.status && (
-          <div>
-            <dt>{t.status}</dt>
-            <dd>{statuses[locale][p.status]}</dd>
-          </div>
-        )}
         {p.collaboration && (
           <div>
             <dt>{t.collaboration}</dt>
             <dd>{p.collaboration === 'team' ? t.team : t.solo}</dd>
           </div>
         )}
-        <div>
-          <dt>{t.technologies}</dt>
-          <dd>{p.technologies.join(' / ')}</dd>
-        </div>
       </dl>
       <div class="detail-links">
         {p.storeUrl && (
@@ -119,32 +122,36 @@ const next =
   </div>
   <DemoShell id={p.id} locale={locale} />
   {p.id === 'secureface' && <SecureCompare locale={locale} />}
-  {p.id === 'racker' && <ProductPreview locale={locale} project={p} />}
-  {p.gallery && p.gallery.length > 0 && (
-    <section class="section">
-      <h2>{t.screenshots}</h2>
-      <div class:list={['gallery', { 'racker-gallery': p.id === 'racker' }]}>
-        {p.gallery.map((img) => (
-          <figure>
-            <a
-              class="gallery-image-link"
-              href={img.src.src}
-              aria-label={`${t.openImage}: ${img.alt[locale]}`}
-            >
-              <Screenshot
-                image={img}
-                locale={locale}
-                sizes="(max-width: 767px) 100vw, 50vw"
-              />
-            </a>
-            <figcaption>{img.alt[locale]}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </section>
+  {(p.id === 'racker' || p.id === 'bilekten') && (
+    <SyncDemo locale={locale} kind={p.id} />
   )}
-  <nav class="next-project" aria-label={t.next}>
-    <span class="meta">{t.next}</span>
-    <a href={route(locale, `work/${next.slug}`)}>{next.title}</a>
-  </nav>
+  {gallery.length > 0 && (
+    <Gallery
+      images={gallery}
+      locale={locale}
+      {...(p.id === 'racker'
+        ? {
+            title:
+              locale === 'en'
+                ? 'App screen compositions'
+                : 'Uygulama ekran kompozisyonları',
+            note:
+              locale === 'en'
+                ? 'Supplied promotional compositions with real app screens. Select to enlarge.'
+                : 'Gerçek uygulama ekranlarını içeren tanıtım kompozisyonları. Büyütmek için seçin.',
+          }
+        : {})}
+    />
+  )}
+  <ProjectNavigation project={p} locale={locale} />
 </Base>
+<style>
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.85rem;
+  }
+</style>

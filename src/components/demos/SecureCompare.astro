@@ -20,10 +20,7 @@ const source = projectImages.secureface.coverImage.src.src;
       ? 'Interactive comparison from the approved recorded screenshot. This does not run live face detection or encryption.'
       : 'Onaylı kayıtlı ekran görüntüsünden etkileşimli karşılaştırma. Canlı yüz tespiti veya şifreleme çalıştırmaz.'}
   </p>
-  <details data-compare data-source={source}>
-    <summary>
-      {english ? 'Open image comparison' : 'Görsel karşılaştırmayı aç'}
-    </summary>
+  <div class="demo-surface" data-compare data-source={source}>
     <div class="compare-stage" style="--reveal:50%">
       <div
         class="compare-layer compare-after"
@@ -37,31 +34,138 @@ const source = projectImages.secureface.coverImage.src.src;
         role="img"
         aria-label={english ? 'Original face' : 'Özgün yüz'}
       ></div>
-      <span class="compare-divider" aria-hidden="true"></span>
+      <div
+        class="compare-divider"
+        role="slider"
+        tabindex="0"
+        aria-label={
+          english ? 'Original image visibility' : 'Özgün görüntünün görünürlüğü'
+        }
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="50"
+        aria-orientation="horizontal"
+      >
+        <span aria-hidden="true">‹ ›</span>
+      </div>
       <span class="compare-label before">{english ? 'Before' : 'Önce'}</span>
       <span class="compare-label after">{english ? 'After' : 'Sonra'}</span>
     </div>
-    <label class="compare-control">
-      {english ? 'Original image visibility' : 'Özgün görüntünün görünürlüğü'}
-      <input type="range" min="0" max="100" value="50" />
-    </label>
-  </details>
+  </div>
 </section>
 <script>
   document
-    .querySelectorAll<HTMLDetailsElement>('[data-compare]')
-    .forEach((details) => {
-      const stage = details.querySelector<HTMLElement>('.compare-stage')!;
-      const range = details.querySelector<HTMLInputElement>('input')!;
-      details.addEventListener('toggle', () => {
-        if (details.open)
-          stage.style.setProperty(
-            '--compare-source',
-            `url("${details.dataset.source}")`,
-          );
+    .querySelectorAll<HTMLElement>('[data-compare]')
+    .forEach((comparison) => {
+      const stage = comparison.querySelector<HTMLElement>('.compare-stage')!;
+      const slider = comparison.querySelector<HTMLElement>('[role=slider]')!;
+      let value = 50;
+      const update = (next: number) => {
+        value = Math.max(0, Math.min(100, Math.round(next)));
+        stage.style.setProperty('--reveal', `${value}%`);
+        slider.setAttribute('aria-valuenow', String(value));
+      };
+      const move = (event: PointerEvent) => {
+        const bounds = stage.getBoundingClientRect();
+        update(((event.clientX - bounds.left) / bounds.width) * 100);
+      };
+      slider.addEventListener('pointerdown', (event) => {
+        slider.setPointerCapture(event.pointerId);
+        slider.focus({ preventScroll: true });
+        move(event);
       });
-      range.addEventListener('input', () =>
-        stage.style.setProperty('--reveal', `${range.value}%`),
-      );
+      slider.addEventListener('pointermove', (event) => {
+        if (slider.hasPointerCapture(event.pointerId)) move(event);
+      });
+      slider.addEventListener('pointerup', (event) => {
+        slider.releasePointerCapture(event.pointerId);
+      });
+      slider.addEventListener('keydown', (event) => {
+        const changes: Record<string, number> = {
+          ArrowLeft: value - 1,
+          ArrowDown: value - 1,
+          ArrowRight: value + 1,
+          ArrowUp: value + 1,
+          Home: 0,
+          End: 100,
+          PageDown: value - 10,
+          PageUp: value + 10,
+        };
+        if (event.key in changes) {
+          event.preventDefault();
+          update(changes[event.key]!);
+        }
+      });
+      const load = () =>
+        stage.style.setProperty(
+          '--compare-source',
+          `url("${comparison.dataset.source}")`,
+        );
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              load();
+              observer.disconnect();
+            }
+          },
+          { rootMargin: '240px' },
+        );
+        observer.observe(stage);
+      } else load();
     });
 </script>
+<style>
+  .secure-comparison {
+    margin-block: 1.5rem;
+    padding-block: 1.5rem;
+  }
+  .secure-comparison h2 {
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+  }
+  .demo-description {
+    margin-block: 0.65rem 1rem;
+  }
+  .compare-stage {
+    width: min(100%, 22rem);
+    margin-top: 0;
+  }
+  [data-compare] {
+    max-width: 22rem;
+  }
+  .compare-divider {
+    width: 44px;
+    transform: translateX(-50%);
+    background: transparent;
+    cursor: ew-resize;
+    touch-action: none;
+    display: grid;
+    place-items: center;
+  }
+  .compare-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: white;
+    box-shadow: 0 0 2px #111;
+  }
+  .compare-divider span {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #0064ce;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    border: 2px solid white;
+  }
+  .compare-divider:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -4px;
+  }
+</style>

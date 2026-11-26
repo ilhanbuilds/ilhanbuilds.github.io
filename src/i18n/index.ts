@@ -3,7 +3,6 @@ import type { Locale, Status } from '../types/content';
 export const copy = {
   en: {
     work: 'Work',
-    journey: 'Journey',
     about: 'About',
     resume: 'Resume',
     skip: 'Skip to content',
@@ -22,11 +21,6 @@ export const copy = {
     currently: 'Currently building',
     currentlyNote:
       'An experiment in reinforcement learning and cube interfaces.',
-    journeyIntro:
-      'From a small Python game in 2024 to mobile applications and research projects. A record of what I’ve worked on, including the projects I’ve paused.',
-    journeyLink: 'Follow the journey',
-    start: 'Started with a small Python game.',
-    now: 'Now working on mobile apps and research.',
     workIntro:
       'Applications, experiments and the smaller projects that came before them.',
     archive: 'Earlier work & experiments',
@@ -56,9 +50,6 @@ export const copy = {
     screenshots: 'Screenshots',
     store: 'View on Google Play',
     openImage: 'Open full-size image',
-    comparisonTitle: 'Two ways of making a game.',
-    comparisonIntro:
-      'The original Python clicker, followed by a Unity experiment using AI-assisted development. Different tools, two points in the same journey.',
     repository: 'Source on GitHub',
     documentation: 'Public documentation',
     demo: 'Live demo',
@@ -73,14 +64,11 @@ export const copy = {
       'İlhan Kılıç — Computer Engineering student interested in software development and software testing. Projects, research and a development journey.',
     projectDescription:
       'Projects by İlhan Kılıç, including Racker, SecureFace and experiments in software and machine learning.',
-    journeyDescription:
-      'İlhan Kılıç’s development journey, from a first Python game in 2024 to mobile applications and research.',
     aboutDescription:
       'About İlhan Kılıç, a Computer Engineering student at İzmir Bakırçay University interested in software development and software testing.',
   },
   tr: {
     work: 'Projeler',
-    journey: 'Yolculuk',
     about: 'Hakkımda',
     resume: 'Özgeçmiş',
     skip: 'İçeriğe geç',
@@ -98,11 +86,6 @@ export const copy = {
       'İlk fikirlerden devam eden çalışmalara, mobil uygulamalar ve araştırma.',
     currently: 'Üzerinde çalışıyorum',
     currentlyNote: 'Pekiştirmeli öğrenme ve küp arayüzleri üzerine bir deneme.',
-    journeyIntro:
-      '2024’te küçük bir Python oyunundan mobil uygulamalara ve araştırma projelerine. Ara verdiklerim de dahil, üzerinde çalıştığım projelerin kaydı.',
-    journeyLink: 'Yolculuğu incele',
-    start: 'Küçük bir Python oyunuyla başladım.',
-    now: 'Şimdi mobil uygulamalar ve araştırma üzerine çalışıyorum.',
     workIntro: 'Uygulamalar, deneyler ve onlardan önce gelen küçük projeler.',
     archive: 'Diğer çalışmalar ve denemeler',
     aboutTitle: 'Biraz kendimden.',
@@ -130,9 +113,6 @@ export const copy = {
     screenshots: 'Ekran görüntüleri',
     store: 'Google Play’de incele',
     openImage: 'Görseli tam boy aç',
-    comparisonTitle: 'Oyun yapmanın iki farklı yolu.',
-    comparisonIntro:
-      'Kendi ellerimle yazdığım Python tıklama oyunu ve ardından yapay zekâ desteğiyle geliştirdiğim Unity denemesi. Farklı araçlar, aynı yolculuğun iki noktası.',
     repository: 'GitHub kaynak kodu',
     documentation: 'Açık dokümantasyon',
     demo: 'Canlı demo',
@@ -149,8 +129,6 @@ export const copy = {
       'İlhan Kılıç — Yazılım geliştirme ve yazılım test mühendisliğiyle ilgilenen Bilgisayar Mühendisliği öğrencisi. Projeler, araştırma ve gelişim yolculuğu.',
     projectDescription:
       'İlhan Kılıç’ın Racker, SecureFace, yazılım ve makine öğrenmesi alanlarındaki projeleri.',
-    journeyDescription:
-      'İlhan Kılıç’ın 2024’te ilk Python oyunundan mobil uygulamalara ve araştırmaya uzanan gelişim yolculuğu.',
     aboutDescription:
       'Yazılım geliştirme ve yazılım test mühendisliğiyle ilgilenen İzmir Bakırçay Üniversitesi Bilgisayar Mühendisliği öğrencisi İlhan Kılıç hakkında.',
   },

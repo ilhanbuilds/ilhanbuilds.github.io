@@ -21,6 +21,7 @@ try {
           'rubikrl',
           'secureface',
           'racker',
+          'bilekten',
         ]) {
           const name = `demo-${slug}-${locale}-${device}-${theme}`;
           const page = await browser.newPage({
@@ -32,16 +33,14 @@ try {
             `${baseURL}${locale === 'en' ? '/en' : ''}/work/${slug}/`,
           );
           await page.evaluate(() => document.fonts.ready);
-          if (['secureface', 'racker'].includes(slug)) {
+          if (['secureface', 'racker', 'bilekten'].includes(slug)) {
             await page
               .locator(
-                slug === 'secureface'
-                  ? '[data-compare] summary'
-                  : '[data-product-preview] summary',
+                slug === 'secureface' ? '[data-compare]' : '[data-sync-demo]',
               )
-              .click();
+              .scrollIntoViewIfNeeded();
           } else {
-            await page.locator('[data-demo-start]').click();
+            await page.locator('[data-demo-host]').scrollIntoViewIfNeeded();
             const frame = page.locator('.demo-frame').contentFrame();
             const ready =
               slug === 'rubikrl'
@@ -86,7 +85,7 @@ try {
   );
   await writeFile(
     join(output, 'demos.html'),
-    `<!doctype html><html lang="tr"><meta charset="utf-8"><title>v1.0 Demo incelemesi</title><style>body{font:16px system-ui;margin:40px;background:#f5f4f0}img{max-width:100%;max-height:650px;object-fit:contain;object-position:top}section{padding:20px;border-top:1px solid #ddd}</style><h1>Çalışan demolar / ön izlemeler</h1>${manifest.map((item) => `<section><h2>${item.name}</h2><a href="${item.name}.png"><img loading="lazy" src="${item.name}.png" alt="${item.name}"></a></section>`).join('')}</html>`,
+    `<!doctype html><html lang="tr"><meta charset="utf-8"><title>v1.1 Demo incelemesi</title><style>body{font:16px system-ui;margin:40px;background:#f5f4f0}img{max-width:100%;max-height:650px;object-fit:contain;object-position:top}section{padding:20px;border-top:1px solid #ddd}</style><h1>Çalışan demolar / ön izlemeler</h1>${manifest.map((item) => `<section><h2>${item.name}</h2><a href="${item.name}.png"><img loading="lazy" src="${item.name}.png" alt="${item.name}"></a></section>`).join('')}</html>`,
   );
   console.log(`Saved ${manifest.length} open demo screenshots.`);
 } finally {
