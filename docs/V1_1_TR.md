@@ -1,3 +1,5 @@
+> Bu belge önceki taslak aşamanın tarihsel raporudur. Son düzenlemeler, son fotoğraf tercihi ve yetkili yayın sırası için [güncel kayıt](FINAL_REFINEMENT_TR.md) geçerlidir.
+
 # v1.1.0 — Görsel iyileştirme (taslak)
 
 Çalışma `v1.0.0` main sürümünden `feat/portfolio-visual-refinement` dalında hazırlandı. Bu aşama yalnız inceleme içindir: main’e merge, production deployment, tag veya GitHub Release yapılmaz. Mevcut v1.0.0 yayını korunur.

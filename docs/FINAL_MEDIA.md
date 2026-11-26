@@ -2,10 +2,7 @@
 
 ## Profil fotoğrafı
 
-`src/assets/images/personal/profile.webp`, kullanıcının seçtiği `profile.jpeg`
-fotoğrafından oluşturuldu. Tam kadraj ve 1536 × 2048 oranı korundu; yüz düzenlemesi,
-üretken görsel işlemi, esnetme veya kaynak dosyada değişiklik yapılmadı. Kare
-görünüm sayfa üzerinde CSS ile uygulanır. Önceki portre dosyası korundu.
+Kullanıcının son kararıyla mevcut `personal/portrait.webp` restoran portresi korunur. Kare CSS kadrajı ve 50% 45% object-position değişmez. Yeni profile.jpeg yayın kapsamına alınmamıştır; yüz üzerinde düzenleme yapılmamıştır.
 
 ## Deepfake kayıtlı arayüzü
 

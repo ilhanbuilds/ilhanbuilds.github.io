@@ -140,6 +140,8 @@ test('only reviewed local images are published without identifying metadata', as
     'idleoyun/market.webp',
     'idleoyun/upgrade.webp',
     'calculator/calculation.webp',
+    'calculator/calculation-clean.webp',
+    'deepfake/interface-anonymized.webp',
     'hcjeditor/live-preview.webp',
     'dinocore/gameplay.webp',
     'lina/dark-chat.webp',
@@ -213,9 +215,10 @@ test('only reviewed truthful promotional covers are imported; withheld face and 
   for (const [name, hash] of Object.entries(approved)) {
     const bytes = await readFile(`src/assets/covers/${name}`);
     assert.equal(createHash('sha256').update(bytes).digest('hex'), hash, name);
-    assert.equal(bytes.toString('ascii', 12, 16), 'VP8 ', name);
-    assert.equal(bytes.readUInt16LE(26) & 0x3fff, 1440, name);
-    assert.equal(bytes.readUInt16LE(28) & 0x3fff, 720, name);
+    const { default: sharp } = await import('sharp');
+    const metadata = await sharp(bytes).metadata();
+    assert.equal(metadata.width, 1440, name);
+    assert.equal(metadata.height, 720, name);
   }
   for (const [path, target, lang] of [
     ['journey', '/work/', 'tr'],

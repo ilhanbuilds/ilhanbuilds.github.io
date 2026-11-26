@@ -16,7 +16,15 @@ const neighbors = [timeline[index - 1], project, timeline[index + 1]];
   aria-label={locale === 'en' ? 'Project timeline' : 'Proje zaman çizelgesi'}
 >
   {neighbors.map((item, position) => (
-    <div class:list={['project-node', { active: position === 1 }]}>
+    <div
+      class:list={[
+        'project-node',
+        {
+          active: position === 1,
+          'has-connector': Boolean(item && neighbors[position + 1]),
+        },
+      ]}
+    >
       {item ? (
         position === 1 ? (
           <span aria-current="step">
@@ -52,7 +60,7 @@ const neighbors = [timeline[index - 1], project, timeline[index + 1]];
     position: relative;
     text-align: center;
   }
-  .project-node:not(:last-child)::after {
+  .project-node.has-connector::after {
     content: '';
     position: absolute;
     height: 1px;
