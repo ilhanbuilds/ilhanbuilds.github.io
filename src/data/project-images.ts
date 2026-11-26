@@ -1,10 +1,11 @@
+import deepfakeInterface from '../assets/images/deepfake/interface-anonymized.webp';
 import type { ProjectImage } from '../types/content';
 import idleMenu from '../assets/images/idleoyun/menu.webp';
 import idleLogin from '../assets/images/idleoyun/login.webp';
 import idleGame from '../assets/images/idleoyun/gameplay.webp';
 import idleMarket from '../assets/images/idleoyun/market.webp';
 import idleUpgrade from '../assets/images/idleoyun/upgrade.webp';
-import calculator from '../assets/images/calculator/calculation.webp';
+import calculator from '../assets/images/calculator/calculation-clean.webp';
 import editor from '../assets/images/hcjeditor/live-preview.webp';
 import dino from '../assets/images/dinocore/gameplay.webp';
 import linaDark from '../assets/images/lina/dark-chat.webp';
@@ -39,6 +40,15 @@ interface ProjectMedia {
 }
 
 export const projectImages = {
+  deepfake: {
+    coverImage: {
+      src: deepfakeInterface,
+      alt: {
+        tr: 'Üçüncü taraf görüntüsü anonimleştirilmiş kayıtlı uygulama arayüzü; skor ve süre bu kayda aittir.',
+        en: 'Recorded application interface with third-party imagery redacted; the score and duration belong to this recording.',
+      },
+    },
+  },
   bilekten: {
     coverImage: {
       src: bilektenControls,

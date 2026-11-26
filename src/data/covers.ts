@@ -1,3 +1,4 @@
+import rackerEn from '../assets/covers/racker-en.webp';
 import dinocore from '../assets/covers/dinocore.webp';
 import dinocoreEn from '../assets/covers/dinocore-en.webp';
 import secureface from '../assets/covers/secureface.webp';
@@ -25,6 +26,15 @@ import bilektenEn from '../assets/covers/bilekten-en.webp';
 export const promotionalCovers: Partial<
   Record<string, Partial<Record<Locale, ProjectImage>>>
 > = {
+  racker: {
+    en: {
+      src: rackerEn,
+      alt: {
+        tr: 'Racker özgün tanıtım tasarımının İngilizce karşılığı; uygulama ekranları korunmuştur.',
+        en: 'Racker original promotional design with English text and unchanged application screens.',
+      },
+    },
+  },
   dinocore: {
     tr: {
       src: dinocore,

@@ -280,6 +280,7 @@ export const projects: Project[] = [
     },
   },
   {
+    ...projectImages.deepfake,
     id: 'deepfake-detection',
     slug: 'deepfake-detection',
     title: 'Deepfake Detection',
