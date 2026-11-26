@@ -1,0 +1,66 @@
+---
+import { copy } from '../../i18n';
+import Icon from '../common/Icon.astro';
+import type { Locale } from '../../types/content';
+interface Props {
+  href: string;
+  locale: Locale;
+  subtle?: boolean;
+}
+const { href, locale, subtle = false } = Astro.props;
+---
+
+<a
+  class:list={['store-cta', { subtle }]}
+  href={href}
+  rel="noopener noreferrer"
+  data-store-cta
+>
+  <Icon name="external" />
+  <span>{copy[locale].store}</span>
+</a>
+<style>
+  .store-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--accent);
+    color: var(--background);
+    font-size: 0.85rem;
+    font-weight: 650;
+    line-height: 1.5;
+    text-decoration: none;
+    transition:
+      background-color 140ms,
+      transform 140ms;
+  }
+  .store-cta :global(svg) {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+  }
+  .store-cta.subtle {
+    background: transparent;
+    color: var(--accent);
+  }
+  .store-cta:hover {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--background);
+  }
+  .store-cta:active {
+    transform: translateY(1px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .store-cta {
+      transition: none;
+    }
+  }
+</style>

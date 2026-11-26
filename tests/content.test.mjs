@@ -162,6 +162,15 @@ test('only reviewed local images are published without identifying metadata', as
     'racker/android-tracking.webp',
     'racker/wear-os.webp',
     'racker/logo.webp',
+    'racker/store/phone-watch.webp',
+    'racker/store/program-builder.webp',
+    'racker/store/set-tracking.webp',
+    'racker/store/wear-connection.webp',
+    'racker/store/wear-finish-workout.webp',
+    'racker/store/wear-rest-timer.webp',
+    'racker/store/wear-set-entry.webp',
+    'racker/store/wear-workouts.webp',
+    'racker/store/workout-start.webp',
     'kutlumi/home.webp',
     'kutlumi/create.webp',
     'kutlumi/themes.webp',
@@ -246,6 +255,8 @@ test('brand browser assets have exact dimensions and approved slash geometry', a
     ['icons/icon-192.png', 192, 192],
     ['icons/icon-512.png', 512, 512],
     ['branding/og-image.png', 1200, 630],
+    ['branding/v1.1.1/og-tr.png', 1200, 630],
+    ['branding/v1.1.1/og-en.png', 1200, 630],
   ]) {
     const source = await readFile(`public/${name}`);
     assert.equal(source.subarray(1, 4).toString(), 'PNG');
@@ -291,5 +302,58 @@ test('interactive demos publish only reviewed static files and no accounts or mo
   for (const path of await files('dist')) {
     assert.doesNotMatch(path, /\.(?:pt|pth|onnx|sqlite|db|zip|enc)$/i);
     assert.doesNotMatch(path, /Oyuncular\.txt|\.env/i);
+  }
+});
+
+test('official Racker screens and original cover retain approved bytes and native dimensions', async () => {
+  const fixture = JSON.parse(
+    await readFile('tests/fixtures/approved-racker-store.json', 'utf8'),
+  );
+  const { default: sharp } = await import('sharp');
+  assert.equal(
+    createHash('sha256')
+      .update(await readFile('src/assets/images/racker/overview.webp'))
+      .digest('hex'),
+    fixture._originalCoverSha256,
+  );
+  const names = Object.keys(fixture).filter((name) => name.endsWith('.webp'));
+  assert.deepEqual(
+    (await readdir('src/assets/images/racker/store')).sort(),
+    names.sort(),
+  );
+  assert.equal(names.length, 9);
+  for (const name of names) {
+    const bytes = await readFile(`src/assets/images/racker/store/${name}`);
+    const metadata = await sharp(bytes).metadata();
+    assert.equal(
+      createHash('sha256').update(bytes).digest('hex'),
+      fixture[name].sha256,
+      name,
+    );
+    assert.equal(metadata.width, fixture[name].width, name);
+    assert.equal(metadata.height, fixture[name].height, name);
+  }
+});
+test('reviewed versioned social images and truthful public content are preserved', async () => {
+  const approved = JSON.parse(
+    await readFile('tests/fixtures/approved-social-v1.1.1.json', 'utf8'),
+  );
+  for (const [name, hash] of Object.entries(approved))
+    assert.equal(
+      createHash('sha256')
+        .update(await readFile(`public/branding/v1.1.1/${name}`))
+        .digest('hex'),
+      hash,
+      name,
+    );
+  const generator = await readFile('scripts/generate-brand-assets.mjs', 'utf8');
+  assert.doesNotMatch(generator, /og-image\.png|og-tr\.png|og-en\.png|ogCard/);
+  for (const path of (await files('dist')).filter((path) =>
+    path.endsWith('.html'),
+  )) {
+    const html = await readFile(path, 'utf8');
+    assert.doesNotMatch(html, /nutrition|beslenme/i, path);
+    assert.doesNotMatch(html, /\uFFFD|Ã[¼¶§]|Ä[±Ÿ]|ÅŸ|â€[™œž]/u, path);
+    assert.doesNotMatch(html, /play-lh\.googleusercontent/, path);
   }
 });

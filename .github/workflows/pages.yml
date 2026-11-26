@@ -40,17 +40,19 @@ jobs:
             sleep 1
           done
           export CHROME_PATH="$(node --input-type=module -e "import { chromium } from '@playwright/test'; process.stdout.write(chromium.executablePath())")"
-          for page in home work editor about en; do
+          for page in home work editor about en racker en-racker; do
             case "$page" in
               home) path="/" ;;
               work) path="/work/" ;;
               editor) path="/work/hcjeditor/" ;;
               about) path="/about/" ;;
               en) path="/en/" ;;
+              racker) path="/work/racker/" ;;
+              en-racker) path="/en/work/racker/" ;;
             esac
             npm exec --yes --package=lighthouse@13.6.0 -- lighthouse "http://127.0.0.1:4321$path" --chrome-flags="--headless --no-sandbox" --output=json --output-path=".tools/lighthouse/$page.json" --quiet
           done
-          node scripts/check-lighthouse.mjs .tools/lighthouse/{home,work,editor,about,en}.json
+          node scripts/check-lighthouse.mjs .tools/lighthouse/{home,work,editor,about,en,racker,en-racker}.json
       - uses: actions/upload-artifact@v7
         if: always()
         with:

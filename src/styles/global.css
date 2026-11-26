@@ -5,6 +5,7 @@
 }
 
 :root {
+  --header-expanded-height: 104px;
   --background: #f5f4f0;
   --text: #171717;
   --muted: #53565c;
@@ -33,7 +34,7 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 2rem;
+  scroll-padding-top: calc(var(--header-expanded-height) + 1rem);
 }
 body {
   margin: 0;
@@ -1455,5 +1456,64 @@ img {
     width: 100%;
     max-width: min(72rem, max(40rem, calc((100svh - 18rem) * 2)));
     margin-inline: auto;
+  }
+}
+
+/* A reserved shell keeps the document stationary as the single header compacts. */
+.header-shell {
+  position: relative;
+  min-height: var(--header-expanded-height);
+}
+.header-sentinel {
+  position: absolute;
+  top: 92px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.header-bar {
+  background: var(--background);
+}
+.header-bar[data-enhanced] {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  max-height: 100dvh;
+  overflow-y: auto;
+}
+.header-bar .site-header {
+  transition: min-height 160ms ease;
+}
+.header-bar .wordmark {
+  transition: font-size 160ms ease;
+}
+.header-bar[data-compact='true'] .site-header {
+  min-height: 64px;
+  border-color: color-mix(in srgb, var(--brand-blue) 30%, var(--border));
+}
+.header-bar[data-compact='true'] .wordmark {
+  font-size: 1.55rem;
+}
+@media (max-width: 47.99rem) {
+  :root {
+    --header-expanded-height: 80px;
+  }
+  .header-bar[data-compact='true'] .wordmark {
+    font-size: 1.3rem;
+  }
+}
+@media (scripting: none) and (max-width: 47.99rem) {
+  .site-header nav {
+    display: flex;
+  }
+  .menu-toggle {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header-bar .site-header,
+  .header-bar .wordmark {
+    transition: none;
   }
 }

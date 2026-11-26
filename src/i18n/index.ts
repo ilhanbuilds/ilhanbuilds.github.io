@@ -111,7 +111,7 @@ export const copy = {
     technicalDetails: 'Teknik detaylar',
     lessons: 'Öğrendiklerim',
     screenshots: 'Ekran görüntüleri',
-    store: 'Google Play’de incele',
+    store: "Google Play'de görüntüle",
     openImage: 'Görseli tam boy aç',
     repository: 'GitHub kaynak kodu',
     documentation: 'Açık dokümantasyon',

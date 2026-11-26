@@ -1,3 +1,4 @@
+import { rackerStoreImages } from './racker-store-images';
 import type { Project } from '../types/content';
 import { projectImages } from './project-images';
 
@@ -11,28 +12,29 @@ export const projects: Project[] = [
     year: 2024,
     timelineOrder: 1,
     category: { en: 'First steps', tr: 'İlk adımlar' },
-    technologies: ['Python'],
+    technologies: ['Python', 'PyQt5'],
     visibility: 'public',
     collaboration: 'solo',
     repositoryUrl: 'https://github.com/ilhanbuilds/idleOyun',
     translations: {
       en: {
-        cardSummary: 'My first small Python clicker game.',
+        cardSummary:
+          'My first small clicker game, written in Python with PyQt5.',
         technicalDetails:
-          'The original Python/PyQt5 application separates panels from game rules. Click power, rebirth and prestige affect earnings and upgrade prices.',
+          'PyQt5 menu, game and market panels connect to Python game rules. Strength, rebirth and prestige change earnings and upgrade costs.',
         summary:
-          'My first small click-based idle game, written by hand in Python.',
+          'My first small Python game, built around clicking, earning currency and buying upgrades.',
         overview:
-          'A Python game built around clicking, earning in-game currency and buying upgrades.',
+          'A desktop game where clicking earns in-game currency for strength upgrades in the market.',
       },
       tr: {
-        cardSummary: 'Küçük bir Python tıklama oyunu; ilk programlama denemem.',
+        cardSummary: 'Python ve PyQt5 ile yazdığım ilk küçük tıklama oyunu.',
         technicalDetails:
-          'Özgün Python/PyQt5 uygulamasında paneller ve oyun kuralları ayrıdır. Tıklama gücü, rebirth ve prestige, kazancı ve yükseltme fiyatlarını etkiler.',
+          'PyQt5 ile hazırladığım menü, oyun ve market panelleri Python oyun kurallarına bağlanır. Güç, rebirth ve prestige kazancı ve yükseltme maliyetlerini değiştirir.',
         summary:
-          'Python ile kendi ellerimle yazdığım ilk küçük tıklama tabanlı idle oyunu.',
+          'Tıklama, para kazanma ve yükseltmeler üzerine kurulu ilk küçük Python oyunum.',
         overview:
-          'Tıklama, oyun içi para kazanma ve yükseltme satın alma üzerine kurulu küçük bir Python oyunu.',
+          'Tıklayarak oyun içi para kazanılan, marketten güç yükseltmeleri alınan bir masaüstü oyunu.',
       },
     },
   },
@@ -51,21 +53,21 @@ export const projects: Project[] = [
       en: {
         cardSummary: 'A Windows Forms calculator for basic integer arithmetic.',
         overview:
-          'A Windows Forms calculator with a numeric keypad, editable display and the four basic operations.',
+          'A Windows Forms app with a numeric keypad, editable display and the four basic operations.',
         technicalDetails:
-          'The original C# implementation uses 32-bit integers and evaluates operations from left to right. The browser adaptation retains this behavior.',
+          'Built with C# and .NET Framework. Calculations use 32-bit integers evaluated from left to right; the portfolio browser adaptation preserves this calculation model.',
         summary:
-          'A simple calculator exploring desktop interfaces and basic arithmetic operations.',
+          'A small calculator I built while learning desktop interfaces and basic arithmetic operations.',
       },
       tr: {
         cardSummary:
           'Temel tam sayı işlemleri için Windows Forms hesap makinesi.',
         overview:
-          'Sayısal tuş takımı, düzenlenebilir ekranı ve dört temel işlemi olan bir Windows Forms hesap makinesi.',
+          'Sayısal tuş takımı, düzenlenebilir ekranı ve dört temel işlemi olan bir Windows Forms uygulaması.',
         technicalDetails:
-          'Özgün C# uygulaması 32 bit tam sayılar kullanır ve işlemleri soldan sağa değerlendirir. Tarayıcı uyarlaması bu davranışı korur.',
+          'C# ve .NET Framework ile geliştirildi. Hesaplamalar 32 bit tam sayılarla soldan sağa yapılır; portfolyodaki tarayıcı uyarlaması bu hesaplama modelini korur.',
         summary:
-          'Masaüstü arayüzleri ve temel hesaplama işlemleri üzerine geliştirdiğim basit bir hesap makinesi.',
+          'Masaüstü arayüzleri ve temel hesaplama işlemlerini öğrenirken geliştirdiğim küçük bir hesap makinesi.',
       },
     },
   },
@@ -85,21 +87,21 @@ export const projects: Project[] = [
         cardSummary:
           'A browser editor with live HTML, CSS and JavaScript preview.',
         overview:
-          'A compact workspace for trying HTML, CSS and JavaScript together and seeing the result immediately.',
+          'The original app can open local files, keep edits in browser storage and export a combined HTML file.',
         technicalDetails:
-          'Separate code panes, file import and a combined HTML download form the original workflow. The portfolio adds an opaque sandbox around the editor and its preview.',
+          'In this portfolio, live editing runs in isolated frames. File operations are disabled in the demo, and edits are cleared on reload.',
         summary:
-          'A browser editor for writing or loading HTML, CSS and JavaScript, previewing the result live, and downloading it as one file.',
+          'A small browser editor with separate HTML, CSS and JavaScript panes and live preview.',
       },
       tr: {
         cardSummary:
           'HTML, CSS ve JavaScript için canlı ön izlemeli tarayıcı editörü.',
         overview:
-          'HTML, CSS ve JavaScript’i birlikte deneyip sonucu anlık görebilmek için küçük bir çalışma alanı.',
+          'Özgün uygulama yerel dosya açmayı, düzenlemeleri tarayıcıda saklamayı ve tek HTML dosyası olarak indirmeyi destekliyor.',
         technicalDetails:
-          'Ayrı kod alanları, dosya yükleme ve birleştirilmiş HTML indirme özgün akışı oluşturur. Portfolyoda editör ve ön izleme ayrıca yalıtılmış çerçevelerde çalışır.',
+          'Portfolyo ön izlemesinde canlı kod denemeleri yalıtılmış çerçevelerde çalışır. Dosya işlemleri bu demoda kapalıdır; düzenlemeler yenilemeyle silinir.',
         summary:
-          'HTML, CSS ve JavaScript yazıp yükleyebildiğiniz, sonucu anlık görebildiğiniz ve tek dosya olarak indirebildiğiniz bir tarayıcı editörü.',
+          'HTML, CSS ve JavaScript’i ayrı alanlarda yazıp sonucu anlık görebildiğiniz küçük bir tarayıcı editörü.',
       },
     },
   },
@@ -119,24 +121,24 @@ export const projects: Project[] = [
       en: {
         cardSummary: 'An early idle game prototype built with Unity.',
         overview:
-          'A Unity idle game built around rooms, resource production, dinosaurs and upgrades.',
+          'Clicks and production rooms earn currency that opens new rooms and progression upgrades.',
         technicalDetails:
-          'Rebirth and planet progression extend the resource loop. The existing WebGL build stays in its own project rather than adding large game files to this portfolio.',
+          'C# components manage production, rebirth and planet progression. Progress is stored as JSON in PlayerPrefs, with bounded offline earnings calculated on return. The existing WebGL demo opens through its separate link.',
         summary:
-          'My first Unity idle game, built in a short time using AI-assisted development tools.',
+          'My first Unity idle game prototype, built around production rooms and dinosaur bonuses.',
         process:
-          'I used Unity and AI-assisted development tools to build the resource production and upgrade systems.',
+          'I used AI-assisted coding tools while building my first playable Unity prototype.',
       },
       tr: {
         cardSummary: 'Unity ile geliştirdiğim erken aşama idle oyun prototipi.',
         overview:
-          'Odalar, kaynak üretimi, dinozorlar ve yükseltmeler üzerine kurulu bir Unity idle oyunu.',
+          'Tıklayarak ve üretim odalarından kazanç elde ediyor; yeni odalar ve ilerleme yükseltmeleri açıyorsunuz.',
         technicalDetails:
-          'Rebirth ve gezegen ilerlemesi kaynak döngüsünü genişletir. Mevcut WebGL build kendi projesinde kalır; büyük oyun dosyaları portfolyoya eklenmez.',
+          'C# bileşenleri üretim, rebirth ve gezegen ilerlemesini yönetir. İlerleme JSON olarak PlayerPrefs’te saklanır; yeniden açılışta geçen süreye göre sınırlı çevrimdışı kazanç hesaplanır. Mevcut WebGL demo ayrı bağlantıda açılır.',
         summary:
-          'Yapay zekâ destekli geliştirme araçlarından yararlanarak kısa sürede oluşturduğum ilk Unity idle oyunu.',
+          'Odalar ve dinozor bonusları etrafında kaynak üretimi kurduğum ilk Unity idle oyun prototipi.',
         process:
-          'Kaynak üretimi ve yükseltme sistemlerini oluştururken Unity ve yapay zekâ destekli geliştirme araçlarından yararlandım.',
+          'Unity ile ilk oynanabilir prototipimi hazırlarken yapay zekâ destekli kodlama araçlarından yararlandım.',
       },
     },
   },
@@ -148,28 +150,28 @@ export const projects: Project[] = [
     year: 2026,
     timelineOrder: 5,
     category: { en: 'Personal web project', tr: 'Kişisel web projesi' },
-    technologies: ['TypeScript'],
+    technologies: ['TypeScript', 'Next.js', 'React', 'Supabase'],
     visibility: 'private',
     status: 'unreleased',
     translations: {
       en: {
         cardSummary: 'A web project for creating personal celebration pages.',
         overview:
-          'A shared celebration experience where messages are presented through themes and envelopes.',
+          'An owner manages the celebration, while messages submitted through a contribution link appear in a themed envelope experience.',
         technicalDetails:
-          'The original platform includes creation, contribution and presentation flows. This portfolio uses only the approved demo screenshots; personal celebrations and private source are not included.',
+          'The app uses a React interface and Next.js server actions. Supabase PostgreSQL handles message and gift records, with files in private Storage.',
         summary:
-          'A website for creating personal celebrations with messages, themes and envelopes.',
+          'My unpublished web project bringing messages, music and gift images together in a shared celebration.',
       },
       tr: {
         cardSummary:
           'Kişisel kutlama sayfaları hazırlamak için geliştirdiğim web projesi.',
         overview:
-          'Mesajları temalar ve zarflar üzerinden sunan ortak bir kutlama deneyimi.',
+          'Oluşturan kişi kutlamayı yönetiyor; katkı bağlantısıyla gelen mesajlar, seçilen tema ve zarflarla adım adım sunuluyor.',
         technicalDetails:
-          'Özgün platformda oluşturma, katkı ve sunum akışları bulunur. Portfolyoda yalnızca onaylı demo ekranları kullanılır; kişisel kutlamalar ve özel kaynaklar yer almaz.',
+          'React arayüzü ve Next.js sunucu aksiyonları kullanılır. Mesaj ve hediye verileri Supabase PostgreSQL, dosyalar özel Storage üzerinden işlenir.',
         summary:
-          'Mesajlar, temalar ve zarflarla kişisel kutlamalar hazırlamak için geliştirdiğim web sitesi.',
+          'Mesajları, müziği ve hediye görsellerini ortak bir kutlamada buluşturan, henüz yayınlanmamış web projem.',
       },
     },
   },
@@ -181,42 +183,104 @@ export const projects: Project[] = [
     year: 2026,
     timelineOrder: 6,
     category: { en: 'Desktop assistant', tr: 'Masaüstü asistanı' },
-    technologies: ['Python', 'Local AI'],
+    technologies: ['Python', 'PySide6', 'Ollama', 'SQLite'],
     visibility: 'public',
     status: 'on-hold',
     repositoryUrl: 'https://github.com/ilhanbuilds/Lina',
     translations: {
       en: {
         cardSummary:
-          'A desktop assistant using local AI models; development paused.',
+          'A desktop assistant using local models; development is paused.',
         technicalDetails:
-          'The desktop interface depends on locally running models. Its theme and settings views are shown here as recorded screenshots, without pretending to run a live assistant.',
+          'The Python/PySide6 interface, Ollama model layer and SQLite conversation store are separate modules. Voice input uses faster-whisper. The portfolio shows recorded application screens.',
         summary:
-          'A modular desktop assistant running local AI models. One of my first larger personal projects, currently on hold.',
+          'A Windows desktop assistant for local-model chat, conversation history and optional voice input. Development is paused.',
         overview:
-          'The assistant uses local models and a modular structure for conversations and settings. Development is currently paused.',
+          'I brought conversations, history search and settings into one desktop interface, using a local Ollama service for model responses.',
       },
       tr: {
         cardSummary:
-          'Yerel AI modelleriyle çalışan masaüstü asistanı; geliştirmeye ara verildi.',
+          'Yerel modellerle çalışan, geliştirmeye ara verdiğim masaüstü asistanı.',
         technicalDetails:
-          'Masaüstü arayüzü yerelde çalışan modellere ihtiyaç duyar. Tema ve ayar görünümleri burada kayıtlı ekran görüntüleridir; canlı asistan çalıştırılmaz.',
+          'Python/PySide6 arayüzü, Ollama model katmanı ve SQLite konuşma deposu ayrı modüllerdedir. Ses girdisinde faster-whisper kullanılır. Portfolyoda uygulamanın kayıtlı ekranları gösterilir.',
         summary:
-          'Yerel yapay zekâ modelleriyle çalışan modüler bir masaüstü asistanı. İlk kapsamlı kişisel projelerimden biri; geliştirmeye ara verdim.',
+          'Yerel modellerle sohbet, konuşma geçmişi ve isteğe bağlı sesli girdi sunan Windows masaüstü asistanı. Geliştirmeye ara verdim.',
         overview:
-          'Sohbet ve ayarlar için modüler bir yapı ve yerel modeller kullanıyor. Geliştirmeye şu an ara verdim.',
+          'Sohbetleri, geçmiş aramasını ve ayarları tek bir masaüstü arayüzünde bir araya getirdim. Model yanıtları için yerel Ollama servisini kullanıyor.',
       },
     },
   },
   {
     id: 'racker',
+    storeGallery: rackerStoreImages,
+    productFeatures: {
+      tr: [
+        {
+          icon: 'calendar',
+          title: 'Program ve planlama',
+          description:
+            'Antrenman günleri, egzersiz sırası ve kişisel programlar; bağlantı veya QR ile program paylaşımı.',
+        },
+        {
+          icon: 'activity',
+          title: 'Antrenman kaydı',
+          description:
+            'Set, tekrar, çalışma ağırlığı ve dinlenme takibi; süreye dayalı kardiyo ve tamamlanan antrenman özetleri.',
+        },
+        {
+          icon: 'chart',
+          title: 'Fiziksel gelişim',
+          description:
+            'Vücut ağırlığı, hedef ve ölçüm kayıtları; geçmiş performans ve dönemsel antrenman istatistikleri.',
+        },
+        {
+          icon: 'watch',
+          title: 'Telefon ve saat',
+          description:
+            'Wear OS üzerinde aktif antrenman, set ağırlığı/tekrar, set tamamlama ve dinlenme; telefondaki kayıtlarla eşleşme.',
+        },
+      ],
+      en: [
+        {
+          icon: 'calendar',
+          title: 'Programs and planning',
+          description:
+            'Workout days, exercise order and personal programs, with program sharing through links or QR codes.',
+        },
+        {
+          icon: 'activity',
+          title: 'Workout logging',
+          description:
+            'Sets, reps, working weight and rest tracking, plus timed cardio and completed-workout summaries.',
+        },
+        {
+          icon: 'chart',
+          title: 'Physical progress',
+          description:
+            'Body-weight, goal and measurement records, previous performance and period-based workout statistics.',
+        },
+        {
+          icon: 'watch',
+          title: 'Phone and watch',
+          description:
+            'Active workouts, set weight/reps, set completion and rest on Wear OS, synchronized with phone records.',
+        },
+      ],
+    },
     ...projectImages.racker,
     slug: 'racker',
     title: 'Racker',
     year: 2026,
     timelineOrder: 7,
     category: { en: 'Mobile application', tr: 'Mobil uygulama' },
-    technologies: ['React Native', 'Expo', 'TypeScript'],
+    technologies: [
+      'React Native',
+      'Expo',
+      'TypeScript',
+      'Kotlin',
+      'Wear OS',
+      'SQLite',
+    ],
     visibility: 'private',
     featured: 1,
     documentationUrl: 'https://github.com/ilhanbuilds/Racker-Legal',
@@ -225,23 +289,27 @@ export const projects: Project[] = [
     translations: {
       en: {
         cardSummary:
-          'Training, nutrition and progress tracking for Android and Wear OS.',
+          'Offline workout, set and progress tracking for Android and Wear OS.',
         summary:
-          'An offline-first mobile app for tracking training, nutrition and physical progress. My first real application.',
+          'My Android and Wear OS workout journal, published on Google Play. It brings programs, set records and physical progress tracking together.',
         overview:
-          'My first real application brings workout programs, set tracking and physical progress records together on Android, with Wear OS support.',
+          'I built Racker to manage a daily workout log across a phone and watch. It works without an account, keeping records on the device.',
         technicalDetails:
-          'Built with React Native, Expo and TypeScript using an offline-first approach. I tested functionality on physical Android and Wear OS devices.',
+          'The phone app uses React Native, Expo and TypeScript; the watch app uses Kotlin and Jetpack Compose. Workout and measurement records live in phone SQLite storage. Wear Data Layer synchronizes the watch with the active workout state managed by the phone.',
+        process:
+          'I developed planning, active workout and history screens around everyday use, testing functionality on physical Android and Wear OS devices.',
       },
       tr: {
         cardSummary:
-          'Android ve Wear OS için antrenman, beslenme ve gelişim takibi.',
+          'Android ve Wear OS için çevrimdışı antrenman, set ve gelişim takibi.',
         summary:
-          'Antrenman, beslenme ve fiziksel gelişim takibi için geliştirdiğim offline-first mobil uygulama. İlk gerçek uygulamam.',
+          'Google Play’de yayımladığım Android ve Wear OS antrenman günlüğü. Programları, set kayıtlarını ve fiziksel gelişim takibini bir araya getiriyor.',
         overview:
-          'İlk gerçek uygulamam. Antrenman programlarını, set takibini ve fiziksel gelişim kayıtlarını Android’de bir araya getiriyor; Wear OS desteği de bulunuyor.',
+          'Racker’ı günlük antrenman kaydını telefon ve saat üzerinde birlikte yönetebilmek için geliştirdim. Hesap açmadan, kayıtları cihazda tutarak kullanılabiliyor.',
         technicalDetails:
-          'React Native, Expo ve TypeScript ile offline-first yaklaşımıyla geliştirdim. İşlevselliğini fiziksel Android ve Wear OS cihazlarında test ettim.',
+          'Telefon uygulaması React Native, Expo ve TypeScript; saat uygulaması Kotlin ve Jetpack Compose kullanır. Antrenman ve ölçüm kayıtları telefonun SQLite veritabanında tutulur. Wear Data Layer, saati telefonun yönettiği aktif antrenman durumuyla eşler.',
+        process:
+          'Planlama, aktif antrenman ve geçmiş ekranlarını günlük kullanım etrafında geliştirdim. İşlevleri fiziksel Android ve Wear OS cihazlarında test ettim.',
       },
     },
   },
@@ -253,7 +321,13 @@ export const projects: Project[] = [
     year: 2026,
     timelineOrder: 8,
     category: { en: 'Android & Wear OS', tr: 'Android ve Wear OS' },
-    technologies: ['Kotlin', 'Jetpack Compose', 'Wear OS'],
+    technologies: [
+      'Kotlin',
+      'Jetpack Compose',
+      'Wear OS',
+      'Wear Data Layer',
+      'DataStore',
+    ],
     visibility: 'private',
     status: 'on-hold',
     translations: {
@@ -261,21 +335,21 @@ export const projects: Project[] = [
         cardSummary:
           'Phone controls from a watch; unpublished and currently paused.',
         summary:
-          'An unpublished Android and Wear OS project for controlling phone media, apps and shortcuts from a watch. Development is paused; I plan to return to it.',
+          'An unpublished Android project bringing phone media, volume and app controls to a Wear OS watch. Development is paused, with plans to return to it.',
         overview:
-          'I developed Bilekten after Racker to bring phone controls to the wrist. It combines a companion phone interface with watch screens for media, favourite apps and device controls.',
+          'Developed after Racker, Bilekten combines media, favourite apps, shortcuts, flashlight and Find Phone controls in phone and watch interfaces.',
         technicalDetails:
-          'Built natively with Kotlin and Jetpack Compose for Android and Wear OS, focusing on the phone–watch connection, media controls and shortcuts. Available commands depend on device support and Android permissions.',
+          'Kotlin and Jetpack Compose interfaces exchange commands and state through Wear Data Layer; DataStore keeps user preferences. Media and device controls depend on Android permissions and device capabilities.',
       },
       tr: {
         cardSummary:
-          'Telefon kontrollerine saatten erişim; yayınlanmadı, geliştirmeye ara verildi.',
+          'Saatten telefon kontrolleri; yayınlanmamış ve geliştirmeye ara verilmiş proje.',
         summary:
-          'Telefonun medya, uygulama ve kısayol kontrollerine saatten erişmek için geliştirdiğim, yayınlanmamış Android ve Wear OS projesi. Geliştirmeye ara verdim; ileride devam etmeyi planlıyorum.',
+          'Telefonun medya, ses ve uygulama kontrollerini Wear OS saatine taşıyan, yayınlanmamış Android projesi. Geliştirmeye ara verdim; ileride devam etmeyi planlıyorum.',
         overview:
-          'Racker’dan sonra, telefon kontrollerini bileğe taşımak için geliştirdim. Telefonda bir yönetim arayüzü; saatte medya, favori uygulamalar ve cihaz kontrolleri bulunuyor.',
+          'Racker’dan sonra geliştirdiğim Bilekten; medya, favori uygulamalar, kısayollar, fener ve Telefonumu Bul kontrollerini telefon ve saat arayüzlerinde toplar.',
         technicalDetails:
-          'Android ve Wear OS arayüzlerini Kotlin ve Jetpack Compose ile geliştirdim. Telefon–saat bağlantısı, medya denetimi ve kısayollar üzerinde çalıştım. Desteklenen komutlar cihazın yeteneklerine ve Android izinlerine bağlı.',
+          'Kotlin ve Jetpack Compose arayüzleri Wear Data Layer ile komut ve durum paylaşır; kullanıcı ayarları DataStore’da tutulur. Medya ve cihaz kontrolleri Android izinlerine ve cihaz yeteneklerine bağlıdır.',
       },
     },
   },
@@ -287,30 +361,30 @@ export const projects: Project[] = [
     year: 2026,
     timelineOrder: 9,
     category: { en: 'Academic project', tr: 'Akademik proje' },
-    technologies: ['Python', 'PyTorch', 'EfficientNet'],
+    technologies: ['Python', 'PyTorch', 'EfficientNet', 'RetinaFace'],
     visibility: 'public',
     collaboration: 'team',
     repositoryUrl: 'https://github.com/ilhanbuilds/deepfake-image-detection',
     translations: {
       en: {
         cardSummary:
-          'An academic team project classifying real and manipulated face images.',
+          'An academic team project examining face manipulation in images and videos.',
         technicalDetails:
-          'The local application supports image/video analysis and Grad-CAM explanations. We evaluate recorded model outputs in their dataset context; a score alone does not establish authenticity.',
+          'Photos use V3 EfficientNet-B0 and Grad-CAM; videos use SBI EfficientNet-B4, RetinaFace and an adaptive 6→12-frame pipeline. Grad-CAM shows model attention rather than a manipulation mask. The video pipeline requires CUDA; separate model evaluations are not combined into one general accuracy figure.',
         summary:
-          'An academic team project using deep learning to classify real and manipulated face images.',
+          'An academic team project using deep learning to examine face manipulation in images and videos.',
         overview:
-          'We worked together on an academic deep learning project to classify real and manipulated face images using PyTorch and EfficientNet.',
+          'We built a local application for photo analysis and video-frame evaluation, interpreting results within the scope of the model and dataset used.',
       },
       tr: {
         cardSummary:
-          'Gerçek ve sahte yüz görüntülerini sınıflandıran akademik ekip projesi.',
+          'Fotoğraf ve videolardaki yüz manipülasyonlarını inceleyen akademik ekip projesi.',
         technicalDetails:
-          'Yerel uygulama fotoğraf/video analizi ve Grad-CAM açıklamalarını destekler. Kayıtlı model çıktılarını veri kümesi bağlamında değerlendiriyoruz; tek başına skor bir görüntünün gerçekliğini kanıtlamaz.',
+          'Fotoğraflarda V3 EfficientNet-B0 ve Grad-CAM; videolarda SBI EfficientNet-B4, RetinaFace ve adaptif 6→12 kare akışı kullanılır. Grad-CAM modelin dikkat bölgelerini gösterir; manipülasyon maskesi değildir. Video hattı CUDA gerektirir; ayrı model değerlendirmeleri tek bir genel doğruluk oranına dönüştürülmez.',
         summary:
-          'Gerçek ve sahte yüz görüntülerini derin öğrenme yöntemleriyle sınıflandırmaya yönelik akademik ekip çalışması.',
+          'Fotoğraf ve videolardaki yüz manipülasyonlarını incelemek için geliştirdiğimiz derin öğrenme tabanlı akademik ekip projesi.',
         overview:
-          'Gerçek ve sahte yüz görüntülerini PyTorch ve EfficientNet kullanarak sınıflandırmaya yönelik akademik projeyi ekip olarak yürüttük.',
+          'Fotoğraf analizi ve video karelerinden değerlendirme yapan yerel bir uygulama geliştirdik. Sonuçları kullanılan modelin ve veri kümesinin kapsamıyla birlikte ele alıyoruz.',
       },
     },
   },
@@ -322,7 +396,14 @@ export const projects: Project[] = [
     year: 2026,
     timelineOrder: 10,
     category: { en: 'Research & development', tr: 'Araştırma ve geliştirme' },
-    technologies: ['Computer Vision', 'Face Privacy', 'Cryptography'],
+    technologies: [
+      'React',
+      'TypeScript',
+      'Python',
+      'FastAPI',
+      'OpenCV',
+      'AES-GCM',
+    ],
     visibility: 'private',
     collaboration: 'team',
     status: 'in-development',
@@ -331,23 +412,23 @@ export const projects: Project[] = [
     translations: {
       en: {
         cardSummary:
-          'Ongoing team research into face privacy and video protection.',
+          'Ongoing team research into face blurring and encrypted video archives.',
         technicalDetails:
-          'The application combines video review, face-region controls and protected image data. The comparison below uses a recorded approved result; no processing or encryption runs in the browser.',
+          'A React/TypeScript interface works with Python/FastAPI services. Face detection uses OpenCV YuNet, local records use SQLite, and archive encryption uses AES-GCM. Live-stream integration and protection continuity remain separate research topics.',
         summary:
-          'An ongoing team project on video face anonymization and cryptographic protection of image data.',
+          'A local team prototype for blurring face regions in video, encrypted archiving and key-authorized restoration.',
         overview:
-          'We are developing SecureFace together as a team, combining computer vision for face anonymization with cryptographic protection of image data.',
+          'We are developing a workflow for video preview, reviewing and correcting face boxes, and protecting selected regions. The project remains in research and development.',
       },
       tr: {
         cardSummary:
-          'Yüz gizliliği ve video koruma üzerine devam eden ekip araştırması.',
+          'Yüz bulanıklaştırma ve şifreli arşivleme üzerine devam eden ekip araştırması.',
         technicalDetails:
-          'Uygulama video inceleme, yüz bölgesi kontrolleri ve görüntü verilerinin korunmasını bir araya getirir. Aşağıdaki karşılaştırma onaylı kayıtlı sonuçtur; tarayıcıda işleme veya şifreleme çalışmaz.',
+          'React/TypeScript arayüzü Python/FastAPI servisleriyle çalışır. Yüz tespitinde OpenCV YuNet, yerel kayıtlarda SQLite, arşiv şifrelemesinde AES-GCM kullanılır. Canlı yayın entegrasyonu ve koruma sürekliliği ayrı araştırma konularıdır.',
         summary:
-          'Videolarda yüz anonimleştirme ve görüntü verilerinin kriptografik yöntemlerle korunması üzerine devam eden ekip çalışması.',
+          'Videolardaki yüz bölgelerini bulanıklaştırma, şifreli arşivleme ve anahtarla yetkili geri yükleme üzerine geliştirdiğimiz yerel ekip prototipi.',
         overview:
-          'SecureFace’i ekip olarak geliştiriyoruz. Yüz anonimleştirme için bilgisayarlı görü, görüntü verilerinin korunması için kriptografik yöntemler üzerine çalışıyoruz.',
+          'Video ön izlemesi, yüz kutularını inceleme/düzeltme ve seçilen bölgeleri koruma akışını birlikte geliştiriyoruz. Proje araştırma ve geliştirme aşamasında.',
       },
     },
   },
@@ -359,30 +440,37 @@ export const projects: Project[] = [
     year: 2026,
     timelineOrder: 11,
     category: { en: 'Reinforcement learning', tr: 'Pekiştirmeli öğrenme' },
-    technologies: ['Python', 'Reinforcement Learning'],
+    technologies: [
+      'Python',
+      'PyTorch',
+      'Double DQN',
+      'FastAPI',
+      'React',
+      'Three.js',
+    ],
     visibility: 'private',
     status: 'in-development',
     currentlyBuilding: true,
     translations: {
       en: {
         cardSummary:
-          'An experiment exploring cube solving with reinforcement learning.',
+          'Experimental reinforcement learning and Double DQN work on the Rubik’s Cube.',
         technicalDetails:
-          'Manual turns and cube-state inspection are separate from model experiments. The lightweight preview below is an independent simulation; general model solving success is not claimed.',
+          'A NumPy/FastAPI backend manages cube state, while React, TypeScript and React Three Fiber display moves. Model trials require a validated local PyTorch checkpoint.',
         summary:
-          'An experimental project exploring how reinforcement learning can be used to solve the Rubik’s Cube.',
+          'An experimental project exploring reinforcement learning on the 3×3×3 Rubik’s Cube, combining training trials with an interface for inspecting cube states.',
         overview:
-          'I’m experimenting with reinforcement learning to train an agent for the Rubik’s Cube, alongside an interface for inspecting cube states and moves.',
+          'I experiment with a Double DQN agent on a mathematical cube engine and limited scramble depths. General 3×3×3 solving performance has not been demonstrated.',
       },
       tr: {
         cardSummary:
-          'Pekiştirmeli öğrenmeyle küp çözmeyi araştırdığım deneysel proje.',
+          'Rubik küpünde pekiştirmeli öğrenme ve Double DQN üzerine deneysel çalışma.',
         technicalDetails:
-          'Elle hamleler ve küp durumu incelemesi model deneylerinden ayrıdır. Aşağıdaki hafif ön izleme bağımsız bir simülasyondur; modelin genel çözüm başarısı iddia edilmez.',
+          'NumPy/FastAPI tabanı küp durumunu yönetir; React, TypeScript ve React Three Fiber arayüzü hareketleri gösterir. PyTorch modelinin denenmesi doğrulanmış yerel checkpoint gerektirir.',
         summary:
-          'Rubik küpünü çözmek için pekiştirmeli öğrenme yöntemlerini araştırdığım deneysel proje.',
+          '3×3×3 Rubik küpünde pekiştirmeli öğrenmeyi araştırdığım deneysel proje; eğitim denemeleri ve küp durumlarını inceleyen bir arayüz geliştiriyorum.',
         overview:
-          'Rubik küpü için bir ajan eğitmek üzere pekiştirmeli öğrenme deneyleri yapıyor, küp durumlarını ve hamleleri inceleyebileceğim bir arayüz geliştiriyorum.',
+          'Küpün matematiksel motoru üzerinde Double DQN ajanı ve sınırlı karıştırma derinlikleriyle deneyler yapıyorum. Genel 3×3×3 çözüm başarısı gösterilmiş değil.',
       },
     },
   },

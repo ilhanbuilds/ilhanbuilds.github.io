@@ -15,6 +15,11 @@ export interface ProjectImage {
   src: ImageMetadata;
   alt: Localized<string>;
 }
+export interface ProductFeature {
+  title: string;
+  description: string;
+  icon: 'calendar' | 'activity' | 'chart' | 'watch';
+}
 export interface Project {
   id: string;
   slug: string;
@@ -37,5 +42,7 @@ export interface Project {
   logo?: ProjectImage;
   timelineImage?: ProjectImage;
   gallery?: ProjectImage[];
+  storeGallery?: ProjectImage[];
+  productFeatures?: Localized<ProductFeature[]>;
   translations: Localized<ProjectCopy>;
 }
