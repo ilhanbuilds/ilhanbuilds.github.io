@@ -148,6 +148,11 @@ test('gallery keeps two cube states, anonymized Deepfake UI and chevrons outside
 }) => {
   await page.goto('/work/rubikrl/');
   await expect(page.locator('.gallery-image-link')).toHaveCount(2);
+  await page.locator('[data-demo-host]').scrollIntoViewIfNeeded();
+  await expect(page.locator('[data-demo]')).toHaveAttribute(
+    'data-fitted',
+    'true',
+  );
   await page.locator('.gallery-image-link').first().click();
   await expect(page.locator('[data-gallery-previous] svg')).toBeVisible();
   const left = await page.locator('[data-gallery-previous]').boundingBox();
@@ -167,4 +172,48 @@ test('gallery keeps two cube states, anonymized Deepfake UI and chevrons outside
     'src',
     /interface-anonymized/,
   );
+});
+
+test('cube sizing accepts only its own bounded messages and defers changes during a pointer gesture', async ({
+  page,
+}) => {
+  await page.goto('/work/rubikrl/');
+  const host = page.locator('[data-demo-host]');
+  await host.scrollIntoViewIfNeeded();
+  await expect(page.locator('[data-demo]')).toHaveAttribute(
+    'data-fitted',
+    'true',
+  );
+  const before = await host.evaluate((e) =>
+    e.style.getPropertyValue('--demo-height'),
+  );
+  await page.evaluate(() =>
+    window.postMessage({ type: 'portfolio-cube-height', height: 999 }, '*'),
+  );
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(resolve)),
+  );
+  await expect(host).toHaveCSS('min-height', before);
+  const frame = page
+    .frames()
+    .find((f) => f.url().includes('/demos/cube.html'))!;
+  await page.locator('h1').scrollIntoViewIfNeeded();
+  await page.mouse.move(2, 2);
+  await page.mouse.down();
+  await frame.evaluate(() =>
+    parent.postMessage({ type: 'portfolio-cube-height', height: 999 }, '*'),
+  );
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(resolve)),
+  );
+  await expect(host).toHaveCSS('min-height', before);
+  await page.mouse.up();
+  await expect(host).toHaveCSS('min-height', '999px');
+  await frame.evaluate(() =>
+    parent.postMessage({ type: 'portfolio-cube-height', height: 999999 }, '*'),
+  );
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(resolve)),
+  );
+  await expect(host).toHaveCSS('min-height', '999px');
 });

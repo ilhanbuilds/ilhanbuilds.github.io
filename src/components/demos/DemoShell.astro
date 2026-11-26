@@ -81,6 +81,26 @@ const demo = demos[id];
       frame.className = `demo-frame demo-frame-${section.dataset.kind}`;
       host.replaceChildren(frame);
       if (section.dataset.kind === 'rubikrl') {
+        const pointers = new Set<number>();
+        let pendingHeight: number | undefined;
+        const applyHeight = () => {
+          if (pointers.size || pendingHeight === undefined) return;
+          host.style.setProperty(
+            '--demo-height',
+            `${Math.ceil(pendingHeight)}px`,
+          );
+          section.dataset.fitted = 'true';
+          pendingHeight = undefined;
+        };
+        document.addEventListener('pointerdown', (event) =>
+          pointers.add(event.pointerId),
+        );
+        const release = (event: PointerEvent) => {
+          pointers.delete(event.pointerId);
+          setTimeout(applyHeight, 0);
+        };
+        document.addEventListener('pointerup', release);
+        document.addEventListener('pointercancel', release);
         window.addEventListener('message', (event: MessageEvent<unknown>) => {
           if (
             event.source !== frame.contentWindow ||
@@ -95,11 +115,10 @@ const demo = demos[id];
             Number.isFinite(data.height) &&
             data.height >= 250 &&
             data.height <= 1800
-          )
-            host.style.setProperty(
-              '--demo-height',
-              `${Math.ceil(data.height)}px`,
-            );
+          ) {
+            pendingHeight = data.height;
+            applyHeight();
+          }
         });
       }
       frame.addEventListener(
