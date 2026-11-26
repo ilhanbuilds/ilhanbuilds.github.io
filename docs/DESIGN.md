@@ -1,3 +1,18 @@
+# Current design contract — v1.1.1
+
+Preserve the approved minimalist visual language, original portrait, wordmark/blue accent, two themes and Turkish-root/English route structure. The 11-project Work timeline stays newest-first, max 1200px and two columns on desktop; the compact three-node detail timeline places older work left and newer work right.
+
+- One opaque header preserves the original 104/80px top layout and compacts to 64px after about 93px. A reserved shell keeps page geometry stationary; an independent sentinel prevents threshold oscillation. Mobile navigation and native dialog layering remain accessible; reduced motion disables transitions.
+- Home showcases retain their strong hierarchy with a 72rem cap and desktop-height-aware width. The original orange Racker cover is unchanged; other projects do not become full-width product landing pages.
+- Racker alone gets a product identity panel, shared compact 44px Google Play CTA family and four restrained verified-feature cells. There are no gradients, glowing buttons, duplicate hero CTAs or invented official logos.
+- Shared galleries use 4:3 contain cards and side-chevron native lightboxes; images remain uncropped. Racker adds nine current official store screenshots before its four retained compositions. RubikRL keeps two cube-state gallery images.
+- Seven demo/comparison surfaces remain centered, compact and blue-framed. Four sandboxed iframe adaptations preserve their security; SecureFace uses recorded direct drag comparison, Racker/Bilekten use explicitly symbolic local state. HCJEditor file actions stay disabled.
+- The supplied social promotion image is preserved in versioned TR/EN 1200×630 PNGs. Only the English promotional heading is localized; application UI and the source composition are not regenerated.
+
+The original phase notes below remain historical design context. Their earlier fallbacks, file counts, navigators or pending decisions are superseded by this contract and [v1.1.1 notes](V1_1_1_TR.md).
+
+## Historical design notes
+
 # Design
 
 The portfolio uses editorial typography, a consistent left edge and a restrained grid. It is a personal record of projects rather than a product sales page. Racker has the full-width primary showcase with its supplied artwork, official icon and verified Google Play link. SecureFace follows in an image-and-text row. The Work page uses bordered, fully clickable cards on a newest-first year rail; the card action links remain separate anchors. The shared Work chronology groups projects by supplied year in descending verified order. Journey URLs redirect to Work; separate Journey navigation and game comparison are removed. No start dates are invented.

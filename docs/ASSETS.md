@@ -1,3 +1,16 @@
+# Current asset contract — v1.1.1
+
+- `src/assets/images/` contains 43 sanitized WebP source files, including nine current official Racker store derivatives, approved historical screenshots, the retained restaurant portrait and app icon. Native originals stay unchanged outside public source; responsive variants never upscale beyond source width.
+- `src/assets/covers/` retains 21 approved Turkish/English cover masters. Racker's original orange overview is unchanged. Covers are promotional artwork, distinct from application galleries; their visible generic captions remain removed.
+- Racker's current gallery starts with nine official Google Play images and retains the four original compositions. One near-duplicate Wear set screenshot was excluded. Caption/alt text describes what each recorded image actually shows.
+- Deepfake's original unapproved third-party imagery stays excluded. Only the approved irreversibly redacted real UI derivative and score-free illustrative cover are used.
+- Social sharing uses versioned 1200×630 PNGs at `public/branding/v1.1.1/og-tr.png` and `og-en.png`, with locale-specific absolute metadata. The older social card remains available for old URLs. The brand generator cannot overwrite approved social images.
+- Both ready-made one-page CVs are copied unchanged and protected by their original hashes. Official screenshots, covers and new social assets have separate approval fixtures; privacy/metadata checks remain mandatory.
+
+The inventory and phase decisions below are historical records, not the current file count or current fallback design. For the current content/source audit, see [v1.1.1 verification](CONTENT_ACCURACY_V1_1_1.md). Owner-local source URLs, native originals and derivation evidence live in `PortfolioReview/v1.1.1` and are not committed.
+
+## Historical inventory notes
+
 # Asset inventory and publication scope
 
 Phase 2 inspected the supplied `PortfolioAssets` directory: **28 images and one PDF**. Of these, **26 images** were selected, plus the official Racker icon downloaded from its verified [Google Play listing](https://play.google.com/store/apps/details?id=com.ilhanki.titanlog). The repository contains 27 sanitized image assets. Original files were left unchanged.
