@@ -56,7 +56,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.goto('/');
     expect(
       (await page.locator('.primary-project').boundingBox())!.width,
-    ).toBeGreaterThan(1200);
+    ).toBeGreaterThan(1000);
     await expect(page.locator('.primary-project img').first()).toHaveAttribute(
       'src',
       /overview\./,

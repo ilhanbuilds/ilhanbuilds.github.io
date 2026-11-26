@@ -1448,3 +1448,12 @@ img {
   border-radius: 10px;
   background: var(--surface);
 }
+
+/* Keep home showcases prominent while fitting ordinary desktop heights. */
+@media (min-width: 48rem) {
+  .featured-section {
+    width: 100%;
+    max-width: min(72rem, max(40rem, calc((100svh - 18rem) * 2)));
+    margin-inline: auto;
+  }
+}

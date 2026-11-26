@@ -38,12 +38,25 @@ for (const prefix of ['', '/en']) {
       'href',
       `${prefix}/work/secureface/`,
     );
+    await expect(
+      nav.locator('.project-node').first().locator('a'),
+    ).toHaveAttribute('href', `${prefix}/work/secureface/`);
     await page.goto(`${prefix}/work/idleoyun/`);
     await expect(nav.locator('a')).toHaveCount(1);
     await expect(nav.locator('a')).toHaveAttribute(
       'href',
       `${prefix}/work/calculator/`,
     );
+    await expect(
+      nav.locator('.project-node').last().locator('a'),
+    ).toHaveAttribute('href', `${prefix}/work/calculator/`);
+    await page.goto(`${prefix}/work/secureface/`);
+    await expect(
+      nav.locator('.project-node').first().locator('a'),
+    ).toHaveAttribute('href', `${prefix}/work/deepfake-detection/`);
+    await expect(
+      nav.locator('.project-node').last().locator('a'),
+    ).toHaveAttribute('href', `${prefix}/work/rubikrl/`);
     await page.goto(`${prefix}/work/`);
     const card = page.locator('[data-project="lina"] h3 a');
     await card.scrollIntoViewIfNeeded();
@@ -217,3 +230,25 @@ test('cube sizing accepts only its own bounded messages and defers changes durin
   );
   await expect(host).toHaveCSS('min-height', '999px');
 });
+
+for (const height of [720, 900, 1080])
+  test(`home showcases remain prominent and fit desktop height ${height}`, async ({
+    page,
+  }) => {
+    for (const width of [1440, 1920])
+      for (const prefix of ['', '/en']) {
+        await page.setViewportSize({ width, height });
+        await page.goto(`${prefix}/`);
+        await page.evaluate(() => document.fonts.ready);
+        for (const selector of ['.primary-project', '.secondary-project']) {
+          const card = await page.locator(selector).boundingBox();
+          expect(card!.width).toBeGreaterThan(800);
+          expect(card!.width).toBeLessThanOrEqual(1152);
+          expect(card!.height).toBeLessThan(height - 30);
+          const canvas = await page
+            .locator(`${selector} .cover-canvas`)
+            .boundingBox();
+          expect(canvas!.width / canvas!.height).toBeCloseTo(2, 2);
+        }
+      }
+  });

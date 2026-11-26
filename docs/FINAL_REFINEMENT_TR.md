@@ -17,3 +17,7 @@ Mevcut 11 proje, kronoloji, iki sütunlu kartlar, Racker vitrini, Türkçe kök 
 Strict Astro/TypeScript, ESLint, Prettier, production build, onaylı medya/CV hash ve gizlilik testleri; Chromium ve WebKit regresyonları çalıştırılır. Yeni testler ses sınırları, kilo biçimi/eşzamanlılık, liste konumu, komşu sınırları, doğrudan sürükleme, chevronlar ve 360/390/412/768/1024/1440/1920px demo boyutlarını kapsar. Lighthouse performans eşiği 95’e yükseltilmiştir; diğer kategoriler 100 ve CLS < 0.1 koşulları sürer.
 
 Fiziksel cihaz kabulü yapılmaz; mobil kontroller tarayıcı emülasyonudur. Tam sayfa ekran görüntüleri ve ayrıntılı ölçümler public kaynak dışında `PortfolioReview/v1.1.0` altında tutulur. Başarılı yerel kontrollerden sonra feature push ve tam son SHA CI doğrulanır; ardından main merge/Pages deployment, production TR/EN tüm sayfa/galeri/demo/CV/asset smoke testleri ve en son v1.1.0 release yapılır. Sonuçlar yerel teslimat raporuna kaydedilir.
+
+## Son iki görsel geri bildirim
+
+Mini zaman çizelgesi solda daha eski, ortada mevcut, sağda daha yeni proje gösterecek şekilde çevrildi; ana Projeler sırası değişmedi. Ana sayfadaki büyük vitrinler 72rem üst sınırı ve masaüstü viewport yüksekliğine bağlı genişlikle biraz daraltıldı. 2:1 kapaklar, Racker önceliği ve mobil düzen korundu. PR #2 merge edildikten sonra gelen bu iki istek küçük bir takip PR ile aynı sürüm teslimatına dahil edilir; release etiketi son doğrulamadan sonra oluşturulur.
