@@ -79,7 +79,22 @@ const initial = weight ? (english ? '75.0 kg' : '75,0 kg') : '50%';
         {english ? 'Simulation' : 'Simülasyon'}
       </span>
       <span class="phone-symbol" aria-hidden="true">
-        {weight ? '↕' : '♪'}
+        {weight ? (
+          '↕'
+        ) : (
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9v6h4l5 4V5L7 9Zm13-1a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
+          </svg>
+        )}
       </span>
       <span class="device-label">{label}</span>
       <strong data-phone-value aria-live="polite">
