@@ -42,13 +42,18 @@ const evidence = {
   assets: [],
   hashes: {},
 };
+const socialImages = [
+  '/branding/og-image.png',
+  '/branding/v1.1.1/og-tr.png',
+  '/branding/v1.1.1/og-en.png',
+];
 const assets = new Set([
   '/icons/favicon.svg',
   '/icons/favicon-32.png',
   '/icons/apple-touch-icon.png',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  '/branding/og-image.png',
+  ...socialImages,
   '/site.webmanifest',
   '/robots.txt',
   '/sitemap-index.xml',
@@ -98,7 +103,7 @@ try {
       path.startsWith('/demos/') ||
       path.startsWith('/documents/') ||
       path.startsWith('/icons/') ||
-      path === '/branding/og-image.png'
+      socialImages.includes(path)
     ) {
       const local = await readFile(`public${path}`);
       const hash = createHash('sha256').update(bytes).digest('hex');
@@ -110,10 +115,13 @@ try {
       evidence.hashes[path] = hash;
     }
   }
-  const og = await api.get('/branding/og-image.png');
-  const png = await og.body();
-  assert.equal(png.readUInt32BE(16), 1200);
-  assert.equal(png.readUInt32BE(20), 630);
+  for (const path of socialImages) {
+    const og = await api.get(path);
+    assert.match(og.headers()['content-type'], /image\/png/);
+    const png = await og.body();
+    assert.equal(png.readUInt32BE(16), 1200, path);
+    assert.equal(png.readUInt32BE(20), 630, path);
+  }
   await mkdir(dirname(reportPath), { recursive: true });
   await writeFile(reportPath, JSON.stringify(evidence, null, 2) + '\n');
   console.log(

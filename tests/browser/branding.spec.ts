@@ -88,13 +88,14 @@ for (const theme of ['light', 'dark'] as const) {
       page.locator('.site-footer a[href="mailto:ilhanbuilds@gmail.com"]'),
     ).toHaveCount(1);
     await expect(page.locator('.site-footer')).toContainText('ilhanbuilds');
+    const socialLocale = await page.locator('html').getAttribute('lang');
     for (const selector of [
       'meta[property="og:image"]',
       'meta[name="twitter:image"]',
     ]) {
       await expect(page.locator(selector)).toHaveAttribute(
         'content',
-        'https://ilhanbuilds.github.io/branding/og-image.png',
+        `https://ilhanbuilds.github.io/branding/v1.1.1/og-${socialLocale}.png`,
       );
     }
     await expect(

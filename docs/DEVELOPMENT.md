@@ -34,7 +34,7 @@ These are browser emulations, not acceptance tests on physical Samsung or iPhone
 
 ## Git and deployment
 
-Initial feature branch: `feat/portfolio-foundation`. Use Conventional Commits; never force-push or merge main without explicit approval. An empty remote needs a minimal initial main commit before GitHub can compare a feature pull request. The actual portfolio implementation stays on the feature branch for review.
+Create each feature branch from current main. The v1.1.1 work uses `feat/portfolio-final-polish`. Use Conventional Commits; push, merge and release only with explicit user authorization. Never force-push or change previous release tags. A proposed PR does not deploy; final exact-head CI must pass before merge.
 
 In GitHub Settings → Pages, select GitHub Actions. The workflow installs with `npm ci`, checks types, lint and formatting, builds the site, runs content and browser tests, and uploads a Pages artifact only for main. Deployment has `pages: write` and `id-token: write`; validation has read-only repository access. Pull requests cannot deploy.
 
@@ -44,7 +44,7 @@ Language preference is remembered in localStorage as `locale`. Only the unprefix
 
 Approved résumé files are copied verbatim from the supplied assets into `public/documents/`. Their one-page layout, absence of phone numbers and five URI annotations per file were reviewed using pypdf and rendered PNGs. Built-output SHA-256 tests and real browser downloads verify that source, public and downloaded bytes match. Replacing a PDF requires a fresh review and updating its approved hash; do not regenerate or edit the PDFs automatically.
 
-`node scripts/generate-brand-assets.mjs` regenerates the slash PNG icons and the 1200 × 630 social card from code, using the existing Playwright Chromium installation and bundled Manrope font. Run this only when intentionally updating branding; no reference collage or profile photograph is included. Browser binaries must be installed (`npx playwright install chromium`).
+`node scripts/generate-brand-assets.mjs` regenerates only slash PNG icons and the web manifest. Approved social artwork lives under the versioned `public/branding/v1.1.1/` paths and is deliberately outside that generator. New image revisions need a new versioned path, matching locale metadata, actual MIME/dimensions and an approved hash. Keep supplied original artwork intact; record local derivation evidence outside public source.
 
 ## v1 demos and production verification
 
@@ -54,10 +54,18 @@ The v1 experience suite adds home identity/actions, actual card-body navigation,
 
 `node scripts/capture-demo-review.mjs <output-directory>` captures 56 demo/preview combinations and writes a separate local `demos.html` gallery. The screenshot viewport covers the full document so Chromium paints opaque-origin iframe content in full-page captures; the embedded frame dimensions remain unchanged. No source photograph is altered.
 
-After a reviewed release is deployed, set `PORTFOLIO_BASE_URL=https://ilhanbuilds.github.io` when running Playwright. The same suite then uses production and does not start a local server. Keep production output in a separate ignored results directory. Run content/build privacy checks before merge, wait for CI, and verify production before creating the v1.0.0 tag/release. This task's user explicitly authorized that single PR/release sequence subject to passing checks; the general approval rule in AGENTS.md remains unchanged.
+After a reviewed release is deployed, set `PORTFOLIO_BASE_URL=https://ilhanbuilds.github.io` when running Playwright. The same suite then uses production and does not start a local server. Keep production output in a separate ignored results directory. Run content/build privacy checks before merge, wait for CI, and verify production before creating the requested version tag/release. The user explicitly authorized the v1.1.1 PR/release sequence subject to passing local, exact-head CI and production checks; the general approval rule in AGENTS.md remains unchanged.
 
-The workflow runs Lighthouse 13.6.0 on five initial mobile pages using default GPU flags and checks performance ≥90, accessibility/best practices/SEO 100 and CLS <0.1 with `scripts/check-lighthouse.mjs`. Results are included in the existing CI review artifact. Above-fold project covers are eager; later images and every interactive demo remain deferred. Native image ratios are reserved in CSS before decoding, including portrait covers.
+The workflow runs Lighthouse 13.6.0 on seven mobile pages, including Turkish/English Racker using default GPU flags and checks performance ≥95, accessibility/best practices/SEO 100 and CLS <0.1 with `scripts/check-lighthouse.mjs`. Results are included in the existing CI review artifact. Above-fold project covers are eager; later images and every interactive demo remain deferred. Native image ratios are reserved in CSS before decoding, including portrait covers.
 
-## v1.1 review workflow
+## Current visual and content contracts
 
-Work from `feat/portfolio-visual-refinement` and PR #2. The final release request authorizes merge, Pages deployment and v1.1.0 release only after acceptance criteria and the last commit CI succeed. Journey aliases are noindex redirects to matching Work URLs with query/hash preserved; the sitemap now has 28 canonical content URLs. Cover approval hashes are in `tests/fixtures/approved-covers.json`; never add the excluded third-party face or misleading cover claims to source/build. New browser checks cover 2:1 contain frames, language-specific artwork, redirect locale persistence, galleries and lightbox keyboard/touch/focus. Existing security assertions remain; file-operation checks now verify disabled behavior.
+The single header uses a reserved expanded-height shell, a fixed enhanced bar and an independent 93px IntersectionObserver sentinel. The threshold does not move with the compact 64px header. Native dialogs remain in the top layer above header/mobile navigation. Document scroll padding keeps fragment targets clear; reduced motion removes header transitions.
+
+Racker's store CTA is shared across home/card/detail, with a compact outlined variant and a primary detail variant. Product-only feature fields and official store-gallery entries are typed centrally; the other ten detail layouts stay generic. Treat published store text/screens as product evidence and local code as architecture evidence, without assuming a local commit equals a distributed binary.
+
+All 11 project texts were checked against accessible source. Preserve owner-defined dates, chronology, team status, paused/unpublished states and privacy decisions. Do not promote README plans or combine research model/dataset results. See `CONTENT_ACCURACY_V1_1_1.md` for the public summary; private paths and source fingerprints stay in owner-local evidence.
+
+Journey aliases remain noindex redirects; there are 28 canonical sitemap URLs. `tests/fixtures/approved-covers.json`, `approved-racker-store.json` and `approved-social-v1.1.1.json` protect approved media. Original CV hashes and demo security tests remain authoritative. Run the same full suite against production via `PORTFOLIO_BASE_URL` after Pages succeeds, then publish the version release. Capture reviews with `PORTFOLIO_PREVIEW_URL` pointing at the actual source being reviewed.
+
+`node scripts/capture-header-review.mjs <output-directory>` adds 28 viewport screenshots: top/middle/bottom Work navigation in TR/EN, both themes and desktop/mobile, plus the short-desktop Racker product view. Use `PORTFOLIO_PREVIEW_URL` for actual production captures.

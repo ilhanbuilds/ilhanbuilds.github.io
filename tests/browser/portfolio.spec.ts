@@ -43,7 +43,7 @@ test('every public page has localized metadata, matching language routes and val
       ).toHaveAttribute('content', 'ilhanbuilds');
       await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
         'content',
-        'https://ilhanbuilds.github.io/branding/og-image.png',
+        `https://ilhanbuilds.github.io/branding/v1.1.1/og-${prefix === '/en/' ? 'en' : 'tr'}.png`,
       );
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         'content',

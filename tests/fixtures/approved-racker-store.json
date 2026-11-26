@@ -1,0 +1,48 @@
+{
+  "workout-start.webp": {
+    "sha256": "dc23fd6d150d0defc15375451a65d9eab957ba5e32bacb8ef3fb9592c77988a9",
+    "width": 941,
+    "height": 1672
+  },
+  "program-builder.webp": {
+    "sha256": "2fccd85dec95e7f61baa8d14abe4ff5018b33eaf221f6037462c6f8e529260a0",
+    "width": 941,
+    "height": 1672
+  },
+  "set-tracking.webp": {
+    "sha256": "52e78c4edf7180dd024afb270596cec85fce74a875308e1d0a522ea021683ac5",
+    "width": 941,
+    "height": 1672
+  },
+  "phone-watch.webp": {
+    "sha256": "f404985e2158f15e295a8d82feeb9e3f0cb56b8ea210c2a726f36462940834a8",
+    "width": 941,
+    "height": 1672
+  },
+  "wear-connection.webp": {
+    "sha256": "ac52a6b304c45abc106de160bd775c05aadbc0f79e8606b501be5c80df8d215a",
+    "width": 480,
+    "height": 480
+  },
+  "wear-workouts.webp": {
+    "sha256": "cc669e1bc8a22d989dc0d168edcc04d7c237c0f377edd34b9913628224b070b2",
+    "width": 480,
+    "height": 480
+  },
+  "wear-set-entry.webp": {
+    "sha256": "638bffeaef933c20d85618aa01789b3bec597a556654f3492a7f5a288042b9e1",
+    "width": 480,
+    "height": 480
+  },
+  "wear-rest-timer.webp": {
+    "sha256": "62057b6e0132adc3774e4c77b6f9c29cc41f196b86690e75eaf2a748ca804409",
+    "width": 480,
+    "height": 480
+  },
+  "wear-finish-workout.webp": {
+    "sha256": "8d8c67e99d71d2f68b01762355e95774ee38386895089d7e5019445e06340244",
+    "width": 480,
+    "height": 480
+  },
+  "_originalCoverSha256": "d912b8ebc1951030e8633d3046144660f810d2c48b2adbf93749b12ecca48078"
+}

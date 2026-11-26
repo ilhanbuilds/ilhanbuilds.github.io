@@ -7,5 +7,5 @@
 - Hazır CV dosyalarını yeniden üretme veya değiştirme. Yalnızca onaylı PDF’leri birebir kopyala; her dil kendi dosyasına bağlansın.
 - Erişilebilirlik, klavye kullanımı, reduced motion, mobil taşma ve görsel oranlarını kontrol et. Placeholder, kullanılmayan kod veya boş public bölüm bırakma.
 - Bitirmeden typecheck, lint, format kontrolü, build, içerik ve Playwright testlerini çalıştır. UI değişikliklerinde gerçek tarayıcı görüntülerini ve Lighthouse’u doğrula; yapılamayanları açıkça raporla. Testleri zayıflatma.
-- Mevcut görsel iyileştirme dalı `feat/portfolio-visual-refinement`; anlamlı Conventional Commits kullan. Commit/push yalnızca açık kullanıcı yetkisiyle yapılır. Main’e merge, force push ve production deployment için ayrıca açık izin gerekir.
+- Feature dallarını güncel main üzerinden oluştur; v1.1.1 dalı `feat/portfolio-final-polish`. Anlamlı Conventional Commits kullan. Commit/push yalnızca açık kullanıcı yetkisiyle yapılır. Main’e merge, force push ve production deployment için ayrıca açık izin gerekir.
 - Sonucu kısa Türkçe raporla: önemli dosyalar, kontroller, commit/push/PR durumu ve gerçek eksikler. Yerel inceleme çıktıları public repository dışında kalsın.

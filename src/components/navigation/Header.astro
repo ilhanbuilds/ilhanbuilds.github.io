@@ -15,84 +15,107 @@ const links = [
 ];
 ---
 
-<header class="site-header wrap">
-  <a
-    class="wordmark"
-    href={route(locale)}
-    aria-label={`/ilhanbuilds · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
-  >
-    <span class="wordmark-slash" aria-hidden="true">
-      /
-    </span>
-    <span>
-      ilhan<span class="wordmark-builds">builds</span>
-    </span>
-  </a>
-  <nav
-    aria-label={locale === 'en' ? 'Main navigation' : 'Ana navigasyon'}
-    id="main-nav"
-  >
-    {links.map(([path, label]) => (
+<div class="header-shell">
+  <span class="header-sentinel" data-header-sentinel aria-hidden="true"></span>
+  <div class="header-bar" data-header-bar>
+    <header class="site-header wrap">
       <a
-        href={route(locale, path)}
-        aria-current={
-          Astro.url.pathname.startsWith(route(locale, path))
-            ? 'page'
-            : undefined
-        }
+        class="wordmark"
+        href={route(locale)}
+        aria-label={`/ilhanbuilds · ${locale === 'en' ? 'Home' : 'Ana sayfa'}`}
       >
-        {label}
+        <span class="wordmark-slash" aria-hidden="true">
+          /
+        </span>
+        <span>
+          ilhan<span class="wordmark-builds">builds</span>
+        </span>
       </a>
-    ))}
-    <a href={profile.resume[locale]} download>
-      {t.resume}
-    </a>
-  </nav>
-  <div class="header-controls">
-    <a
-      class="language"
-      data-locale={other}
-      href={alternate(Astro.url.pathname, other)}
-      lang={other}
-      hreflang={other}
-      aria-label={other === 'tr' ? 'TR · Türkçe' : 'EN · English'}
-    >
-      {other.toUpperCase()}
-    </a>
-    <button
-      class="icon-button theme-toggle"
-      type="button"
-      aria-label={t.theme}
-      data-dark-label={t.theme}
-      data-light-label={t.lightTheme}
-      aria-pressed="false"
-    >
-      <span class="moon">
-        <Icon name="moon" />
-      </span>
-      <span class="sun">
-        <Icon name="sun" />
-      </span>
-    </button>
-    <button
-      class="icon-button menu-toggle"
-      type="button"
-      aria-label={t.menu}
-      data-open-label={t.menu}
-      data-close-label={t.closeMenu}
-      aria-expanded="false"
-      aria-controls="main-nav"
-    >
-      <span class="menu-icon">
-        <Icon name="menu" />
-      </span>
-      <span class="close-icon">
-        <Icon name="close" />
-      </span>
-    </button>
+      <nav
+        aria-label={locale === 'en' ? 'Main navigation' : 'Ana navigasyon'}
+        id="main-nav"
+      >
+        {links.map(([path, label]) => (
+          <a
+            href={route(locale, path)}
+            aria-current={
+              Astro.url.pathname.startsWith(route(locale, path))
+                ? 'page'
+                : undefined
+            }
+          >
+            {label}
+          </a>
+        ))}
+        <a href={profile.resume[locale]} download>
+          {t.resume}
+        </a>
+      </nav>
+      <div class="header-controls">
+        <a
+          class="language"
+          data-locale={other}
+          href={alternate(Astro.url.pathname, other)}
+          lang={other}
+          hreflang={other}
+          aria-label={other === 'tr' ? 'TR · Türkçe' : 'EN · English'}
+        >
+          {other.toUpperCase()}
+        </a>
+        <button
+          class="icon-button theme-toggle"
+          type="button"
+          aria-label={t.theme}
+          data-dark-label={t.theme}
+          data-light-label={t.lightTheme}
+          aria-pressed="false"
+        >
+          <span class="moon">
+            <Icon name="moon" />
+          </span>
+          <span class="sun">
+            <Icon name="sun" />
+          </span>
+        </button>
+        <button
+          class="icon-button menu-toggle"
+          type="button"
+          aria-label={t.menu}
+          data-open-label={t.menu}
+          data-close-label={t.closeMenu}
+          aria-expanded="false"
+          aria-controls="main-nav"
+        >
+          <span class="menu-icon">
+            <Icon name="menu" />
+          </span>
+          <span class="close-icon">
+            <Icon name="close" />
+          </span>
+        </button>
+      </div>
+    </header>
   </div>
-</header>
+</div>
 <script>
+  const bar = document.querySelector<HTMLElement>('[data-header-bar]')!;
+  const sentinel = document.querySelector<HTMLElement>(
+    '[data-header-sentinel]',
+  )!;
+  bar.dataset.enhanced = 'true';
+  const compact = (value: boolean) => {
+    bar.dataset.compact = String(value);
+  };
+  if (typeof window.IntersectionObserver === 'function') {
+    new IntersectionObserver(([entry]) => {
+      if (entry)
+        compact(entry.boundingClientRect.top < 0 && !entry.isIntersecting);
+    }).observe(sentinel);
+  } else {
+    const update = () => compact(window.scrollY > 92);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
   const menu = document.querySelector<HTMLButtonElement>('.menu-toggle');
   function closeMenu() {
     menu?.setAttribute('aria-expanded', 'false');

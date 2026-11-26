@@ -1,0 +1,58 @@
+---
+import Icon from '../common/Icon.astro';
+import type { ProductFeature } from '../../types/content';
+interface Props {
+  features: ProductFeature[];
+}
+const { features } = Astro.props;
+---
+
+<div class="product-features" data-product-features>
+  {features.map((feature) => (
+    <div class="product-feature">
+      <Icon name={feature.icon} />
+      <div>
+        <h3>{feature.title}</h3>
+        <p>{feature.description}</p>
+      </div>
+    </div>
+  ))}
+</div>
+<style>
+  .product-features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .product-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface);
+  }
+  .product-feature :global(svg) {
+    flex-shrink: 0;
+    color: var(--accent);
+    margin-top: 0.1rem;
+  }
+  .product-feature h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+    letter-spacing: 0;
+    margin-bottom: 0.45rem;
+  }
+  .product-feature p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 47.99rem) {
+    .product-features {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

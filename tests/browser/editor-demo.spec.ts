@@ -1,17 +1,19 @@
 import { test, expect, type Page, type Request } from '@playwright/test';
 
 async function openEditor(page: Page, language: 'tr' | 'en' = 'tr') {
-  await page.goto('/');
-  await page.evaluate((language) => {
-    localStorage.setItem('editor-isolation-proof', 'host-only');
-    const frame = document.createElement('iframe');
-    frame.dataset.editorTest = 'true';
-    frame.title = 'HCJEditor test';
-    frame.sandbox.add('allow-scripts');
-    frame.src = `/demos/hcjeditor.html?lang=${language}`;
-    frame.style.cssText = `width:100%;height:${innerWidth <= 600 ? 720 : 600}px`;
-    document.body.prepend(frame);
-  }, language);
+  await page.goto(`${language === 'en' ? '/en' : ''}/work/hcjeditor/`);
+  await page.evaluate(() =>
+    localStorage.setItem('editor-isolation-proof', 'host-only'),
+  );
+  const host = page.locator('[data-demo-host]');
+  await host.evaluate((element) =>
+    element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+  );
+  const frame = host.locator('iframe');
+  await expect(frame).toHaveAttribute('sandbox', 'allow-scripts');
+  await frame.evaluate((element) =>
+    element.setAttribute('data-editor-test', 'true'),
+  );
   return page.frameLocator('[data-editor-test]');
 }
 

@@ -11,10 +11,20 @@ interface Props {
     | 'mail'
     | 'download'
     | 'github'
-    | 'linkedin';
+    | 'linkedin'
+    | 'external'
+    | 'calendar'
+    | 'activity'
+    | 'chart'
+    | 'watch';
 }
 const { name } = Astro.props;
 const paths = {
+  external: 'M14 3h7v7m0-7L10 14M10 3H3v18h18v-7',
+  calendar: 'M4 5h16v16H4ZM8 3v4m8-4v4M4 10h16m-12 4h3m2 0h3m-8 3h3',
+  activity: 'M2 12h5l3-8 4 16 3-8h5',
+  chart: 'M4 3v18h17M8 16l4-5 4 2 5-7',
+  watch: 'M8 6V2h8v4m-8 12v4h8v-4M6 6h12v12H6Zm6 3v3l3 2',
   arrowLeft: 'M20 12H4m6-6-6 6 6 6',
   chevronLeft: 'm15 5-7 7 7 7',
   chevronRight: 'm9 5 7 7-7 7',

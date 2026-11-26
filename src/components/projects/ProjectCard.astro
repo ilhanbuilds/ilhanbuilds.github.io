@@ -1,6 +1,7 @@
 ---
 import { copy, route, statuses } from '../../i18n';
 import type { Locale, Project } from '../../types/content';
+import StoreLink from './StoreLink.astro';
 import ProjectArt from './ProjectArt.astro';
 interface Props {
   project: Project;
@@ -46,11 +47,7 @@ const t = copy[locale];
         >
           {t.viewProject}
         </a>
-        {p.storeUrl && (
-          <a class="text-link" href={p.storeUrl} rel="noopener noreferrer">
-            {t.store}
-          </a>
-        )}
+        {p.storeUrl && <StoreLink href={p.storeUrl} locale={locale} subtle />}
         {p.demoUrl && (
           <a class="text-link" href={p.demoUrl} rel="noopener noreferrer">
             {t.demo}

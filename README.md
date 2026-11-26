@@ -1,4 +1,6 @@
-# İlhan Kılıç — Personal portfolio
+# ilhanbuilds — İlhan Kılıç
+
+Current version: **v1.1.1**. Published on [GitHub Pages](https://ilhanbuilds.github.io/), with Turkish at the root and English under `/en/`.
 
 A bilingual, static portfolio tracing my development from a first Python game in 2024 to mobile applications and research projects. Racker and SecureFace lead the showcase; the newest-first project timeline keeps earlier experiments and paused work in context.
 
@@ -71,18 +73,22 @@ Confirmed profile links and locale-specific résumé paths are centralized in `s
 
 Target: [ilhanbuilds.github.io](https://ilhanbuilds.github.io).
 
-In repository **Settings → Pages → Build and deployment**, choose **GitHub Actions**. The workflow checks pull requests and foundation-branch pushes. Only a successful main-branch validation may deploy. The Astro configuration uses the user-site URL with no subdirectory base. Merge the feature PR only after review; creating the PR does not publish the portfolio.
+In repository **Settings → Pages → Build and deployment**, choose **GitHub Actions**. The workflow validates pull requests and main pushes. Only a successful main-branch validation may deploy. The Astro configuration uses the user-site URL with no subdirectory base. Merge the feature PR only after review; creating the PR does not publish the portfolio.
 
 Further details: [design](docs/DESIGN.md), [development](docs/DEVELOPMENT.md), [assets](docs/ASSETS.md).
 
-For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves 120 real full-page Chromium screenshots covering every localized content/error page in both themes and desktop/mobile viewports, and a local review index outside the public site. Current delivery notes are in [the Turkish v1 report](docs/V1_TR.md); [phase 3](docs/PHASE_3_TR.md) and [phase 2](docs/PHASE_2_TR.md) remain historical records.
+For a local visual review, run `node scripts/capture-review.mjs <output-directory>` while the production preview is running. This saves 120 real full-page Chromium screenshots covering every localized content/error page in both themes and desktop/mobile viewports, and a local review index outside the public site. The [v1 report](docs/V1_TR.md), [phase3](docs/PHASE_3_TR.md) and [phase2](docs/PHASE_2_TR.md) remain historical records.
 
 The detail pages include faithful browser adaptations of IdleOyun/Calculator, the real sandboxed HCJEditor, an independent cube simulation, a recorded SecureFace comparison and local symbolic Racker/Bilekten synchronization examples. The four iframe experiences load near the viewport; no AI inference or live encryption is claimed. DinoCore uses its existing external Unity demo. Source provenance and compatibility limits are documented in `docs/DEMO_*_SOURCES.md`. No new dependencies or private project sources were added.
 
-## v1.1 visual refinement
+## Current experience
 
-The current branch is `feat/portfolio-visual-refinement`, based on v1.0.0 main. New reviewed 2:1 promotional covers and localized English compositions are separate from the original screenshot galleries. Details use compact typography, direct deferred demos and an accessible image lightbox. Journey navigation/comparison is removed; `/journey/`, `/en/journey/` and `/tr/journey/` redirect to the matching Work page. See `docs/COVERS_V1_1.md` and `docs/V1_1_TR.md` for the excluded claim/face artwork and verification. The final release request explicitly authorizes merging PR #2 and deploying v1.1.0 only after local and exact-head CI checks pass.
+The eleven projects retain their approved newest-first chronology, with a two-column desktop timeline and one mobile column. Journey aliases redirect to the matching Work page. The compact detail timeline places older projects on the left and newer projects on the right.
 
-Bilekten is the eleventh approved project: an unpublished Kotlin/Jetpack Compose Android and Wear OS project, paused for later continuation. It follows Racker in development history and appears immediately above it in the newest-first list. Only owner-supplied media and a concise approved description are public; no private source/repository link is included. The browser-only symbolic volume example neither connects to hardware nor changes system volume.
+The existing header stays expanded at the top and becomes a fixed 64px navigation bar after about 93px of scrolling. A reserved layout shell and independent observer threshold prevent content jumps or threshold oscillation. Mobile navigation, reduced motion and native dialog layering are preserved.
 
-Final refinement details: [release changes](docs/FINAL_REFINEMENT_TR.md), [English cover localization](docs/COVER_LOCALIZATION_FINAL.md), [sanitized media](docs/FINAL_MEDIA.md).
+Racker has a product-specific identity/Google Play CTA and four compact verified feature groups. Nine current official store images supplement the four original interface compositions; the original orange cover and icon remain unchanged. Phone SQLite is canonical; the Kotlin/Compose Wear app communicates through Wear Data Layer. Portfolio synchronization examples use temporary browser state rather than real devices.
+
+Social metadata uses versioned 1200×630 Turkish/English PNGs under `public/branding/v1.1.1/`. Their supplied composition is preserved; the English variant changes promotional text only. The brand generator writes icons/manifest and cannot overwrite approved social images.
+
+Source audit, implementation details and asset limits: [content verification](docs/CONTENT_ACCURACY_V1_1_1.md), [v1.1.1 notes](docs/V1_1_1_TR.md). Historical delivery reports remain unchanged. Current measurements, production screenshots and the owner's Turkish delivery report stay outside the public repository in `PortfolioReview/v1.1.1`.

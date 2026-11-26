@@ -127,7 +127,7 @@ test('gallery cards preserve complete images and lightbox fits a narrow touch vi
   expect(layout.buttonWidth).toBeGreaterThanOrEqual(44);
   expect(layout.buttonHeight).toBeGreaterThanOrEqual(44);
   await dialog.locator('[data-gallery-next]').click();
-  await expect(dialog.locator('[data-gallery-count]')).toHaveText('2 / 4');
+  await expect(dialog.locator('[data-gallery-count]')).toHaveText('2 / 13');
   await dialog.locator('[data-gallery-close]').click();
   await expect(dialog).not.toBeVisible();
 });
